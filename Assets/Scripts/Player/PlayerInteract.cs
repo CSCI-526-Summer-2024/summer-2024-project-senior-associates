@@ -2,42 +2,44 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private Vector3 LeftItemFirstOffset = new(0, 0.6f, 0);
-    private Vector3 LeftItemSecondOffset = new(-0.6f, 0.6f, 0);
-    private Vector3 RightItemOffset = new(0.6f, 0.6f, 0);
-    private ChestContent chestContent;
+    private Vector3 LeftItemOffsetWhenHoldingOne = new(0, 0.6f, 0);
+    private Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.4f, 0.6f, 0);
+    private Vector3 RightItemOffset = new(0.4f, 0.6f, 0);
     private GameObject leftItem;
     private GameObject rightItem;
+    private Chest chest;
 
-    private MakeSmoothie makeSmoothie;
+    private SmoothieMachine smoothieMachine;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            RemoveOneItem();
+            DiscardOneItem();
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if (chestContent != null)
+            if (chest != null)
             {
-                PickUpItem(chestContent.itemPrefab);
+                PickUp(chest.itemPrefab); // if near chest, pick up item from chest
             }
-            else if (makeSmoothie != null)
+            else if (smoothieMachine != null)
             {
                 if (GetCurrentItem() == "")
                 {
-                    GameObject itemPrefab = makeSmoothie.PickUp();
-                    if (itemPrefab != null)
+                    // if holding nothing, try to take out smoothie from machine
+                    GameObject item = smoothieMachine.PickUp();
+                    if (item != null)
                     {
-                        PickUpItem(itemPrefab);
+                        PickUp(item);
                     }
                 }
                 else
                 {
-                    if (makeSmoothie.AddIngredient(GetCurrentItem()))
+                    // if holding something, try to put that into smoothie machine
+                    if (smoothieMachine.AddIngredient(GetCurrentItem()))
                     {
-                        RemoveOneItem();
+                        DiscardOneItem();
                     }
                 }
             }
@@ -57,13 +59,13 @@ public class PlayerInteract : MonoBehaviour
         return "";
     }
 
-    private void RemoveOneItem()
+    private void DiscardOneItem()
     {
         if (rightItem != null)
         {
             Destroy(rightItem);
             rightItem = null;
-            leftItem.transform.position = transform.position + LeftItemFirstOffset;
+            leftItem.transform.position = transform.position + LeftItemOffsetWhenHoldingOne;
         }
         else if (leftItem != null)
         {
@@ -73,16 +75,16 @@ public class PlayerInteract : MonoBehaviour
     }
 
 
-    private void PickUpItem(GameObject itemPrefab)
+    private void PickUp(GameObject itemPrefab)
     {
         if (leftItem == null)
         {
-            leftItem = Instantiate(itemPrefab, transform.position + LeftItemFirstOffset, Quaternion.identity);
+            leftItem = Instantiate(itemPrefab, transform.position + LeftItemOffsetWhenHoldingOne, Quaternion.identity);
             leftItem.transform.SetParent(transform);
         }
         else if (rightItem == null)
         {
-            leftItem.transform.position = transform.position + LeftItemSecondOffset;
+            leftItem.transform.position = transform.position + LeftItemOffsetWhenHoldingTwo;
             rightItem = Instantiate(itemPrefab, transform.position + RightItemOffset, Quaternion.identity);
             rightItem.transform.SetParent(transform);
         }
@@ -92,11 +94,11 @@ public class PlayerInteract : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Chest"))
         {
-            chestContent = collision.GetComponent<ChestContent>();
+            chest = collision.GetComponent<Chest>();
         }
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
-            makeSmoothie = collision.GetComponent<MakeSmoothie>();
+            smoothieMachine = collision.GetComponent<SmoothieMachine>();
         }
     }
 
@@ -104,11 +106,11 @@ public class PlayerInteract : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Chest"))
         {
-            chestContent = null;
+            chest = null;
         }
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
-            makeSmoothie = null;
+            smoothieMachine = null;
         }
     }
 }

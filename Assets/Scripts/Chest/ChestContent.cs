@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ChestContent : MonoBehaviour
+public class Chest : MonoBehaviour
 {
     public GameObject itemPrefab;
 }

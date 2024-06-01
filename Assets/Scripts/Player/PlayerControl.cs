@@ -4,8 +4,8 @@ public class PlayerControl : MonoBehaviour
 {
     public readonly float NormalSpeed = 5f;
     public readonly float NormalJumpForce = 10f;
-    public float speed;
-    public float jumpForce;
+    public float speed; // may be changed by coffee spill zone
+    public float jumpForce; // may be changed by coffee spill zone
     private float horizontalInput;
     private bool isTryingToJump;
     private Rigidbody2D rb;

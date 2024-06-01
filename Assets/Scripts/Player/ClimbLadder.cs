@@ -3,9 +3,10 @@ using UnityEngine;
 public class ClimbLadder : MonoBehaviour
 {
     private const float Speed = 5f;
+    private const float NormalGravity = 3f;
     private float verticalInput;
-    private bool isNearLadder;
-    public bool isClimbing;
+    private bool isNearLadder; // is overlapping with ladder or not
+    public bool isClimbing; // isClimbing = overlapping with ladder AND pressed up/down
     private Rigidbody2D rb;
 
     void Start()
@@ -31,7 +32,7 @@ public class ClimbLadder : MonoBehaviour
         }
         else
         {
-            rb.gravityScale = 3f;
+            rb.gravityScale = NormalGravity;
         }
     }
 

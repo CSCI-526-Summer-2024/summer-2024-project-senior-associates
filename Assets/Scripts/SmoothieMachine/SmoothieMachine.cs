@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MakeSmoothie : MonoBehaviour
+public class SmoothieMachine : MonoBehaviour
 {
-    public const float ProductCountdownDelta = 5.0f;
+    public const float TimeIncrementWhenNewItemAdded = 5.0f;
     private Vector3 TopItemOffset = new(0, -0.35f, -0.1f);
-    public List<GameObject> productPrefabs; // 0 - c; 1 - s; 2 - cs
+    public List<GameObject> productPrefabs; // 0: chocolate; 1: strawberry; 2: chocolate strawberry
     private int product = -1;
     private GameObject topItem;
     private float productCountdown = 0f;
-    private float productCountdownMax = 1f;
+    private float productCountdownMax;
     public GameObject progressBar;
 
     private void Update()
@@ -24,6 +24,7 @@ public class MakeSmoothie : MonoBehaviour
         }
         else
         {
+            productCountdown = 0f;
             progressBar.SetActive(false);
         }
     }
@@ -38,15 +39,15 @@ public class MakeSmoothie : MonoBehaviour
 
         if (product == -1)
         {
-            productCountdownMax = ProductCountdownDelta;
-            productCountdown = ProductCountdownDelta;
+            productCountdownMax = TimeIncrementWhenNewItemAdded;
+            productCountdown = TimeIncrementWhenNewItemAdded;
             SetTopItem(ingredientType);
             return true;
         }
         if ((product == 0 && ingredientType == 1) || (product == 1 && ingredientType == 0))
         {
-            productCountdownMax = productCountdown <= 0f ? ProductCountdownDelta : ProductCountdownDelta * 2;
-            productCountdown += ProductCountdownDelta;
+            productCountdownMax = productCountdown <= 0f ? TimeIncrementWhenNewItemAdded : TimeIncrementWhenNewItemAdded * 2;
+            productCountdown += TimeIncrementWhenNewItemAdded;
             SetTopItem(2);
             return true;
         }
