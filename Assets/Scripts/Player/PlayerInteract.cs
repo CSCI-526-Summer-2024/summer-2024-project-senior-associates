@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     private Vector3 LeftItemOffsetWhenHoldingOne = new(0, 0.6f, 0);
-    private Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.4f, 0.6f, 0);
-    private Vector3 RightItemOffset = new(0.4f, 0.6f, 0);
+    private Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.5f, 0.6f, 0);
+    private Vector3 RightItemOffset = new(0.5f, 0.6f, 0);
     private GameObject leftItem;
     private GameObject rightItem;
     private Chest chest;
