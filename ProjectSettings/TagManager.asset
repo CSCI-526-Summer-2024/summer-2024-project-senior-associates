@@ -8,6 +8,8 @@ TagManager:
   - Chest
   - SmoothieMachine
   - Floor
+  - Crack
+  - CoffeeSpill
   layers:
   - Default
   - TransparentFX
