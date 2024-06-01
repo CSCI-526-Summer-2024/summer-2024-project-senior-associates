@@ -2311,7 +2311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1620598646}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: Boundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3042,13 +3042,14 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 537085107}
+  - {fileID: 1620598646}
   - {fileID: 519420032}
-  - {fileID: 30860866}
+  - {fileID: 1771702628}
+  - {fileID: 1038983963}
   - {fileID: 864542393}
   - {fileID: 1564967547}
   - {fileID: 972467874}
-  - {fileID: 1038983963}
-  - {fileID: 1771702628}
+  - {fileID: 30860866}
   - {fileID: 993350857}
   - {fileID: 1147023487}
   - {fileID: 1387213888}
@@ -3056,5 +3057,4 @@ SceneRoots:
   - {fileID: 1982879263}
   - {fileID: 1448280934}
   - {fileID: 884943306}
-  - {fileID: 1620598646}
   - {fileID: 1549879550}
