@@ -927,7 +927,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e43da67a79c8cba4194ee3e46b503eef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2284,6 +2284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c08619ee78745c4492f7c5be0603a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StrawberryRequest: {fileID: 0}
   ChocolateRequest: {fileID: 0}
 --- !u!1 &1387213886
 GameObject:
@@ -3689,7 +3690,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a9942b4a617f82a4a8fa66af02140f8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
