@@ -45,11 +45,11 @@ public class PlayerInteract : MonoBehaviour
                     }
                 }
             }
-            else if(managerOffice !=null)
+            else if (managerOffice != null)
             {
-                if(GetCurrentItem()!= "")
+                if (GetCurrentItem() != "")
                 {
-                    if(managerOffice.submit(GetCurrentItem()))
+                    if (managerOffice.Submit(GetCurrentItem()))
                     {
                         DiscardOneItem();
                     }
@@ -112,9 +112,9 @@ public class PlayerInteract : MonoBehaviour
         {
             smoothieMachine = collision.GetComponent<SmoothieMachine>();
         }
-        else if(collision.gameObject.CompareTag("ManagerOffice"))
+        else if (collision.gameObject.CompareTag("ManagerOffice"))
         {
-            managerOffice=collision.GetComponent<ManagerOffice>();
+            managerOffice = collision.GetComponent<ManagerOffice>();
         }
     }
 
@@ -128,9 +128,9 @@ public class PlayerInteract : MonoBehaviour
         {
             smoothieMachine = null;
         }
-        else if(collision.gameObject.CompareTag("ManagerOffice"))
+        else if (collision.gameObject.CompareTag("ManagerOffice"))
         {
-            managerOffice=null;
+            managerOffice = null;
         }
     }
 }
