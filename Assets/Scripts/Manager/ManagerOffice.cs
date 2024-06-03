@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ManagerOffice : MonoBehaviour
 {
@@ -8,11 +9,23 @@ public class ManagerOffice : MonoBehaviour
 
     public GameObject StrawberryRequest;
     public GameObject ChocolateRequest;
-    // Update is called once per frame
+
+    private TMP_Text AddCoin;
+
+    private TMP_Text TotalCoins;
+
+    private int coinCount;
+    private int orderAmount;
     void Start()
     {
         StrawberryRequest=GameObject.Find("StrawberryRequest");
         ChocolateRequest=GameObject.Find("ChocolateRequest");
+        AddCoin=GameObject.Find("AddCoin").GetComponent<TMP_Text>();
+        AddCoin.text="+6";
+        TotalCoins=GameObject.Find("TotalCoins").GetComponent<TMP_Text>();
+        TotalCoins.text=" Coins";
+        orderAmount=6;
+
     }
     void Update()
     {
@@ -31,17 +44,24 @@ public class ManagerOffice : MonoBehaviour
 
     private void request()
     {
-
+        coinCount+=orderAmount;
+        TotalCoins.text=coinCount+ " Coins";
         this.smoothieType= Random.Range(0, 3).ToString();
         if(smoothieType.Contains("0")){
-            StrawberryRequest.SetActive(true);
+            ChocolateRequest.SetActive(true);
             StrawberryRequest.SetActive(false);
+            AddCoin.text="+1";
+            orderAmount=1;
         }else if(smoothieType.Contains("1")){
             StrawberryRequest.SetActive(true);
             ChocolateRequest.SetActive(false);
+            AddCoin.text="+2";
+            orderAmount=2;
         }else{
             StrawberryRequest.SetActive(true);
             ChocolateRequest.SetActive(true);
+            AddCoin.text="+6";
+            orderAmount=6;
         }
     }
 }
