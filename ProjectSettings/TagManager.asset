@@ -10,6 +10,7 @@ TagManager:
   - Floor
   - Crack
   - CoffeeSpill
+  - ManagerOffice
   layers:
   - Default
   - TransparentFX

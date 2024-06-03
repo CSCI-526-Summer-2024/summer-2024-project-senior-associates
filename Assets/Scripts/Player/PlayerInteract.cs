@@ -11,6 +11,8 @@ public class PlayerInteract : MonoBehaviour
 
     private SmoothieMachine smoothieMachine;
 
+    private ManagerOffice managerOffice;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -38,6 +40,16 @@ public class PlayerInteract : MonoBehaviour
                 {
                     // if holding something, try to put that into smoothie machine
                     if (smoothieMachine.AddIngredient(GetCurrentItem()))
+                    {
+                        DiscardOneItem();
+                    }
+                }
+            }
+            else if(managerOffice !=null)
+            {
+                if(GetCurrentItem()!= "")
+                {
+                    if(managerOffice.submit(GetCurrentItem()))
                     {
                         DiscardOneItem();
                     }
@@ -100,6 +112,10 @@ public class PlayerInteract : MonoBehaviour
         {
             smoothieMachine = collision.GetComponent<SmoothieMachine>();
         }
+        else if(collision.gameObject.CompareTag("ManagerOffice"))
+        {
+            managerOffice=collision.GetComponent<ManagerOffice>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -111,6 +127,10 @@ public class PlayerInteract : MonoBehaviour
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
             smoothieMachine = null;
+        }
+        else if(collision.gameObject.CompareTag("ManagerOffice"))
+        {
+            managerOffice=null;
         }
     }
 }
