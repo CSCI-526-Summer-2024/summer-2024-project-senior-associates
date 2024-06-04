@@ -27,7 +27,6 @@ public class Clock : MonoBehaviour
         ampm=" AM";
         clock.text=hour+":0"+minute+ampm;
         time=0f;
-        Time.fixedDeltaTime=0.05f;
         sceneController=new SceneController();
     }
 
