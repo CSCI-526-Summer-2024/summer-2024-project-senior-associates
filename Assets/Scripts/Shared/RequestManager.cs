@@ -38,8 +38,8 @@ public class RequestManager : MonoBehaviour
             rewardBase = DoubleSmoothieRewardBase;
         }
         var rewardRange = rewardBase * rewardMultiplier;
-        request.maxReward = UnityEngine.Random.Range(rewardRange.Min, rewardRange.Max + 1);
-        Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.maxReward}");
+        request.reward = UnityEngine.Random.Range(rewardRange.Min, rewardRange.Max + 1);
+        Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.reward}");
 
         return request;
     }
@@ -64,7 +64,7 @@ public class Request
     public enum Type { Item, Smoothie }
     public Type type;
     public List<Ingredient> ingredients;
-    public int maxReward;
+    public int reward;
 }
 
 [System.Serializable]
