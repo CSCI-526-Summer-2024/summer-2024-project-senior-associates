@@ -63,11 +63,11 @@ public class Clock : MonoBehaviour
             clock.text = hour + ":" + minute + ampm;
         }
 
-        if (hour == 5)
-        {
-            sceneController.SceneUpdate(1);
-            //SceneManager.LoadScene("FinishScene",LoadSceneMode.Single);
-            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("FinishScene"));
-        }
+        // if (hour == 5)
+        // {
+        //     sceneController.SceneUpdate(1);
+        //     //SceneManager.LoadScene("FinishScene",LoadSceneMode.Single);
+        //     //SceneManager.SetActiveScene(SceneManager.GetSceneByName("FinishScene"));
+        // }
     }
 }

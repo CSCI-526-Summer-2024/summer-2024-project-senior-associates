@@ -5,58 +5,46 @@ using System;
 public class Manager : MonoBehaviour
 {
     public RequestManager requestManager;
-    public float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
+    public Range RequestCountdownStartingRange;
+    public float RewardMultiplier; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     public TMP_Text TotalCoins;
+    private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
     private Request request;
-    private GameObject requestDisplay;
-
-
-    void Start()
-    {
-        request = requestManager.GetRequest(RewardMultiplier);
-    }
+    private float nextRequestCountdown = 0.1f;
 
     void Update()
     {
+        if (nextRequestCountdown > 0f)
+        {
+            nextRequestCountdown -= Time.deltaTime;
+            if (nextRequestCountdown <= 0f)
+            {
+                request = requestManager.GetRequest(RewardMultiplier);
+                request.obj.transform.SetParent(transform);
+                request.obj.transform.localPosition = ManagerToRequestOffset;
+            }
+        }
     }
 
-    private void DisplayRequest()
+    public bool Submit(Item item)
     {
-        
-    }
+        if (request == null || item == null)
+        {
+            return false;
+        }
 
-    public bool Submit(string smoothie)
-    {
-        // if (smoothie.Contains(smoothieType))
-        // {
-        //     Request();
-        //     return true;
-        // }
-        return false;
+        var satisfied = request.item == item;
+        if (satisfied)
+        {
+            Destroy(request.obj);
+            request = null;
+            nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
+            Debug.Log($"Next request countdown: {nextRequestCountdown}");
+        }
+        else
+        {
+            Debug.Log("Player is trying to give the wrong item.");
+        }
+        return satisfied;
     }
-
-    // private void Request()
-    // {
-    //     coinCount += orderAmount;
-    //     TotalCoins.text = coinCount + " Coins";
-    //     smoothieType = Random.Range(0, 3).ToString();
-    //     if (smoothieType.Contains("0"))
-    //     {
-    //         ChocolateRequest.SetActive(true);
-    //         StrawberryRequest.SetActive(false);
-    //         orderAmount = 1;
-    //     }
-    //     else if (smoothieType.Contains("1"))
-    //     {
-    //         StrawberryRequest.SetActive(true);
-    //         ChocolateRequest.SetActive(false);
-    //         orderAmount = 2;
-    //     }
-    //     else
-    //     {
-    //         StrawberryRequest.SetActive(true);
-    //         ChocolateRequest.SetActive(true);
-    //         orderAmount = 6;
-    //     }
-    // }
 }

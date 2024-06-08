@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RequestManager : MonoBehaviour
 {
+    public GameObject requestBackgroundPrefab;
     public IngredientData ingredientData;
     public RequestProbability[] probList;
     public Range ItemRewardBase;
@@ -14,31 +14,42 @@ public class RequestManager : MonoBehaviour
     public Request GetRequest(float rewardMultiplier)
     {
         var prob = GetProb();
-        Debug.Log($"Prob: {prob}");
+        Debug.Log($"requestProb: {prob}");
         Request request = new();
         Range rewardBase;
 
-        float randomValue = UnityEngine.Random.value;
+        float randomValue = Random.value;
         if (randomValue < prob.itemProb)
         {
-            request.type = Request.Type.Item;
-            request.ingredients = new() { Util.ChooseRandom(ingredientData.allIngredients) };
+            request.item = new Item
+            {
+                type = Item.Type.Ingredient,
+                ingredients = new() { Util.ChooseRandom(ingredientData.allIngredients) }
+            };
             rewardBase = ItemRewardBase;
         }
         else if (randomValue < prob.itemProb + prob.singleItemSmoothieProb)
         {
-            request.type = Request.Type.Smoothie;
-            request.ingredients = ingredientData.GetSmoothieIngredients(1);
+            request.item = new Item
+            {
+                type = Item.Type.Smoothie,
+                ingredients = ingredientData.GetSmoothieIngredients(1)
+            };
             rewardBase = SingleSmoothieRewardBase;
         }
         else
         {
-            request.type = Request.Type.Smoothie;
-            request.ingredients = ingredientData.GetSmoothieIngredients(2);
+            request.item = new Item
+            {
+                type = Item.Type.Smoothie,
+                ingredients = ingredientData.GetSmoothieIngredients(2)
+            };
             rewardBase = DoubleSmoothieRewardBase;
         }
+        request.obj = GetRequestObj(request);
+
         var rewardRange = rewardBase * rewardMultiplier;
-        request.reward = UnityEngine.Random.Range(rewardRange.Min, rewardRange.Max + 1);
+        request.reward = rewardRange.GetRandom();
         Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.reward}");
 
         return request;
@@ -55,15 +66,62 @@ public class RequestManager : MonoBehaviour
         }
         return requestProbability;
     }
+
+    public GameObject GetRequestObj(Request request)
+    {
+        var obj = new GameObject("Request");
+        var background = Instantiate(requestBackgroundPrefab);
+        background.transform.SetParent(obj.transform);
+        SetBackgroundPositionAndScale(request, background);
+
+        GameObject item;
+        if (request.item.type == Item.Type.Ingredient)
+        {
+            item = Instantiate(request.item.ingredients[0].prefab);
+        }
+        else
+        {
+            item = ingredientData.GetSmoothieObj(request.item.ingredients);
+        }
+        item.transform.SetParent(obj.transform);
+        SetItemPositionAndScale(request, item);
+
+        return obj;
+    }
+
+    private void SetBackgroundPositionAndScale(Request request, GameObject background)
+    {
+        if (request.item.type == Item.Type.Ingredient)
+        {
+            background.transform.localPosition = new(0, 0.4f, 0f);
+            background.transform.localScale = new(0.8f, 0.8f, 1f);
+        }
+        else
+        {
+            background.transform.localPosition = new(0, 0.5f, 0f);
+            background.transform.localScale = new(0.6f * request.item.ingredients.Count, 1.2f, 1f);
+        }
+    }
+
+    private void SetItemPositionAndScale(Request request, GameObject item)
+    {
+        if (request.item.type == Item.Type.Ingredient)
+        {
+            item.transform.localPosition = new(0, 0.4f, -0.1f);
+        }
+        else
+        {
+            item.transform.localPosition = new(0, 0.25f, -0.1f);
+        }
+    }
 }
 
 
 [System.Serializable]
 public class Request
 {
-    public enum Type { Item, Smoothie }
-    public Type type;
-    public List<Ingredient> ingredients;
+    public GameObject obj;
+    public Item item;
     public int reward;
 }
 
@@ -75,7 +133,7 @@ public struct RequestProbability
     public float doubleItemSmoothieProb;
     public int numRequestsLeft;
 
-    public override string ToString()
+    public override readonly string ToString()
     {
         return $"RequestProb(Item: {itemProb}, SingleSmoothie: {singleItemSmoothieProb}, DoubleSmoothie: {doubleItemSmoothieProb})";
     }

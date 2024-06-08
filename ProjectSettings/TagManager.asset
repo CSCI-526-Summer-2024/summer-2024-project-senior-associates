@@ -9,8 +9,8 @@ TagManager:
   - SmoothieMachine
   - Floor
   - CoffeeSpill
-  - ManagerOffice
   - Boundary
+  - Manager
   layers:
   - Default
   - TransparentFX
