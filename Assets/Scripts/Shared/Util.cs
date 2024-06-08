@@ -62,6 +62,11 @@ public class Range
         return new Range(newMin, newMax);
     }
 
+    public int GetRandom()
+    {
+        return UnityEngine.Random.Range(Min, Max + 1);
+    }
+
     public override string ToString()
     {
         return $"Range(Min: {Min}, Max: {Max})";
