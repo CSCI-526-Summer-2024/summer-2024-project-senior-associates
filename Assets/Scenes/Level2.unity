@@ -730,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 332738053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.06, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.52, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1294,7 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2c742b08370704ba0c6b973333e26a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestBackgroundPrefab: {fileID: 0}
+  requestBackgroundPrefab: {fileID: 2766954271715062740, guid: cc08bbbcd5aa0d44f9620637944ef1fc, type: 3}
   ingredientData: {fileID: 11400000, guid: 3168b66ef00ed2d41809eefa278162df, type: 2}
   probList:
   - itemProb: 1
@@ -1598,7 +1598,7 @@ Transform:
   m_GameObject: {fileID: 773482235}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10999918, y: -0.8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.52, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1742,9 +1742,10 @@ GameObject:
   - component: {fileID: 860390430}
   - component: {fileID: 860390431}
   - component: {fileID: 860390432}
+  - component: {fileID: 860390433}
   m_Layer: 0
   m_Name: Manager4
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1758,7 +1759,7 @@ Transform:
   m_GameObject: {fileID: 860390429}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.848706, y: 3.18, z: 1.2536457}
+  m_LocalPosition: {x: -4.848706, y: 3.12, z: 1.2536457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1779,10 +1780,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requestManager: {fileID: 685574115}
   RequestCountdownStartingRange:
-    Min: 0
-    Max: 0
+    Min: 1
+    Max: 4
   RewardMultiplier: 1.5
-  TotalCoins: {fileID: 0}
+  TotalCoins: {fileID: 348915145}
 --- !u!114 &860390432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1796,6 +1797,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moodBar: {fileID: 270419896}
+--- !u!61 &860390433
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860390429}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.005923748, y: 0.24878497}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5568047, y: 1.0355407}
+  m_EdgeRadius: 0
 --- !u!1 &884943303
 GameObject:
   m_ObjectHideFlags: 0
@@ -2363,9 +2409,10 @@ GameObject:
   - component: {fileID: 1012655668}
   - component: {fileID: 1012655669}
   - component: {fileID: 1012655670}
+  - component: {fileID: 1012655671}
   m_Layer: 0
   m_Name: Manager2
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2379,7 +2426,7 @@ Transform:
   m_GameObject: {fileID: 1012655667}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.04, y: 1.3146572, z: 1.2536457}
+  m_LocalPosition: {x: -6.9800005, y: 0.53, z: 1.2536457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2400,10 +2447,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requestManager: {fileID: 685574115}
   RequestCountdownStartingRange:
-    Min: 0
-    Max: 0
+    Min: 4
+    Max: 7
   RewardMultiplier: 1.5
-  TotalCoins: {fileID: 0}
+  TotalCoins: {fileID: 348915145}
 --- !u!114 &1012655670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2417,6 +2464,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moodBar: {fileID: 289231740}
+--- !u!61 &1012655671
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012655667}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.005923748, y: 0.22453079}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5568047, y: 1.084049}
+  m_EdgeRadius: 0
 --- !u!1 &1016882618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,8 +3075,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5168d764784b704db387a5600d56fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 0}
-  ingredientIndex: 0
+  ingredientData: {fileID: 11400000, guid: 7af97fe8c256f944d8d578a95f501f33, type: 2}
+  ingredientIndex: 3
 --- !u!61 &1162530869
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3056,7 +3148,7 @@ Transform:
   m_GameObject: {fileID: 1262811946}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.11129379, y: -0.82, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.52, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3290,7 +3382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5168d764784b704db387a5600d56fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 0}
+  ingredientData: {fileID: 11400000, guid: 7af97fe8c256f944d8d578a95f501f33, type: 2}
   ingredientIndex: 0
 --- !u!1 &1414540838
 GameObject:
@@ -3769,9 +3861,10 @@ GameObject:
   - component: {fileID: 1479966385}
   - component: {fileID: 1479966386}
   - component: {fileID: 1479966387}
+  - component: {fileID: 1479966388}
   m_Layer: 0
   m_Name: Manager1
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3785,7 +3878,7 @@ Transform:
   m_GameObject: {fileID: 1479966384}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.251294, y: -1.2253429, z: 1.2536457}
+  m_LocalPosition: {x: 6.1, y: -2.1, z: 1.2536457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3806,10 +3899,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requestManager: {fileID: 685574115}
   RequestCountdownStartingRange:
-    Min: 0
-    Max: 0
+    Min: 2
+    Max: 3
   RewardMultiplier: 1.5
-  TotalCoins: {fileID: 0}
+  TotalCoins: {fileID: 348915145}
 --- !u!114 &1479966387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3823,6 +3916,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moodBar: {fileID: 413141695}
+--- !u!61 &1479966388
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479966384}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.005923748, y: 0.23031318}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5568047, y: 1.0724843}
+  m_EdgeRadius: 0
 --- !u!1 &1494596760
 GameObject:
   m_ObjectHideFlags: 0
@@ -5523,9 +5661,10 @@ GameObject:
   - component: {fileID: 1910195731}
   - component: {fileID: 1910195732}
   - component: {fileID: 1910195733}
+  - component: {fileID: 1910195734}
   m_Layer: 0
   m_Name: Manager3
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5539,7 +5678,7 @@ Transform:
   m_GameObject: {fileID: 1910195730}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.561295, y: 1.3146572, z: 1.2536457}
+  m_LocalPosition: {x: 8.59, y: 0.53, z: 1.2536457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5560,10 +5699,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requestManager: {fileID: 685574115}
   RequestCountdownStartingRange:
-    Min: 0
-    Max: 0
+    Min: 3
+    Max: 8
   RewardMultiplier: 1.5
-  TotalCoins: {fileID: 0}
+  TotalCoins: {fileID: 348915145}
 --- !u!114 &1910195733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5577,6 +5716,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moodBar: {fileID: 780781168}
+--- !u!61 &1910195734
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910195730}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.005923748, y: 0.22661892}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5568047, y: 1.0798728}
+  m_EdgeRadius: 0
 --- !u!1 &1932978991
 GameObject:
   m_ObjectHideFlags: 0
@@ -5852,8 +6036,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5168d764784b704db387a5600d56fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 0}
-  ingredientIndex: 0
+  ingredientData: {fileID: 11400000, guid: 7af97fe8c256f944d8d578a95f501f33, type: 2}
+  ingredientIndex: 2
 --- !u!61 &1964765384
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6298,8 +6482,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5168d764784b704db387a5600d56fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 0}
-  ingredientIndex: 0
+  ingredientData: {fileID: 11400000, guid: 7af97fe8c256f944d8d578a95f501f33, type: 2}
+  ingredientIndex: 1
 --- !u!61 &2070000443
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6518,7 +6702,7 @@ Transform:
   m_GameObject: {fileID: 2116895480}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1800003, y: -0.91, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.52, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
