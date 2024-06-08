@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
     public float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     public TMP_Text TotalCoins;
     private Request request;
+    private GameObject requestDisplay;
 
 
     void Start()
@@ -17,6 +18,11 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
+    }
+
+    private void DisplayRequest()
+    {
+        
     }
 
     public bool Submit(string smoothie)
