@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
 
 public class SmoothieMachine : MonoBehaviour
 {
-    public const float TimeIncrementWhenNewItemAdded = 5.0f;
-    private Vector3 TopItemOffset = new(0, -0.35f, -0.1f);
-    public List<GameObject> productPrefabs; // 0: chocolate; 1: strawberry; 2: chocolate strawberry
-    private int product = -1;
-    private GameObject topItem;
+    public const float TimeIncrementWhenNewItemAdded = 2f;
+    public const float MachineTopItemXSpace = 0.2f;
+    public readonly Vector3 MachineToItemOffset = new(0f, 1f, -0.1f);
+    public IngredientData ingredientData;
+    private List<Ingredient> ingredients = new();
+    private List<GameObject> topItems = new();
     private float productCountdown = 0f;
     private float productCountdownMax;
     public GameObject progressBar;
@@ -21,6 +24,10 @@ public class SmoothieMachine : MonoBehaviour
             progressBar.transform.localScale = scale;
             progressBar.SetActive(true);
             productCountdown -= Time.deltaTime;
+            if (productCountdown <= 0f)
+            {
+                ProduceProduct();
+            }
         }
         else
         {
@@ -31,67 +38,83 @@ public class SmoothieMachine : MonoBehaviour
 
     public bool AddIngredient(string ingredientName)
     {
-        int ingredientType = GetIngredientType(ingredientName);
-        if (ingredientType < 0)
+        Ingredient ingredient = ingredientData.LookUp(ingredientName);
+        if (ingredient == null)
         {
+            Debug.Log("Unrecognized ingredient: " + ingredientName);
             return false;
         }
+        else
+        {
+            if (ingredient.type == Ingredient.Type.Liquid
+                && ingredients.Any(info => info.type == Ingredient.Type.Liquid))
+            {
+                Debug.Log("Ignored because there is already a liquid base: " + ingredient.name);
+                return false;
+            }
+            else if (ingredients.Any(info => info.name == ingredient.name))
+            {
+                Debug.Log("Duplicate ingredient: " + ingredient.name);
+                return false;
+            }
+            else
+            {
+                Debug.Log("Added ingredient: " + ingredient.name);
+                ingredients.Add(ingredient);
+                AddTopItem(ingredient);
+                UpdateProductCountdown();
+                return true;
+            }
+        }
+    }
 
-        if (product == -1)
+    private void AddTopItem(Ingredient ingredient)
+    {
+        float offset = -topItems.Count * MachineTopItemXSpace;
+        foreach (var item in topItems)
         {
-            productCountdownMax = TimeIncrementWhenNewItemAdded;
-            productCountdown = TimeIncrementWhenNewItemAdded;
-            SetTopItem(ingredientType);
-            return true;
+            item.transform.localPosition = Util.ChangeX(item.transform.localPosition, offset);
+            offset += MachineTopItemXSpace * 2;
         }
-        if ((product == 0 && ingredientType == 1) || (product == 1 && ingredientType == 0))
-        {
-            productCountdownMax = productCountdown <= 0f ? TimeIncrementWhenNewItemAdded : TimeIncrementWhenNewItemAdded * 2;
-            productCountdown += TimeIncrementWhenNewItemAdded;
-            SetTopItem(2);
-            return true;
-        }
-        return false;
+        var newItem = Instantiate(ingredient.prefab, transform.position, Quaternion.identity);
+        newItem.transform.SetParent(transform);
+        newItem.transform.localPosition = new(offset, MachineToItemOffset.y, MachineToItemOffset.z);
+        topItems.Add(newItem);
+    }
+
+    private void UpdateProductCountdown()
+    {
+        productCountdown += TimeIncrementWhenNewItemAdded;
+        productCountdownMax += TimeIncrementWhenNewItemAdded;
+    }
+
+    private void ProduceProduct()
+    {
+        ClearTopItems();
+        var smoothie = ingredientData.CreateSmoothie(ingredients);
+        smoothie.transform.SetParent(transform);
+        smoothie.transform.localPosition = MachineToItemOffset;
+        topItems.Add(smoothie);
     }
 
     public GameObject PickUp()
     {
-        if (product >= 0 && productCountdown <= 0f)
+        if (topItems.Count > 0 && productCountdown <= 0f)
         {
-            GameObject prefab = productPrefabs[product];
-            RemoveTopItem();
-            return prefab;
+            var res = topItems[0];
+            topItems.Clear();
+            ingredients.Clear();
+            return res;
         }
         return null;
     }
 
-    private int GetIngredientType(string ingredientName)
+    private void ClearTopItems()
     {
-        if (ingredientName.ToLower().Contains("chocolate"))
+        foreach (var item in topItems)
         {
-            return 0;
+            Destroy(item);
         }
-        if (ingredientName.ToLower().Contains("strawberry"))
-        {
-            return 1;
-        }
-        return -1;
-    }
-
-    private void SetTopItem(int type)
-    {
-        RemoveTopItem();
-        product = type;
-        topItem = Instantiate(productPrefabs[type], transform.position + TopItemOffset, Quaternion.identity);
-        topItem.transform.SetParent(transform);
-    }
-
-    private void RemoveTopItem()
-    {
-        if (topItem != null)
-        {
-            Destroy(topItem);
-        }
-        product = -1;
+        topItems.Clear();
     }
 }

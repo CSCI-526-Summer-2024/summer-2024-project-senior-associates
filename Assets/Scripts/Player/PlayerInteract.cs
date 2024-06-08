@@ -3,15 +3,15 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     private Vector3 LeftItemOffsetWhenHoldingOne = new(0, 0.6f, 0);
-    private Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.5f, 0.6f, 0);
-    private Vector3 RightItemOffset = new(0.5f, 0.6f, 0);
+    private Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.3f, 0.6f, 0);
+    private Vector3 RightItemOffset = new(0.3f, 0.6f, 0);
     private GameObject leftItem;
     private GameObject rightItem;
     private Chest chest;
 
     private SmoothieMachine smoothieMachine;
 
-    private ManagerOffice managerOffice;
+    private Manager managerOffice;
 
     void Update()
     {
@@ -34,6 +34,7 @@ public class PlayerInteract : MonoBehaviour
                     if (item != null)
                     {
                         PickUp(item);
+                        Destroy(item);
                     }
                 }
                 else
@@ -114,7 +115,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("ManagerOffice"))
         {
-            managerOffice = collision.GetComponent<ManagerOffice>();
+            managerOffice = collision.GetComponent<Manager>();
         }
     }
 

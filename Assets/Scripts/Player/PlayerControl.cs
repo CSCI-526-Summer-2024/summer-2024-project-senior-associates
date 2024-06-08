@@ -4,16 +4,13 @@ public class PlayerControl : MonoBehaviour
 {
     public readonly float NormalSpeed = 5f;
     public readonly float NormalJumpForce = 10f;
-    private const float FaintCountdownStart = 5f;
     private readonly Color NormalColor = Color.white;
     private readonly Color DizzyColor = Color.grey;
     public float speed;
     public float jumpForce;
-    private float faintCountdown = 0f; // used when fallen from crack
     private bool isTryingToJump = false;
     private bool isGrounded = true;
-    private bool hasFallenFromCrack = false;
-    private bool isOnCoffeeSpill = false;
+    private bool isTouchingCoffeeSpill = false;
     private float horizontalInput;
     private Rigidbody2D rb;
     private ClimbLadder climbLadder;
@@ -30,16 +27,7 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        if (hasFallenFromCrack && isGrounded)
-        {
-            hasFallenFromCrack = false;
-            faintCountdown = FaintCountdownStart;
-        }
-        if (faintCountdown > 0f)
-        {
-            faintCountdown -= Time.deltaTime;
-        }
-        SetPlayerSlowDown(faintCountdown > 0f || isOnCoffeeSpill);
+        SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
         if (Input.GetKey(KeyCode.Space) && isGrounded && !climbLadder.isClimbing)
@@ -74,7 +62,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.CompareTag("CoffeeSpill"))
         {
-            isOnCoffeeSpill = true;
+            isTouchingCoffeeSpill = true;
         }
     }
 
@@ -82,11 +70,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.CompareTag("CoffeeSpill"))
         {
-            isOnCoffeeSpill = false;
-        }
-        else if (other.gameObject.CompareTag("Crack"))
-        {
-            hasFallenFromCrack = true;
+            isTouchingCoffeeSpill = false;
         }
     }
 
