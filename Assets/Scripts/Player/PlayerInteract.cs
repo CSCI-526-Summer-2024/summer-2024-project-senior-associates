@@ -12,6 +12,8 @@ public class PlayerInteract : MonoBehaviour
     private SmoothieMachine smoothieMachine;
     private Manager manager;
 
+    private GameObject bed;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -48,6 +50,10 @@ public class PlayerInteract : MonoBehaviour
                 {
                     DiscardOneItem();
                 }
+            }
+            else if (bed != null)
+            {
+                GetComponent<PlayerEnergy>().Sleep();
             }
         }
     }
@@ -114,6 +120,10 @@ public class PlayerInteract : MonoBehaviour
         {
             manager = collision.GetComponent<Manager>();
         }
+        else if (collision.gameObject.CompareTag("Bed"))
+        {
+            bed = GameObject.FindWithTag("Bed");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -129,6 +139,10 @@ public class PlayerInteract : MonoBehaviour
         else if (collision.gameObject.CompareTag("Manager"))
         {
             manager = null;
+        }
+        else if (collision.gameObject.CompareTag("Bed"))
+        {
+            bed = null;
         }
     }
 }

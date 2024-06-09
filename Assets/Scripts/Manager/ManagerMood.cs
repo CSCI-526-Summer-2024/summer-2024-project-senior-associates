@@ -6,59 +6,42 @@ using UnityEngine.UI;
 public class ManagerMood : MonoBehaviour
 {
     public GameObject moodBar;
-    private float productCountdown = 1f;
-    public float Value => productCountdown;
-
-    private float productCountdownMax = 1f;
+    private float mood = 1f;
+    private float moodMax = 1f;
+    public float Value => mood;
     private float moodDrop;
 
-    private Gradient moodGradient;
-
-    private GradientColorKey[] moodColors;
-    private GradientAlphaKey[] moodAlpha;
     // Start is called before the first frame update
     void Start()
     {
-        //setting up gradient
         moodDrop = 0.01f * Time.deltaTime;
-        moodGradient = new Gradient();
 
-        moodColors = new GradientColorKey[2];
-        moodColors[0] = new GradientColorKey(Color.red, 0.0f);
-        moodColors[1] = new GradientColorKey(Color.green, 1.0f);
-
-        moodAlpha = new GradientAlphaKey[2];
-        moodAlpha[0] = new GradientAlphaKey(1.0f, 0.0f);
-        moodAlpha[1] = new GradientAlphaKey(1.0f, 0.0f);
-        moodGradient.SetKeys(moodColors, moodAlpha);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (productCountdown > 0f)
+        if (mood > 0f)
         {
             Vector3 scale = moodBar.transform.localScale;
-            scale.x = productCountdown / productCountdownMax;
+            scale.x = mood / moodMax;
             moodBar.transform.localScale = scale;
 
-            productCountdown -= moodDrop;
+            mood -= moodDrop;
 
-            if (productCountdown > 0f) //&& productCountdown < productCountdownMax* 0.5)
+            if (mood > 0f)
             {
-                //moodBar.GetComponent<Image>().color=Color.yellow;
-                moodBar.GetComponent<Image>().color = moodGradient.Evaluate(productCountdown);
+                moodBar.GetComponent<Image>().color = Color.Lerp(Color.red, Color.green, mood);
             }
         }
         else
         {
-            productCountdown = 0f;
-            //moodBar.GetComponent<Image>().color=Color.red;
+            mood = 0f;
         }
     }
 
     public void updateMood()
     {
-        productCountdown = 1f;
+        mood = 1f;
     }
 }

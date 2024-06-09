@@ -2248,8 +2248,8 @@ Transform:
   m_GameObject: {fileID: 972467871}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.5700917, y: 0.15292501, z: 0.044987544}
-  m_LocalScale: {x: 5.2, y: 0.5, z: 1}
+  m_LocalPosition: {x: 4.9857, y: 0.15292501, z: 0.044987544}
+  m_LocalScale: {x: 4.36852, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 298085516}
@@ -3362,7 +3362,7 @@ Transform:
   m_GameObject: {fileID: 1387213886}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.63, y: -1.4, z: -0.055012457}
+  m_LocalPosition: {x: -7.86, y: -1.37, z: -0.055012457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5773,7 +5773,7 @@ GameObject:
   - component: {fileID: 1932978992}
   m_Layer: 0
   m_Name: Bed
-  m_TagString: Untagged
+  m_TagString: Bed
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6302,8 +6302,8 @@ Transform:
   m_GameObject: {fileID: 1995866072}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.886308, y: 0.15292501, z: 0.044987544}
-  m_LocalScale: {x: 4.069312, y: 0.52, z: 1}
+  m_LocalPosition: {x: -6.4226, y: 0.15292501, z: 0.044987544}
+  m_LocalScale: {x: 5.1419826, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 298085516}

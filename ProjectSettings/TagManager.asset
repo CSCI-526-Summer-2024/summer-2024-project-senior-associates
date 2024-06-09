@@ -11,6 +11,7 @@ TagManager:
   - CoffeeSpill
   - Boundary
   - Manager
+  - Bed
   layers:
   - Default
   - TransparentFX
