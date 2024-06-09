@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerEnergy : MonoBehaviour
 {
-    private readonly Vector3 EnergyBarOffset = new(1.25f, 0.6f, 0);
+    //private readonly Vector3 EnergyBarOffset = new(1.25f, 0.6f, 0);
     private float energyDrop;
 
-    public float energy = 1f;
-    private float energyMax = 1f;
+    public float energy = 0.1f;
+    private float energyMax = 0.1f;
     private SpriteRenderer spriteRenderer;
 
     private Color tired;
@@ -38,7 +38,7 @@ public class PlayerEnergy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        energyBar.transform.localPosition = player.transform.localPosition + EnergyBarOffset;
+        //energyBar.transform.localPosition = player.transform.localPosition + EnergyBarOffset;
         EnergyDecrease();
     }
 
