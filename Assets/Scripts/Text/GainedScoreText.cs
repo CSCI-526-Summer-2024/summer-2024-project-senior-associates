@@ -4,8 +4,8 @@ using TMPro;
 public class GainedScoreText : MonoBehaviour
 {
     private readonly float fadeDuration = 1f;
-    private readonly Vector3 InitialOffset = new Vector3(0, 0.5f, 0);
-    private readonly Vector3 FinalOffset = new Vector3(0, 1f, 0);
+    private readonly Vector3 InitialOffset = new(0, 0, 0);
+    private readonly Vector3 FinalOffset = new(0, 0.5f, 0);
     private TextMeshProUGUI textMesh;
     private Color originalColor;
     private float timer;

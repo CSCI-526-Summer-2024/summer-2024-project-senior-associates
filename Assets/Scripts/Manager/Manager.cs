@@ -47,7 +47,6 @@ public class Manager : MonoBehaviour
         {
             nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
             Debug.Log($"Next request countdown: {nextRequestCountdown}");
-            var v = (int)Math.Round(request.reward * mood.Value);
             uiManager.AddScore((int)Math.Round(request.reward * mood.Value), transform.position);
             mood.updateMood();
 
