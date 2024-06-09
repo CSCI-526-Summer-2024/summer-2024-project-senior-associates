@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class ManagerMood : MonoBehaviour
 {
+    public GameObject moodBar;
     private float productCountdown = 1f;
+    public float Value => productCountdown;
+
     private float productCountdownMax = 1f;
     private float moodDrop;
-    public GameObject moodBar;
 
     private Gradient moodGradient;
 
