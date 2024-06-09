@@ -10,9 +10,15 @@ public class RequestManager : MonoBehaviour
     public Range SingleSmoothieRewardBase;
     public Range DoubleSmoothieRewardBase;
     private int index = 0;
+    private int numRequest = 0;
 
     public Request GetRequest(float rewardMultiplier)
     {
+        if (numRequest >= probList[index].maxRequestNum)
+        {
+            return null;
+        }
+
         var prob = GetProb();
         Debug.Log($"requestProb: {prob}");
         Request request = new();
@@ -51,19 +57,21 @@ public class RequestManager : MonoBehaviour
         var rewardRange = rewardBase * rewardMultiplier;
         request.reward = rewardRange.GetRandom();
         Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.reward}");
+        numRequest++;
 
         return request;
     }
 
     private RequestProbability GetProb()
     {
-        var requestProbability = probList[index];
-        probList[index].numRequestsLeft--;
-        if (probList[index].numRequestsLeft <= 0 && index + 1 < probList.Length)
+        if (probList[index].remainingRequestNum <= 0 && index + 1 < probList.Length)
         {
             Debug.Log($"Finished sending all requests in #{index}, moving to #{index + 1}...");
             index++;
         }
+        var requestProbability = probList[index];
+        probList[index].remainingRequestNum--;
+
         return requestProbability;
     }
 
@@ -114,6 +122,11 @@ public class RequestManager : MonoBehaviour
             item.transform.localPosition = new(0, 0.25f, -0.1f);
         }
     }
+
+    public void FinishRequest()
+    {
+        numRequest--;
+    }
 }
 
 
@@ -131,7 +144,8 @@ public struct RequestProbability
     public float itemProb;
     public float singleItemSmoothieProb;
     public float doubleItemSmoothieProb;
-    public int numRequestsLeft;
+    public int remainingRequestNum;
+    public int maxRequestNum;
 
     public override readonly string ToString()
     {

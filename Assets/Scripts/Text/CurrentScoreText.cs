@@ -7,10 +7,12 @@ public class CurrentScoreText : MonoBehaviour
     private readonly float OriginalSize = 0.4f;
     private readonly float SizeMultiplier = 2f;
     private readonly Color OriginalColor = Color.white;
-    private readonly Color TargetColor = Color.green;
+    private readonly Color TargetColorForAdd = Color.green;
+    private readonly Color TargetColorForSubtract = Color.red;
     private TMP_Text tmp;
     private int currentScore = 0;
     private float elapsedTime;
+    private Color targetColor;
 
 
     private enum AnimationState { None, Growing, Shrinking }
@@ -31,7 +33,7 @@ public class CurrentScoreText : MonoBehaviour
             {
                 if (elapsedTime < Duration)
                 {
-                    UpdateTextWithAnimation(elapsedTime / Duration, OriginalColor, TargetColor, OriginalSize, OriginalSize * SizeMultiplier);
+                    UpdateTextWithAnimation(elapsedTime / Duration, OriginalColor, targetColor, OriginalSize, OriginalSize * SizeMultiplier);
                 }
                 else
                 {
@@ -43,7 +45,7 @@ public class CurrentScoreText : MonoBehaviour
             {
                 if (elapsedTime < Duration)
                 {
-                    UpdateTextWithAnimation(elapsedTime / Duration, TargetColor, OriginalColor, OriginalSize * SizeMultiplier, OriginalSize);
+                    UpdateTextWithAnimation(elapsedTime / Duration, targetColor, OriginalColor, OriginalSize * SizeMultiplier, OriginalSize);
                 }
                 else
                 {
@@ -54,10 +56,11 @@ public class CurrentScoreText : MonoBehaviour
         }
     }
 
-    public void AddScore(int score)
+    public void UpdateScore(int score)
     {
         currentScore += score;
         elapsedTime = 0f;
+        targetColor = score > 0 ? TargetColorForAdd : TargetColorForSubtract;
         animationState = AnimationState.Growing;
         UpdateText();
     }
