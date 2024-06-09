@@ -46,9 +46,16 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Floor"))
         {
-            isGrounded = true;
+            ContactPoint2D contact = other.GetContact(0);
+            Bounds bounds = GetComponent<Collider2D>().bounds;
+            bool isCollisionFromBottom = contact.point.y < bounds.center.y - bounds.extents.y * 0.9f;
+            if (isCollisionFromBottom)
+            {
+                isGrounded = true;
+            }
         }
     }
+
 
     private void OnCollisionExit2D(Collision2D other)
     {
