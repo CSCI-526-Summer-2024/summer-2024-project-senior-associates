@@ -8,6 +8,8 @@ public class PlayerControl : MonoBehaviour
     private readonly Color DizzyColor = Color.grey;
     public float speed;
     public float jumpForce;
+
+    public bool tired = false;
     private bool isTryingToJump = false;
     private bool isGrounded = true;
     private bool isTouchingCoffeeSpill = false;
@@ -83,7 +85,7 @@ public class PlayerControl : MonoBehaviour
 
     private void SetPlayerSlowDown(bool slow)
     {
-        if (slow)
+        if (slow || tired)
         {
             speed = NormalSpeed / 3;
             jumpForce = NormalJumpForce / 3;
