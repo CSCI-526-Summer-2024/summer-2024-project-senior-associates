@@ -10,10 +10,6 @@ public class PlayerEnergy : MonoBehaviour
 
     public float energy = 1f;
     private float energyMax = 1f;
-    private Gradient energyGradient;
-    private GradientColorKey[] energyColors;
-    private GradientAlphaKey[] energyAlpha;
-
     private SpriteRenderer spriteRenderer;
 
     private Color tired;
@@ -32,19 +28,9 @@ public class PlayerEnergy : MonoBehaviour
         energyDrop = 0.05f * Time.deltaTime;
 
         //create color gradient between blue and grey
-        energyGradient = new Gradient();
 
-        energyColors = new GradientColorKey[2];
         tired = new Color(116f / 255f, 116f / 255f, 116f / 255f);
         full = new Color(105f / 255f, 222f / 255f, 255f / 255f);
-
-        energyColors[0] = new GradientColorKey(tired, 0.0f);
-        energyColors[1] = new GradientColorKey(full, 1.0f);
-
-        energyAlpha = new GradientAlphaKey[2];
-        energyAlpha[0] = new GradientAlphaKey(1.0f, 0.0f);
-        energyAlpha[1] = new GradientAlphaKey(1.0f, 0.0f);
-        energyGradient.SetKeys(energyColors, energyAlpha);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -69,8 +55,8 @@ public class PlayerEnergy : MonoBehaviour
 
             if (energy > 0f)
             {
-                energyBar.GetComponent<Image>().color = energyGradient.Evaluate(energy);
-                spriteRenderer.color = energyGradient.Evaluate(energy);
+                energyBar.GetComponent<Image>().color = Color.Lerp(tired, full, energy);
+                spriteRenderer.color = Color.Lerp(tired, full, energy);
             }
         }
         else
