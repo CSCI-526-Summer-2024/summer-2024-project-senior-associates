@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
     public Range RequestCountdownStartingRange;
     public float RewardMultiplier; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     public TMP_Text TotalCoins;
+
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
     private Request request;
     private float nextRequestCountdown = 0.1f;
@@ -40,6 +41,8 @@ public class Manager : MonoBehaviour
             request = null;
             nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
             Debug.Log($"Next request countdown: {nextRequestCountdown}");
+            //update Mood bar
+            GetComponent<ManagerMood>().updateMood();
         }
         else
         {
