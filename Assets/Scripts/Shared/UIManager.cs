@@ -8,16 +8,23 @@ public class UIManager : MonoBehaviour
     public CurrentScoreText currentScoreText;
     public Canvas canvas;
 
-    public void AddScore(int score, Vector3 position)
+    public void UpdateScore(int score, Vector3 position)
     {
-        currentScoreText.AddScore(score);
-        CreateGainedScoreText(score, position + new Vector3(0, 0.5f, 0f));
-        CreateGainedScoreText(score, currentScoreText.GetBottomRightPoint() + new Vector3(1f, -0.2f, 0f));
+        currentScoreText.UpdateScore(score);
+        CreateGainedScoreText(score, position + new Vector3(0, 0.5f, -1f));
+        CreateGainedScoreText(score, currentScoreText.GetBottomRightPoint() + new Vector3(1f, -0.2f, -1f));
     }
 
     private string GetGainedScoreMessage(int score)
     {
-        return $"+{score} KPI!";
+        if (score >= 0)
+        {
+            return $"+{score} KPI!";
+        }
+        else
+        {
+            return $"{score} KPI";
+        }
     }
 
     private void CreateGainedScoreText(int score, Vector3 position)
