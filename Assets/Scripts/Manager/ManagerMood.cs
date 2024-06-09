@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,42 +6,44 @@ using UnityEngine.UI;
 
 public class ManagerMood : MonoBehaviour
 {
-    private float mood = 1f;
-    private float moodMax = 1f;
-    private float moodDrop;
     public GameObject moodBar;
+    private float mood = 1f;
+    private readonly float MoodMax = 1f;
+    private readonly float MoodDropSpeedNormal = 0.05f;
+    private float moodDropSpeed;
+    private readonly float PenaltyMultiplier = -0.5f;  // penalty = request.reward * PenaltyMultiplier
+    private Manager manager;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        moodDrop = 0.01f * Time.deltaTime;
-
+        manager = GetComponent<Manager>();
+        moodDropSpeed = MoodDropSpeedNormal;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (mood > 0f)
+        if (manager.Request == null)
         {
-            Vector3 scale = moodBar.transform.localScale;
-            scale.x = mood / moodMax;
-            moodBar.transform.localScale = scale;
-
-            mood -= moodDrop;
-
-            if (mood > 0f)
-            {
-                moodBar.GetComponent<Image>().color = Color.Lerp(Color.red, Color.green, mood);
-            }
+            moodBar.SetActive(false);
         }
         else
         {
-            mood = 0f;
+            moodBar.SetActive(true);
+            moodBar.transform.localScale = Util.ChangeX(moodBar.transform.localScale, mood / MoodMax);
+            moodBar.GetComponent<Image>().color = Color.Lerp(Color.red, Color.green, mood);
+            mood -= moodDropSpeed * Time.deltaTime;
+            if (mood < 0f)
+            {
+                manager.uiManager.UpdateScore((int)Math.Round(PenaltyMultiplier * manager.Request.reward), transform.position);
+                manager.FinishRequest();
+            }
         }
     }
 
-    public void updateMood()
+    public void Reset()
     {
         mood = 1f;
     }
+
+    public float Mood => mood;
 }
