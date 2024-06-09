@@ -54,4 +54,9 @@ public class ManagerMood : MonoBehaviour
             //moodBar.GetComponent<Image>().color=Color.red;
         }
     }
+
+    public void updateMood()
+    {
+        productCountdown = 1f;
+    }
 }
