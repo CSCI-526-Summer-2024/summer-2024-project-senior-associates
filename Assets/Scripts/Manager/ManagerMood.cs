@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class ManagerMood : MonoBehaviour
 {
+    public GameObject moodBar;
     private float mood = 1f;
     private float moodMax = 1f;
+    public float Value => mood;
     private float moodDrop;
-    public GameObject moodBar;
 
     // Start is called before the first frame update
     void Start()

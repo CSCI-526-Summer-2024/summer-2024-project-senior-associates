@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.Assertions;
 
 public class Manager : MonoBehaviour
 {
     public RequestManager requestManager;
+    public UIManager uiManager;
     public Range RequestCountdownStartingRange;
     public float RewardMultiplier; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     public TMP_Text TotalCoins;
@@ -12,6 +14,12 @@ public class Manager : MonoBehaviour
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
     private Request request;
     private float nextRequestCountdown = 0.1f;
+    private ManagerMood mood;
+
+    void Start()
+    {
+        mood = GetComponent<ManagerMood>();
+    }
 
     void Update()
     {
@@ -37,12 +45,13 @@ public class Manager : MonoBehaviour
         var satisfied = request.item == item;
         if (satisfied)
         {
-            Destroy(request.obj);
-            request = null;
             nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
             Debug.Log($"Next request countdown: {nextRequestCountdown}");
-            //update Mood bar
-            GetComponent<ManagerMood>().updateMood();
+            uiManager.AddScore((int)Math.Round(request.reward * mood.Value), transform.position);
+            mood.updateMood();
+
+            Destroy(request.obj);
+            request = null;
         }
         else
         {
