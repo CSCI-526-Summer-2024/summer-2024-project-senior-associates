@@ -5,22 +5,32 @@ using System;
 public class Manager : MonoBehaviour
 {
     public RequestManager requestManager;
+    public UIManager uiManager;
     public Range RequestCountdownStartingRange;
     public float RewardMultiplier; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
-    public TMP_Text TotalCoins;
 
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
-    private Request request;
+    private Request request = null;
     private float nextRequestCountdown = 0.1f;
+    private ManagerMood mood;
+    public Request Request => request;
+
+    void Start()
+    {
+        mood = GetComponent<ManagerMood>();
+    }
 
     void Update()
     {
         if (nextRequestCountdown > 0f)
         {
             nextRequestCountdown -= Time.deltaTime;
-            if (nextRequestCountdown <= 0f)
+        }
+        if (request == null && nextRequestCountdown <= 0f)
+        {
+            request = requestManager.GetRequest(RewardMultiplier);
+            if (request != null)
             {
-                request = requestManager.GetRequest(RewardMultiplier);
                 request.obj.transform.SetParent(transform);
                 request.obj.transform.localPosition = ManagerToRequestOffset;
             }
@@ -37,17 +47,23 @@ public class Manager : MonoBehaviour
         var satisfied = request.item == item;
         if (satisfied)
         {
-            Destroy(request.obj);
-            request = null;
-            nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
+            uiManager.UpdateScore((int)Math.Round(request.reward * mood.Mood), transform.position);
+            FinishRequest();
             Debug.Log($"Next request countdown: {nextRequestCountdown}");
-            //update Mood bar
-            GetComponent<ManagerMood>().updateMood();
         }
         else
         {
             Debug.Log("Player is trying to give the wrong item.");
         }
         return satisfied;
+    }
+
+    public void FinishRequest()
+    {
+        nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
+        mood.Reset();
+        Destroy(request.obj);
+        request = null;
+        requestManager.FinishRequest();
     }
 }
