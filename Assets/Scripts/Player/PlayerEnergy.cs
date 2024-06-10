@@ -25,7 +25,7 @@ public class PlayerEnergy : MonoBehaviour
         player = GameObject.FindWithTag("Player");
 
         //set energy drop
-        energyDrop = 0.05f * Time.deltaTime;
+        energyDrop = 0.002f * Time.deltaTime;
 
         //create color gradient between blue and grey
 
