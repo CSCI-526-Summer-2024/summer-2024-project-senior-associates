@@ -1,17 +1,18 @@
+using System;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private Vector3 LeftItemOffsetWhenHoldingOne = new(0, 0.6f, 0);
-    private Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.5f, 0.6f, 0);
-    private Vector3 RightItemOffset = new(0.5f, 0.6f, 0);
-    private GameObject leftItem;
-    private GameObject rightItem;
+    private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
+    private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
+    private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
+    private Item leftItem;
+    private Item rightItem;
     private Chest chest;
-
     private SmoothieMachine smoothieMachine;
+    private Manager manager;
 
-    private ManagerOffice managerOffice;
+    private GameObject bed;
 
     void Update()
     {
@@ -21,84 +22,87 @@ public class PlayerInteract : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if (chest != null)
+            if (chest != null && CanTakeOutFromChest())
             {
-                PickUp(chest.itemPrefab); // if near chest, pick up item from chest
+                PickUp(chest.GetItem()); // if near chest, pick up item from chest
             }
             else if (smoothieMachine != null)
             {
-                if (GetCurrentItem() == "")
+                if (CanTakeOutFromSmoothie())
                 {
-                    // if holding nothing, try to take out smoothie from machine
-                    GameObject item = smoothieMachine.PickUp();
-                    if (item != null)
+                    var product = smoothieMachine.GetProduct();
+                    if (product != null)
                     {
-                        PickUp(item);
+                        PickUp(product);
                     }
                 }
-                else
+                else if (GetCurrentItem() != null)
                 {
-                    // if holding something, try to put that into smoothie machine
                     if (smoothieMachine.AddIngredient(GetCurrentItem()))
                     {
                         DiscardOneItem();
                     }
                 }
             }
-            else if (managerOffice != null)
+            else if (manager != null)
             {
-                if (GetCurrentItem() != "")
+                if (GetCurrentItem() != null && manager.Submit(GetCurrentItem()))
                 {
-                    if (managerOffice.Submit(GetCurrentItem()))
-                    {
-                        DiscardOneItem();
-                    }
+                    DiscardOneItem();
                 }
+            }
+            else if (bed != null)
+            {
+                GetComponent<PlayerEnergy>().Sleep();
             }
         }
     }
 
-    private string GetCurrentItem()
+    private Item GetCurrentItem()
     {
-        if (rightItem != null)
-        {
-            return rightItem.name;
-        }
-        if (leftItem != null)
-        {
-            return leftItem.name;
-        }
-        return "";
+        return rightItem ?? leftItem;
+    }
+
+    private bool CanTakeOutFromChest()
+    {
+        return rightItem == null;
+    }
+
+    private bool CanTakeOutFromSmoothie()
+    {
+        return rightItem == null && (GetCurrentItem() == null || GetCurrentItem().type != Item.Type.Ingredient);
     }
 
     private void DiscardOneItem()
     {
         if (rightItem != null)
         {
-            Destroy(rightItem);
+            Destroy(rightItem.obj);
             rightItem = null;
-            leftItem.transform.position = transform.position + LeftItemOffsetWhenHoldingOne;
+            leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingOne;
         }
         else if (leftItem != null)
         {
-            Destroy(leftItem);
+            Destroy(leftItem.obj);
             leftItem = null;
         }
     }
 
 
-    private void PickUp(GameObject itemPrefab)
+    private void PickUp(Item item)
     {
         if (leftItem == null)
         {
-            leftItem = Instantiate(itemPrefab, transform.position + LeftItemOffsetWhenHoldingOne, Quaternion.identity);
-            leftItem.transform.SetParent(transform);
+            leftItem = item;
+            leftItem.obj.transform.SetParent(transform);
+            leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingOne;
         }
         else if (rightItem == null)
         {
-            leftItem.transform.position = transform.position + LeftItemOffsetWhenHoldingTwo;
-            rightItem = Instantiate(itemPrefab, transform.position + RightItemOffset, Quaternion.identity);
-            rightItem.transform.SetParent(transform);
+            rightItem = item;
+            rightItem.obj.transform.SetParent(transform);
+            rightItem.obj.transform.localPosition = RightItemOffset;
+            leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingTwo;
         }
     }
 
@@ -112,9 +116,13 @@ public class PlayerInteract : MonoBehaviour
         {
             smoothieMachine = collision.GetComponent<SmoothieMachine>();
         }
-        else if (collision.gameObject.CompareTag("ManagerOffice"))
+        else if (collision.gameObject.CompareTag("Manager"))
         {
-            managerOffice = collision.GetComponent<ManagerOffice>();
+            manager = collision.GetComponent<Manager>();
+        }
+        else if (collision.gameObject.CompareTag("Bed"))
+        {
+            bed = GameObject.FindWithTag("Bed");
         }
     }
 
@@ -128,9 +136,13 @@ public class PlayerInteract : MonoBehaviour
         {
             smoothieMachine = null;
         }
-        else if (collision.gameObject.CompareTag("ManagerOffice"))
+        else if (collision.gameObject.CompareTag("Manager"))
         {
-            managerOffice = null;
+            manager = null;
+        }
+        else if (collision.gameObject.CompareTag("Bed"))
+        {
+            bed = null;
         }
     }
 }

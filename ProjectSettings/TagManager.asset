@@ -8,9 +8,10 @@ TagManager:
   - Chest
   - SmoothieMachine
   - Floor
-  - Crack
   - CoffeeSpill
-  - ManagerOffice
+  - Boundary
+  - Manager
+  - Bed
   layers:
   - Default
   - TransparentFX
