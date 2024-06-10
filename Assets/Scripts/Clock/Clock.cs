@@ -1,73 +1,81 @@
 using UnityEngine;
 using TMPro;
 
-public class Clock : MonoBehaviour
+public struct TimeSuffix
 {
-
-    public TMP_Text clock;
-
-    private int hour;
-    private int minute;
-
-    private string ampm;
-
-    private float clockInterval = 1f;
-    private float time;
-
-    public SceneController sceneController;
-
-    // Start is called before the first frame update
-    void Start()
+    public enum Value { AM, PM };
+    public Value value;
+    public override readonly string ToString()
     {
-        hour = 9;
-        minute = 0;
-        ampm = " AM";
-        clock.text = hour + ":0" + minute + ampm;
-        time = 0f;
-        sceneController = new SceneController();
+        return value == Value.AM ? "AM" : "PM";
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
+    public void Toggle()
     {
-        time += Time.fixedDeltaTime;
-        if (time >= clockInterval)
+        if (value == Value.AM)
         {
-            updateTime();
-            time = 0;
-        }
-    }
-
-    void updateTime()
-    {
-        minute += 15;
-        if (minute >= 60)
-        {
-            minute = 0;
-            hour += 1;
-        }
-        if (hour > 11)
-        {
-            if (hour > 12)
-            {
-                hour = 1;
-            }
-            ampm = " PM";
-        }
-        if (minute < 10)
-        {
-            clock.text = hour + ":0" + minute + ampm;
+            value = Value.PM;
         }
         else
         {
-            clock.text = hour + ":" + minute + ampm;
+            value = Value.AM;
         }
+    }
+}
 
-        // if (hour == 5)
-        // {
-        //     sceneController.SceneUpdate(1);
-        //     //SceneManager.LoadScene("FinishScene",LoadSceneMode.Single);
-        //     //SceneManager.SetActiveScene(SceneManager.GetSceneByName("FinishScene"));
-        // }
+public class Clock : MonoBehaviour
+{
+    private readonly int MinuteIncrement = 15;
+    private readonly float IncrementCountdownMax = 1f;
+    private TMP_Text clock;
+    private int hour = 9;
+    private int minute = 0;
+    private TimeSuffix suffix = new() { value = TimeSuffix.Value.AM };
+    private float incrementCountdown = 0f;
+
+    void Start()
+    {
+        clock = GetComponent<TMP_Text>();
+        incrementCountdown = IncrementCountdownMax;
+        UpdateText();
+    }
+
+    void FixedUpdate()
+    {
+        incrementCountdown -= Time.fixedDeltaTime;
+        if (incrementCountdown <= 0f)
+        {
+            incrementCountdown = IncrementCountdownMax;
+            IncrementTime();
+        }
+    }
+
+    void IncrementTime()
+    {
+        minute += MinuteIncrement;
+        if (minute >= 60)
+        {
+            minute -= 60;
+            hour++;
+            if (hour == 12)
+            {
+                suffix.Toggle();
+            }
+            else if (hour > 12)
+            {
+                hour -= 12;
+            }
+        }
+        UpdateText();
+    }
+
+    void UpdateText()
+    {
+        var str = $"{hour}:";
+        if (minute < 10)
+        {
+            str += "0";
+        }
+        str += $"{minute} {suffix}";
+        clock.text = str;
     }
 }
