@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public readonly float NormalSpeed = 5f;
-    public readonly float NormalJumpForce = 10f;
+    private readonly float NormalSpeed = 5f;
+    private readonly float NormalJumpForce = 10f;
     private readonly Color NormalColor = Color.white;
     private readonly Color DizzyColor = Color.grey;
-    public float speed;
-    public float jumpForce;
-
-    public bool tired = false;
+    private float speed;
+    private float jumpForce;
     private bool isTryingToJump = false;
     private bool isGrounded = true;
     private bool isTouchingCoffeeSpill = false;
     private float horizontalInput;
     private Rigidbody2D rb;
     private ClimbLadder climbLadder;
+    private PlayerEnergy playerEnergy;
     private SpriteRenderer spriteRenderer;
 
     void Start()
@@ -25,6 +24,7 @@ public class PlayerControl : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
+        playerEnergy = GetComponent<PlayerEnergy>();
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !climbLadder.isClimbing)
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !climbLadder.IsClimbing)
         {
             isTryingToJump = true;
         }
@@ -40,7 +40,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontalInput * speed, isTryingToJump ? jumpForce : rb.velocity.y);
+        rb.velocity = new Vector2(playerEnergy.IsSleeping ? 0f : horizontalInput * speed, isTryingToJump ? jumpForce : rb.velocity.y);
         isTryingToJump = false;
     }
 
@@ -85,7 +85,7 @@ public class PlayerControl : MonoBehaviour
 
     private void SetPlayerSlowDown(bool slow)
     {
-        if (slow || tired)
+        if (slow || playerEnergy.Tired)
         {
             speed = NormalSpeed / 3;
             jumpForce = NormalJumpForce / 3;

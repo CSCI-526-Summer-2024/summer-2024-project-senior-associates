@@ -11,8 +11,13 @@ public class PlayerInteract : MonoBehaviour
     private Chest chest;
     private SmoothieMachine smoothieMachine;
     private Manager manager;
+    private bool isNearBed = false;
+    private PlayerEnergy playerEnergy;
 
-    private GameObject bed;
+    void Start()
+    {
+        playerEnergy = GetComponent<PlayerEnergy>();
+    }
 
     void Update()
     {
@@ -22,6 +27,7 @@ public class PlayerInteract : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
+            Debug.Log(isNearBed);
             if (chest != null && CanTakeOutFromChest())
             {
                 PickUp(chest.GetItem()); // if near chest, pick up item from chest
@@ -51,9 +57,9 @@ public class PlayerInteract : MonoBehaviour
                     DiscardOneItem();
                 }
             }
-            else if (bed != null)
+            else if (isNearBed)
             {
-                GetComponent<PlayerEnergy>().Sleep();
+                playerEnergy.ToggleSleeping();
             }
         }
     }
@@ -122,7 +128,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bed"))
         {
-            bed = GameObject.FindWithTag("Bed");
+            isNearBed = true;
         }
     }
 
@@ -142,7 +148,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bed"))
         {
-            bed = null;
+            isNearBed = false;
         }
     }
 }
