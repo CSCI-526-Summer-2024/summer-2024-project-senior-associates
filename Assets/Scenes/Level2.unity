@@ -2745,7 +2745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf00ee5c0a3dfd468b2f80e4353046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
+  uiManager: {fileID: 888811485}
   TotalRealTimeInSeconds: 180
 --- !u!1 &1038983959
 GameObject:
