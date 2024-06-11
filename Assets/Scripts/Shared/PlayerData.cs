@@ -2,20 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BestScore
+public class BestKpi
 {
-    public int score = 0;
+    public int kpi = 0;
     public bool present = false;
     public override string ToString()
     {
-        return $"Best KPI: {score}";
+        return $"Best KPI: {kpi}";
     }
 }
 
 [System.Serializable]
 public class PlayerData
 {
-    public List<BestScore> bestScores = new();
+    public List<BestKpi> bestKpis = new();
 
     public void SavePlayerData()
     {
@@ -25,7 +25,7 @@ public class PlayerData
         Debug.Log($"Player data saved to {path}.");
     }
 
-    public static PlayerData LoadPlayerData(int levelCount)
+    public static PlayerData LoadPlayerData(int? levelCount = null)
     {
         string path = Application.persistentDataPath + "/playerData.json";
         PlayerData data;
@@ -40,16 +40,19 @@ public class PlayerData
             data = new();
             Debug.Log($"Could not load player data from {path}, creating a new one.");
         }
-        data.AdjustToLevelCount(levelCount);
+        if (levelCount != null)
+        {
+            data.AdjustToLevelCount(levelCount.Value);
+        }
         data.SavePlayerData();
         return data;
     }
 
     private void AdjustToLevelCount(int levelCount)
     {
-        for (int i = bestScores.Count; i < levelCount; i++)
+        for (int i = bestKpis.Count; i < levelCount; i++)
         {
-            bestScores.Add(new());
+            bestKpis.Add(new());
         }
     }
 }

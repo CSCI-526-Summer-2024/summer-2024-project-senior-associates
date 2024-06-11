@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelBox : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class LevelBox : MonoBehaviour
     private readonly float CanvasYOffsetWithoutBestScore = 0f;
     private readonly float CanvasYOffsetWithBestScore = 0.18f;
 
-    public void SetLevelNumAndBestScore(int levelNum, BestScore bestScore)
+    public void SetLevelNumAndBestScore(int levelNum, BestKpi bestScore)
     {
         clickableRect.levelNum = levelNum;
         levelNumText.text = $"{levelNum}";
@@ -25,11 +24,6 @@ public class LevelBox : MonoBehaviour
             bestScoreText.text = $"{bestScore}";
             canvas.transform.localPosition = Util.ChangeY(canvas.transform.localPosition, CanvasYOffsetWithBestScore);
         }
-    }
-
-    public void EnterLevel(int levelNum)
-    {
-        SceneManager.LoadScene($"Level{levelNum}");
     }
 
 }

@@ -34,7 +34,7 @@ public class SceneController : MonoBehaviour
         for (int i = 0; i < levelCount; i++)
         {
             var levelBox = Instantiate(levelBoxPrefab, GetPosition(row, col), Quaternion.identity);
-            levelBox.GetComponent<LevelBox>().SetLevelNumAndBestScore(i + 1, playerData.bestScores[i]);
+            levelBox.GetComponent<LevelBox>().SetLevelNumAndBestScore(i + 1, playerData.bestKpis[i]);
             col++;
             if (col >= NumLevelBoxPerRow)
             {

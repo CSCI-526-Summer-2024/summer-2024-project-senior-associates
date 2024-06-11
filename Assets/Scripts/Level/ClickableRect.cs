@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ClickableRect : MonoBehaviour
 {
-    public LevelBox levelBox;
     public int levelNum;
     private readonly Color HoverColor = new(1f, 1f, 1f);
     private readonly float Opacity = 0.3f;
@@ -17,7 +16,7 @@ public class ClickableRect : MonoBehaviour
 
     private void OnMouseDown()
     {
-        levelBox.EnterLevel(levelNum);
+        Util.EnterLevel(levelNum);
     }
 
     private void OnMouseEnter()
