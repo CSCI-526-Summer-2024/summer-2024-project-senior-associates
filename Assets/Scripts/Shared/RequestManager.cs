@@ -9,6 +9,9 @@ public class RequestManager : MonoBehaviour
     public Range ItemRewardBase;
     public Range SingleSmoothieRewardBase;
     public Range DoubleSmoothieRewardBase;
+    public int ItemMaxTime;
+    public int SingleSmoothieMaxTime;
+    public int DoubleSmoothieMaxTime;
     private int index = 0;
     private int numRequest = 0;
 
@@ -32,6 +35,7 @@ public class RequestManager : MonoBehaviour
                 type = Item.Type.Ingredient,
                 ingredients = new() { Util.ChooseRandom(ingredientData.allIngredients) }
             };
+            request.maxTime = ItemMaxTime;
             rewardBase = ItemRewardBase;
         }
         else if (randomValue < prob.itemProb + prob.singleItemSmoothieProb)
@@ -41,6 +45,7 @@ public class RequestManager : MonoBehaviour
                 type = Item.Type.Smoothie,
                 ingredients = ingredientData.GetSmoothieIngredients(1)
             };
+            request.maxTime = SingleSmoothieMaxTime;
             rewardBase = SingleSmoothieRewardBase;
         }
         else
@@ -50,6 +55,7 @@ public class RequestManager : MonoBehaviour
                 type = Item.Type.Smoothie,
                 ingredients = ingredientData.GetSmoothieIngredients(2)
             };
+            request.maxTime = DoubleSmoothieMaxTime;
             rewardBase = DoubleSmoothieRewardBase;
         }
         request.obj = GetRequestObj(request);
@@ -136,6 +142,7 @@ public class Request
     public GameObject obj;
     public Item item;
     public int reward;
+    public int maxTime;
 }
 
 [System.Serializable]

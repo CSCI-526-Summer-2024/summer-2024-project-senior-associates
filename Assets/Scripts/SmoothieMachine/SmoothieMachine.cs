@@ -50,11 +50,6 @@ public class SmoothieMachine : MonoBehaviour
             Debug.Log("Ignored because there is already a liquid base: " + ingredient.prefab.name);
             return false;
         }
-        else if (ingredients.Any(info => info.prefab.name == ingredient.prefab.name))
-        {
-            Debug.Log("Duplicate ingredient: " + ingredient.prefab.name);
-            return false;
-        }
         else
         {
             Debug.Log("Added ingredient: " + ingredient.prefab.name);

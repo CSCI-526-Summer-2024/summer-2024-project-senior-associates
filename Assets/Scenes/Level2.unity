@@ -1083,6 +1083,140 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &566770791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 566770794}
+  - component: {fileID: 566770793}
+  - component: {fileID: 566770792}
+  m_Layer: 5
+  m_Name: MinKpiText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &566770792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566770791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Goal: 100'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 0.25
+  m_fontSizeBase: 0.25
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &566770793
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566770791}
+  m_CullTransparentMesh: 1
+--- !u!224 &566770794
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566770791}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1448280934}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1.2600002, y: -0.99}
+  m_SizeDelta: {x: 1.9664, y: 0.7749}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &598799641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,12 +1381,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requestBackgroundPrefab: {fileID: 2766954271715062740, guid: cc08bbbcd5aa0d44f9620637944ef1fc, type: 3}
-  ingredientData: {fileID: 11400000, guid: 3168b66ef00ed2d41809eefa278162df, type: 2}
+  ingredientData: {fileID: 11400000, guid: 7af97fe8c256f944d8d578a95f501f33, type: 2}
   probList:
+  - itemProb: 0.5
+    singleItemSmoothieProb: 0.5
+    doubleItemSmoothieProb: 0
+    remainingRequestNum: 4
+    maxRequestNum: 2
+  - itemProb: 0.5
+    singleItemSmoothieProb: 0.3
+    doubleItemSmoothieProb: 0.2
+    remainingRequestNum: 4
+    maxRequestNum: 2
   - itemProb: 0.3
     singleItemSmoothieProb: 0.5
     doubleItemSmoothieProb: 0.2
-    remainingRequestNum: 5
+    remainingRequestNum: 4
     maxRequestNum: 2
   ItemRewardBase:
     Min: 2
@@ -1263,6 +1407,9 @@ MonoBehaviour:
   DoubleSmoothieRewardBase:
     Min: 7
     Max: 11
+  ItemMaxTime: 37
+  SingleSmoothieMaxTime: 52
+  DoubleSmoothieMaxTime: 60
 --- !u!1 &708697876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,6 +1898,8 @@ MonoBehaviour:
   gainedScoreAboveManagerPrefab: {fileID: 3632731737238723682, guid: a0df510673313dd4798e45af220d2d31, type: 3}
   currentScoreText: {fileID: 1093875686}
   canvas: {fileID: 1448280933}
+  minKpi: 75
+  minKpiText: {fileID: 566770792}
 --- !u!4 &888811486
 Transform:
   m_ObjectHideFlags: 0
@@ -1890,8 +2039,8 @@ Transform:
   m_GameObject: {fileID: 890671616}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.241, y: 0, z: 0}
-  m_LocalScale: {x: 4.68, y: 0.52, z: 1}
+  m_LocalPosition: {x: -6.972, y: 0, z: 0}
+  m_LocalScale: {x: 5.2, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 36159226}
@@ -2459,8 +2608,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1032137185}
   - component: {fileID: 1032137187}
-  - component: {fileID: 1032137186}
   - component: {fileID: 1032137188}
+  - component: {fileID: 1032137186}
   m_Layer: 5
   m_Name: ClockText
   m_TagString: Untagged
@@ -2596,6 +2745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf00ee5c0a3dfd468b2f80e4353046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
+  TotalRealTimeInSeconds: 180
 --- !u!1 &1038983959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2816,7 +2967,7 @@ GameObject:
   - component: {fileID: 1093875687}
   - component: {fileID: 1093875686}
   m_Layer: 5
-  m_Name: ScoreNum
+  m_Name: KpiNumText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3452,7 +3603,7 @@ GameObject:
   - component: {fileID: 1333495507}
   - component: {fileID: 1333495506}
   m_Layer: 5
-  m_Name: ScoreFixed
+  m_Name: KpiFixedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4211,6 +4362,7 @@ RectTransform:
   - {fileID: 521128618}
   - {fileID: 1333495505}
   - {fileID: 1093875689}
+  - {fileID: 566770794}
   - {fileID: 1032137185}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6474,7 +6626,7 @@ GameObject:
   - component: {fileID: 1982879265}
   - component: {fileID: 1982879264}
   m_Layer: 0
-  m_Name: SmoothieMachine
+  m_Name: SmoothieMachine1
   m_TagString: SmoothieMachine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6681,8 +6833,8 @@ Transform:
   m_GameObject: {fileID: 1995866072}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.015, y: 0, z: 0}
-  m_LocalScale: {x: 4.68, y: 0.52, z: 1}
+  m_LocalPosition: {x: -6.757, y: 0, z: 0}
+  m_LocalScale: {x: 5.2, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 298085516}
