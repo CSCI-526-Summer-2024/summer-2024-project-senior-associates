@@ -8,12 +8,10 @@ public class Manager : MonoBehaviour
     public UIManager uiManager;
     public Range RequestCountdownStartingRange;
     public float RewardMultiplier; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
-
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
-    private Request request = null;
+    private Request request = null; public Request Request => request;
     private float nextRequestCountdown = 0.1f;
     private ManagerMood mood;
-    public Request Request => request;
 
     void Start()
     {

@@ -7,17 +7,17 @@ using UnityEngine.UI;
 public class ManagerMood : MonoBehaviour
 {
     public GameObject moodBar;
-    private float mood = 1f;
     private readonly float MoodMax = 1f;
-    private readonly float MoodDropSpeedNormal = 0.05f;
-    private float moodDropSpeed;
+    private readonly float NormalMoodDropSpeed = 0.05f;
     private readonly float PenaltyMultiplier = -0.5f;  // penalty = request.reward * PenaltyMultiplier
+    private float mood = 1f; public float Mood => mood;
+    private float moodDropSpeed;
     private Manager manager;
 
     void Awake()
     {
         manager = GetComponent<Manager>();
-        moodDropSpeed = MoodDropSpeedNormal;
+        moodDropSpeed = NormalMoodDropSpeed;
     }
 
     void Update()
@@ -44,6 +44,4 @@ public class ManagerMood : MonoBehaviour
     {
         mood = 1f;
     }
-
-    public float Mood => mood;
 }

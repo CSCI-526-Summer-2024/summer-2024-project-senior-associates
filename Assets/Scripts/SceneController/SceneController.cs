@@ -7,18 +7,19 @@ public class SceneController
 {
     void Start()
     {
-        SceneUpdate(0);    
+        SceneUpdate(0);
     }
 
-    public void SceneUpdate(int scene){
-        if(scene==0)
+    public void SceneUpdate(int scene)
+    {
+        if (scene == 0)
         {
-            SceneManager.LoadScene("SampleScene",LoadSceneMode.Single);
+            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("SampleScene"));
         }
-        else if(scene==1)
+        else if (scene == 1)
         {
-            SceneManager.LoadScene("FinishScene",LoadSceneMode.Single);
+            SceneManager.LoadScene("FinishScene", LoadSceneMode.Single);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("FinishScene"));
         }
     }
