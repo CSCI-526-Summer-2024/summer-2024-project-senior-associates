@@ -1,85 +1,88 @@
 using UnityEngine;
 using TMPro;
 
-public struct TimeSuffix
+public struct ClockTime
 {
-    public enum Value { AM, PM };
-    public Value value;
+    public enum Suffix { AM, PM };
+    public Suffix suffix;
+    public int realHour;
+    public int displayHour;
+    public int minute;
+
+    public ClockTime(int hour)
+    {
+        realHour = hour;
+        displayHour = hour;
+        minute = 0;
+        suffix = Suffix.AM;
+    }
+
+
     public override readonly string ToString()
     {
-        return value == Value.AM ? "AM" : "PM";
-    }
-    public void Toggle()
-    {
-        if (value == Value.AM)
+        var str = $"{displayHour}:";
+        if (minute < 10)
         {
-            value = Value.PM;
+            str += "0";
         }
-        else
+        str += $"{minute} {(suffix == Suffix.AM ? "AM" : "PM")}";
+        return str;
+    }
+
+    public void AddMinutes(int numMinutes)
+    {
+        minute += numMinutes;
+        if (minute >= 60)
         {
-            value = Value.AM;
+            minute -= 60;
+            realHour++;
+            displayHour++;
+            if (displayHour == 12)
+            {
+                suffix = suffix == Suffix.AM ? Suffix.PM : Suffix.AM;
+            }
+            else if (displayHour > 12)
+            {
+                displayHour -= 12;
+            }
         }
     }
 }
 
 public class Clock : MonoBehaviour
 {
+    public UIManager uiManager;
+    public float TotalRealTimeInSeconds;
     private const int StartHour = 9;
     private const int EndHour = 17;
     private const int TotalMinutes = (EndHour - StartHour) * 60;
-    private const int TotalRealTimeInSeconds = 120;
     private const int MinuteIncrement = 15;
-    private const float IncrementCountdownStart = TotalRealTimeInSeconds / (TotalMinutes / MinuteIncrement);
-    private TMP_Text clock;
-    private int hour = 9;
-    private int minute = 0;
-    private TimeSuffix suffix = new() { value = TimeSuffix.Value.AM };
+    private float IncrementCountdownStart;
+    private TMP_Text clockText;
+    private ClockTime clockTime = new(StartHour);
     private float incrementCountdown = 0f;
 
     void Start()
     {
-        clock = GetComponent<TMP_Text>();
+        clockText = GetComponent<TMP_Text>();
+        clockText.text = $"{clockTime}";
+        IncrementCountdownStart = TotalRealTimeInSeconds / (TotalMinutes / MinuteIncrement);
         incrementCountdown = IncrementCountdownStart;
-        UpdateText();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        incrementCountdown -= Time.fixedDeltaTime;
+        incrementCountdown -= Time.deltaTime;
         if (incrementCountdown <= 0f)
         {
             incrementCountdown = IncrementCountdownStart;
-            IncrementTime();
-        }
-    }
+            clockTime.AddMinutes(MinuteIncrement);
+            clockText.text = $"{clockTime}";
 
-    void IncrementTime()
-    {
-        minute += MinuteIncrement;
-        if (minute >= 60)
-        {
-            minute -= 60;
-            hour++;
-            if (hour == 12)
+            if (clockTime.realHour == EndHour)
             {
-                suffix.Toggle();
-            }
-            else if (hour > 12)
-            {
-                hour -= 12;
+                uiManager.EndLevel();
             }
         }
-        UpdateText();
-    }
-
-    void UpdateText()
-    {
-        var str = $"{hour}:";
-        if (minute < 10)
-        {
-            str += "0";
-        }
-        str += $"{minute} {suffix}";
-        clock.text = str;
     }
 }

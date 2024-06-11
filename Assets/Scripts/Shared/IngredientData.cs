@@ -64,6 +64,7 @@ public class IngredientData : ScriptableObject
 
     public List<Ingredient> GetSmoothieIngredients(int numSolidIngredients)
     {
+        Debug.Log($"liquids count: {allIngredients.Length}, {Util.ChooseRandom(Liquids)}");
         List<Ingredient> res = new() { Util.ChooseRandom(Liquids) };
         for (int i = 0; i < numSolidIngredients; i++)
         {

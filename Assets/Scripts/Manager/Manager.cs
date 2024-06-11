@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 using System;
 
 public class Manager : MonoBehaviour
@@ -48,7 +47,6 @@ public class Manager : MonoBehaviour
         {
             uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
             FinishRequest();
-            Debug.Log($"Next request countdown: {nextRequestCountdown}");
         }
         else
         {
