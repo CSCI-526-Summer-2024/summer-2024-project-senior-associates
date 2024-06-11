@@ -27,7 +27,6 @@ public class PlayerInteract : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log(isNearBed);
             if (chest != null && CanTakeOutFromChest())
             {
                 PickUp(chest.GetItem()); // if near chest, pick up item from chest

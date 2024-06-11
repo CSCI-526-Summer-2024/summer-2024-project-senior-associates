@@ -24,8 +24,12 @@ public struct TimeSuffix
 
 public class Clock : MonoBehaviour
 {
-    private readonly int MinuteIncrement = 15;
-    private readonly float IncrementCountdownMax = 1f;
+    private const int StartHour = 9;
+    private const int EndHour = 17;
+    private const int TotalMinutes = (EndHour - StartHour) * 60;
+    private const int TotalRealTimeInSeconds = 120;
+    private const int MinuteIncrement = 15;
+    private const float IncrementCountdownStart = TotalRealTimeInSeconds / (TotalMinutes / MinuteIncrement);
     private TMP_Text clock;
     private int hour = 9;
     private int minute = 0;
@@ -35,7 +39,7 @@ public class Clock : MonoBehaviour
     void Start()
     {
         clock = GetComponent<TMP_Text>();
-        incrementCountdown = IncrementCountdownMax;
+        incrementCountdown = IncrementCountdownStart;
         UpdateText();
     }
 
@@ -44,7 +48,7 @@ public class Clock : MonoBehaviour
         incrementCountdown -= Time.fixedDeltaTime;
         if (incrementCountdown <= 0f)
         {
-            incrementCountdown = IncrementCountdownMax;
+            incrementCountdown = IncrementCountdownStart;
             IncrementTime();
         }
     }
