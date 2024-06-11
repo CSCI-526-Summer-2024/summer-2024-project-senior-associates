@@ -10,6 +10,12 @@ public static class Util
         return vec;
     }
 
+    public static Vector3 ChangeY(Vector3 vec, float y)
+    {
+        vec.y = y;
+        return vec;
+    }
+
     public static T ChooseRandom<T>(T[] array)
     {
         if (array == null || array.Length == 0)
