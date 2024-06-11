@@ -40,7 +40,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(playerEnergy.IsSleeping ? 0f : horizontalInput * speed, isTryingToJump ? jumpForce : rb.velocity.y);
+        rb.velocity = new Vector2(playerEnergy != null && playerEnergy.IsSleeping ? 0f : horizontalInput * speed, isTryingToJump ? jumpForce : rb.velocity.y);
         isTryingToJump = false;
     }
 
@@ -85,7 +85,7 @@ public class PlayerControl : MonoBehaviour
 
     private void SetPlayerSlowDown(bool slow)
     {
-        if (slow || playerEnergy.Tired)
+        if (slow || playerEnergy != null && playerEnergy.Tired)
         {
             speed = NormalSpeed / 3;
             jumpForce = NormalJumpForce / 3;
