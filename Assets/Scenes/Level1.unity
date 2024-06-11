@@ -319,7 +319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf00ee5c0a3dfd468b2f80e4353046f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clock: {fileID: 215011465}
 --- !u!114 &215011465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3401,9 +3400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b172dcd8d0154f543bcf0f6ffb694e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  jumpForce: 0
-  tired: 0
 --- !u!114 &1771702630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3416,7 +3412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c66ef2f0a28ad44b3d65bcad150d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isClimbing: 0
 --- !u!114 &1771702631
 MonoBehaviour:
   m_ObjectHideFlags: 0
