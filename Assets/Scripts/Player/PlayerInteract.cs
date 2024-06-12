@@ -61,6 +61,14 @@ public class PlayerInteract : MonoBehaviour
                 playerEnergy.ToggleSleeping();
             }
         }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (manager != null && playerEnergy.CanSchmooze())
+            {
+                manager.Schmooze();
+                playerEnergy.LoseEnergy();
+            }
+        }
     }
 
     private Item GetCurrentItem()
