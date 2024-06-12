@@ -4,8 +4,8 @@ using UnityEngine.UI;
 public class PlayerEnergy : MonoBehaviour
 {
     public GameObject energyBar;
-    private readonly float NormalEnergyChange = -0.1f;
-    private readonly float SleepEnergyChange = 0.1f;
+    private readonly float NormalEnergyChange = -0.02f;
+    private readonly float SleepEnergyChange = 0.15f;
     private readonly Color ZeroEnergyColor = Color.red;
     private readonly Color FullEnergyColor = Color.green;
     private readonly float MinEnergy = 0.1f;

@@ -1,12 +1,19 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public static class Util
 {
     public static Vector3 ChangeX(Vector3 vec, float x)
     {
         vec.x = x;
+        return vec;
+    }
+
+    public static Vector3 ChangeY(Vector3 vec, float y)
+    {
+        vec.y = y;
         return vec;
     }
 
@@ -31,6 +38,36 @@ public static class Util
 
         int randomIndex = UnityEngine.Random.Range(0, list.Count);
         return list[randomIndex];
+    }
+
+    public static void EnterLevel(int levelNum)
+    {
+        if (levelNum == -1)
+        {
+            SceneManager.LoadScene($"WinLost");
+        }
+        else if (levelNum == 0)
+        {
+            SceneManager.LoadScene($"ChooseLevel");
+        }
+        else
+        {
+            SceneManager.LoadScene($"Level{levelNum}");
+        }
+    }
+
+    public static int GetCurrentLevelNum()
+    {
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName.StartsWith("Level") && sceneName.Length > 5)
+        {
+            return int.Parse(sceneName[5..]);
+        }
+        else
+        {
+            Debug.Log($"Unrecognized scene name: {sceneName}");
+            return 0;
+        }
     }
 }
 
