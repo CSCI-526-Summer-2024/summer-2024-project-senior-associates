@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 
+
 public class Manager : MonoBehaviour
 {
     public RequestManager requestManager;
@@ -53,6 +54,13 @@ public class Manager : MonoBehaviour
             request.obj.GetComponent<ShakeEffect>().TriggerShake();
         }
         return satisfied;
+    }
+
+    public void Schmooze()
+    {
+        // request satisfied + KPI
+        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+        FinishRequest();
     }
 
     public void FinishRequest()

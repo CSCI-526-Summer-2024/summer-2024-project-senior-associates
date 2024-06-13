@@ -51,4 +51,14 @@ public class PlayerEnergy : MonoBehaviour
     {
         get { return energy <= MinEnergy; }
     }
+
+    public void LoseEnergy()
+    {
+        energy -= 0.25f;
+    }
+
+    public bool CanSchmooze()
+    {
+        return energy >= 0.25f;
+    }
 }
