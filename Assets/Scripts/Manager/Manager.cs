@@ -50,7 +50,7 @@ public class Manager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Player is trying to give the wrong item.");
+            request.obj.GetComponent<ShakeEffect>().TriggerShake();
         }
         return satisfied;
     }

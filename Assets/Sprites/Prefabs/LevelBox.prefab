@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelNumText: {fileID: 6020945906396475379}
-  bestScoreText: {fileID: 2217152228037258592}
+  bestKpiText: {fileID: 2217152228037258592}
   canvas: {fileID: 5157689708596405901}
   clickableRect: {fileID: 7518035581451481286}
 --- !u!1 &3022234056293614629
@@ -251,7 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc887a7dc8bb7418e2f47c78acdb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelBox: {fileID: 3659295589083054253}
   levelNum: 0
 --- !u!61 &1164391706155001860
 BoxCollider2D:
@@ -310,7 +309,7 @@ GameObject:
   - component: {fileID: 8276651858054794216}
   - component: {fileID: 6020945906396475379}
   m_Layer: 0
-  m_Name: LevelNum
+  m_Name: LevelNumText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +443,7 @@ GameObject:
   - component: {fileID: 7221581722337498061}
   - component: {fileID: 2217152228037258592}
   m_Layer: 0
-  m_Name: BestScore
+  m_Name: BestKpiText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
