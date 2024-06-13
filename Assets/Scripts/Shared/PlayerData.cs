@@ -2,20 +2,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BestKpi
+public class LevelInfo
 {
-    public int kpi = 0;
-    public bool present = false;
-    public override string ToString()
+    public int bestKpi = 0;
+    public bool played = false;
+    public bool unlocked = false;
+    public int minKpi = 0;
+    public string GetBestKpiString()
     {
-        return $"Best KPI: {kpi}";
+        return $"Best KPI: {bestKpi}";
+    }
+
+    public void UpdateBestKpi(int newKpi)
+    {
+        if (!played || newKpi > bestKpi)
+        {
+            bestKpi = newKpi;
+            played = true;
+        }
     }
 }
 
 [System.Serializable]
 public class PlayerData
 {
-    public List<BestKpi> bestKpis = new();
+    public List<LevelInfo> levelInfos = new();
 
     public void SavePlayerData()
     {
@@ -25,7 +36,7 @@ public class PlayerData
         Debug.Log($"Player data saved to {path}.");
     }
 
-    public static PlayerData LoadPlayerData(int? levelCount = null)
+    public static PlayerData LoadPlayerData(int[] minKpis = null)
     {
         string path = Application.persistentDataPath + "/playerData.json";
         PlayerData data;
@@ -40,19 +51,24 @@ public class PlayerData
             data = new();
             Debug.Log($"Could not load player data from {path}, creating a new one.");
         }
-        if (levelCount != null)
+        if (minKpis != null)
         {
-            data.AdjustToLevelCount(levelCount.Value);
+            data.SetMinKpis(minKpis);
         }
+        data.levelInfos[0].unlocked = true;
         data.SavePlayerData();
         return data;
     }
 
-    private void AdjustToLevelCount(int levelCount)
+    private void SetMinKpis(int[] minKpis)
     {
-        for (int i = bestKpis.Count; i < levelCount; i++)
+        for (int i = 0; i < minKpis.Length; i++)
         {
-            bestKpis.Add(new());
+            if (i >= levelInfos.Count)
+            {
+                levelInfos.Add(new());
+            }
+            levelInfos[i].minKpi = minKpis[i];
         }
     }
 }

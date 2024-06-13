@@ -83,7 +83,7 @@ public class SmoothieMachine : MonoBehaviour
     private void ProduceProduct()
     {
         ClearTopItems();
-        var smoothie = ingredientData.GetSmoothieObj(ingredients);
+        var smoothie = ingredientData.CreateSmoothieObj(ingredients);
         smoothie.transform.SetParent(transform);
         smoothie.transform.localPosition = MachineToItemOffset;
         topItems.Add(smoothie);

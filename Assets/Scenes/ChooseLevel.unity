@@ -131,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 157950038}
-  - component: {fileID: 157950037}
+  - component: {fileID: 157950039}
   m_Layer: 0
   m_Name: LevelBoxManager
   m_TagString: Untagged
@@ -139,20 +139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &157950037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157950036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36ba418ac1494b043a1b9380c8380d90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelCount: 2
-  levelBoxPrefab: {fileID: 1540536882181898678, guid: 9b173b47e81f5954fb7355c41877edd1, type: 3}
 --- !u!4 &157950038
 Transform:
   m_ObjectHideFlags: 0
@@ -168,6 +154,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &157950039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157950036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ba418ac1494b043a1b9380c8380d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minKpis: 32000000320000004b000000
+  levelBoxPrefab: {fileID: 1540536882181898678, guid: 9b173b47e81f5954fb7355c41877edd1, type: 3}
 --- !u!1 &654141173
 GameObject:
   m_ObjectHideFlags: 0
