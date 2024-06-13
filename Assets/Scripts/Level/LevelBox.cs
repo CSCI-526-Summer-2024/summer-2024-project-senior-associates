@@ -4,24 +4,28 @@ using UnityEngine;
 public class LevelBox : MonoBehaviour
 {
     public TMP_Text levelNumText;
-    public TMP_Text bestScoreText;
+    public TMP_Text bestKpiText;
     public Canvas canvas;
-    public ClickableRect clickableRect;
+    public LevelBoxInnerRect clickableRect;
     private readonly float CanvasYOffsetWithoutBestScore = 0f;
     private readonly float CanvasYOffsetWithBestScore = 0.18f;
 
-    public void SetLevelNumAndBestScore(int levelNum, BestKpi bestScore)
+    public void Init(int levelNum, LevelInfo levelInfo)
     {
         clickableRect.levelNum = levelNum;
-        levelNumText.text = $"{levelNum}";
-        if (!bestScore.present)
+        if (!levelInfo.unlocked)
         {
-            bestScoreText.text = "";
+            clickableRect.Disable();
+        }
+        levelNumText.text = $"{levelNum}";
+        if (!levelInfo.played)
+        {
+            bestKpiText.text = "";
             canvas.transform.localPosition = Util.ChangeY(canvas.transform.localPosition, CanvasYOffsetWithoutBestScore);
         }
         else
         {
-            bestScoreText.text = $"{bestScore}";
+            bestKpiText.text = levelInfo.GetBestKpiString();
             canvas.transform.localPosition = Util.ChangeY(canvas.transform.localPosition, CanvasYOffsetWithBestScore);
         }
     }

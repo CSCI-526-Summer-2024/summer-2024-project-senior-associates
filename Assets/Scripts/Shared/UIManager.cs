@@ -15,16 +15,16 @@ public class UIManager : MonoBehaviour
     public GameObject gainedScoreAboveManagerPrefab;
     public CurrentScoreText currentScoreText;
     public Canvas canvas;
-    public int minKpi;
     public TMP_Text minKpiText;
     private PlayerData playerData;
-    private LevelData levelData = new();
-
+    private readonly LevelData levelData = new();
+    private int levelNum;
 
     void Start()
     {
+        levelNum = Util.GetCurrentLevelNum() - 1;
         playerData = PlayerData.LoadPlayerData();
-        minKpiText.text = $"Goal: {minKpi}";
+        minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
     }
 
     public void UpdateScore(int score, Vector3 position)
@@ -48,14 +48,14 @@ public class UIManager : MonoBehaviour
     public void EndLevel()
     {
         var totalKpi = levelData.deliveredKpi + levelData.failedKpi;
-        var levelNum = Util.GetCurrentLevelNum() - 1;
-        if (!playerData.bestKpis[levelNum].present || playerData.bestKpis[levelNum].kpi < totalKpi)
+        playerData.levelInfos[levelNum].UpdateBestKpi(totalKpi);
+        if (levelNum + 1 < playerData.levelInfos.Count && totalKpi >= playerData.levelInfos[levelNum].minKpi)
         {
-            playerData.bestKpis[levelNum].kpi = totalKpi;
-            playerData.bestKpis[levelNum].present = true;
-            playerData.SavePlayerData();
+            playerData.levelInfos[levelNum + 1].unlocked = true;
         }
-        PlayerPrefs.SetInt("MinKpi", minKpi);
+        playerData.SavePlayerData();
+
+        PlayerPrefs.SetInt("MinKpi", playerData.levelInfos[levelNum].minKpi);
         PlayerPrefs.SetInt("DeliveredNum", levelData.deliveredNum);
         PlayerPrefs.SetInt("DeliveredKPI", levelData.deliveredKpi);
         PlayerPrefs.SetInt("FailedNum", levelData.failedNum);

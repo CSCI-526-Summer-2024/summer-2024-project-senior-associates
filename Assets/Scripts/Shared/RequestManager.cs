@@ -58,7 +58,7 @@ public class RequestManager : MonoBehaviour
             request.maxTime = DoubleSmoothieMaxTime;
             rewardBase = DoubleSmoothieRewardBase;
         }
-        request.obj = GetRequestObj(request);
+        request.obj = CreateRequestObj(request);
 
         var rewardRange = rewardBase * rewardMultiplier;
         request.reward = rewardRange.GetRandom();
@@ -81,9 +81,10 @@ public class RequestManager : MonoBehaviour
         return requestProbability;
     }
 
-    public GameObject GetRequestObj(Request request)
+    public GameObject CreateRequestObj(Request request)
     {
         var obj = new GameObject("Request");
+        obj.AddComponent<ShakeEffect>();
         var background = Instantiate(requestBackgroundPrefab);
         background.transform.SetParent(obj.transform);
         SetBackgroundPositionAndScale(request, background);
@@ -95,7 +96,7 @@ public class RequestManager : MonoBehaviour
         }
         else
         {
-            item = ingredientData.GetSmoothieObj(request.item.ingredients);
+            item = ingredientData.CreateSmoothieObj(request.item.ingredients);
         }
         item.transform.SetParent(obj.transform);
         SetItemPositionAndScale(request, item);

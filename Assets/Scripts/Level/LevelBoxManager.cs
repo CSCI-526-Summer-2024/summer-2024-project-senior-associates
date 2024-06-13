@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class SceneController : MonoBehaviour
+public class LevelBoxManager : MonoBehaviour
 {
-    public int levelCount;
+    public int[] minKpis;
     public GameObject levelBoxPrefab;
     private const float BackgroundXOffset = -1.51f;
     private const float TitleHeight = 2.2f;
@@ -23,8 +23,8 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
-        playerData = PlayerData.LoadPlayerData(levelCount);
-        CreateLevelBoxes(levelCount);
+        playerData = PlayerData.LoadPlayerData(minKpis);
+        CreateLevelBoxes(minKpis.Length);
     }
 
     public void CreateLevelBoxes(int levelCount)
@@ -34,7 +34,7 @@ public class SceneController : MonoBehaviour
         for (int i = 0; i < levelCount; i++)
         {
             var levelBox = Instantiate(levelBoxPrefab, GetPosition(row, col), Quaternion.identity);
-            levelBox.GetComponent<LevelBox>().SetLevelNumAndBestScore(i + 1, playerData.bestKpis[i]);
+            levelBox.GetComponent<LevelBox>().Init(i + 1, playerData.levelInfos[i]);
             col++;
             if (col >= NumLevelBoxPerRow)
             {
