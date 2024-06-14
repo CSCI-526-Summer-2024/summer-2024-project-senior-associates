@@ -1,73 +1,88 @@
 using UnityEngine;
 using TMPro;
 
-public class Clock : MonoBehaviour
+public struct ClockTime
 {
+    public enum Suffix { AM, PM };
+    public Suffix suffix;
+    public int realHour;
+    public int displayHour;
+    public int minute;
 
-    public TMP_Text clock;
-
-    private int hour;
-    private int minute;
-
-    private string ampm;
-
-    private float clockInterval = 1f;
-    private float time;
-
-    public SceneController sceneController;
-
-    // Start is called before the first frame update
-    void Start()
+    public ClockTime(int hour)
     {
-        hour = 9;
+        realHour = hour;
+        displayHour = hour;
         minute = 0;
-        ampm = " AM";
-        clock.text = hour + ":0" + minute + ampm;
-        time = 0f;
-        sceneController = new SceneController();
+        suffix = Suffix.AM;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        time += Time.fixedDeltaTime;
-        if (time >= clockInterval)
-        {
-            updateTime();
-            time = 0;
-        }
-    }
 
-    void updateTime()
+    public override readonly string ToString()
     {
-        minute += 15;
-        if (minute >= 60)
-        {
-            minute = 0;
-            hour += 1;
-        }
-        if (hour > 11)
-        {
-            if (hour > 12)
-            {
-                hour = 1;
-            }
-            ampm = " PM";
-        }
+        var str = $"{displayHour}:";
         if (minute < 10)
         {
-            clock.text = hour + ":0" + minute + ampm;
+            str += "0";
         }
-        else
-        {
-            clock.text = hour + ":" + minute + ampm;
-        }
+        str += $"{minute} {(suffix == Suffix.AM ? "AM" : "PM")}";
+        return str;
+    }
 
-        // if (hour == 5)
-        // {
-        //     sceneController.SceneUpdate(1);
-        //     //SceneManager.LoadScene("FinishScene",LoadSceneMode.Single);
-        //     //SceneManager.SetActiveScene(SceneManager.GetSceneByName("FinishScene"));
-        // }
+    public void AddMinutes(int numMinutes)
+    {
+        minute += numMinutes;
+        if (minute >= 60)
+        {
+            minute -= 60;
+            realHour++;
+            displayHour++;
+            if (displayHour == 12)
+            {
+                suffix = suffix == Suffix.AM ? Suffix.PM : Suffix.AM;
+            }
+            else if (displayHour > 12)
+            {
+                displayHour -= 12;
+            }
+        }
+    }
+}
+
+public class Clock : MonoBehaviour
+{
+    public UIManager uiManager;
+    public float TotalRealTimeInSeconds;
+    private const int StartHour = 9;
+    private const int EndHour = 17;
+    private const int TotalMinutes = (EndHour - StartHour) * 60;
+    private const int MinuteIncrement = 15;
+    private float IncrementCountdownStart;
+    private TMP_Text clockText;
+    private ClockTime clockTime = new(StartHour);
+    private float incrementCountdown = 0f;
+
+    void Start()
+    {
+        clockText = GetComponent<TMP_Text>();
+        clockText.text = $"{clockTime}";
+        IncrementCountdownStart = TotalRealTimeInSeconds / (TotalMinutes / MinuteIncrement);
+        incrementCountdown = IncrementCountdownStart;
+    }
+
+    void Update()
+    {
+        incrementCountdown -= Time.deltaTime;
+        if (incrementCountdown <= 0f)
+        {
+            incrementCountdown = IncrementCountdownStart;
+            clockTime.AddMinutes(MinuteIncrement);
+            clockText.text = $"{clockTime}";
+
+            if (clockTime.realHour == EndHour)
+            {
+                uiManager.EndLevel();
+            }
+        }
     }
 }

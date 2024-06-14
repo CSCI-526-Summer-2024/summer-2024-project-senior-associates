@@ -17,7 +17,7 @@ public class IngredientData : ScriptableObject
     private static readonly Vector3 CupToBackgroundOffset = new(0f, 0.5f, -0.1f);
     private static readonly Vector3 CupToIngredientOffset = new(0f, 0.5f, -0.2f);
 
-    public GameObject GetSmoothieObj(List<Ingredient> ingredients)
+    public GameObject CreateSmoothieObj(List<Ingredient> ingredients)
     {
         var obj = new GameObject("Smoothie");
         var cup = Instantiate(cupPrefab);
@@ -41,7 +41,7 @@ public class IngredientData : ScriptableObject
         return obj;
     }
 
-    public GameObject GetIngredientObj(Ingredient ingredient)
+    public GameObject CreateIngredientObj(Ingredient ingredient)
     {
         return Instantiate(ingredient.prefab);
     }
@@ -64,6 +64,7 @@ public class IngredientData : ScriptableObject
 
     public List<Ingredient> GetSmoothieIngredients(int numSolidIngredients)
     {
+        Debug.Log($"liquids count: {allIngredients.Length}, {Util.ChooseRandom(Liquids)}");
         List<Ingredient> res = new() { Util.ChooseRandom(Liquids) };
         for (int i = 0; i < numSolidIngredients; i++)
         {

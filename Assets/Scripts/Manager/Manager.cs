@@ -1,19 +1,17 @@
 using UnityEngine;
-using TMPro;
 using System;
+
 
 public class Manager : MonoBehaviour
 {
     public RequestManager requestManager;
     public UIManager uiManager;
     public Range RequestCountdownStartingRange;
-    public float RewardMultiplier; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
-
+    public float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
-    private Request request = null;
+    private Request request = null; public Request Request => request;
     private float nextRequestCountdown = 0.1f;
     private ManagerMood mood;
-    public Request Request => request;
 
     void Start()
     {
@@ -33,6 +31,7 @@ public class Manager : MonoBehaviour
             {
                 request.obj.transform.SetParent(transform);
                 request.obj.transform.localPosition = ManagerToRequestOffset;
+                mood.SetRequestMaxTime(request.maxTime);
             }
         }
     }
@@ -47,15 +46,21 @@ public class Manager : MonoBehaviour
         var satisfied = request.item == item;
         if (satisfied)
         {
-            uiManager.UpdateScore((int)Math.Round(request.reward * mood.Mood), transform.position);
+            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
             FinishRequest();
-            Debug.Log($"Next request countdown: {nextRequestCountdown}");
         }
         else
         {
-            Debug.Log("Player is trying to give the wrong item.");
+            request.obj.GetComponent<ShakeEffect>().TriggerShake();
         }
         return satisfied;
+    }
+
+    public void Schmooze()
+    {
+        // request satisfied + KPI
+        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+        FinishRequest();
     }
 
     public void FinishRequest()
@@ -65,5 +70,10 @@ public class Manager : MonoBehaviour
         Destroy(request.obj);
         request = null;
         requestManager.FinishRequest();
+    }
+
+    private int CalculateReward(int reward, float mood)
+    {
+        return (int)Math.Round(reward * mood * 2);
     }
 }

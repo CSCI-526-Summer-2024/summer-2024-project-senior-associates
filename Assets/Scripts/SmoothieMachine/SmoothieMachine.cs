@@ -50,11 +50,6 @@ public class SmoothieMachine : MonoBehaviour
             Debug.Log("Ignored because there is already a liquid base: " + ingredient.prefab.name);
             return false;
         }
-        else if (ingredients.Any(info => info.prefab.name == ingredient.prefab.name))
-        {
-            Debug.Log("Duplicate ingredient: " + ingredient.prefab.name);
-            return false;
-        }
         else
         {
             Debug.Log("Added ingredient: " + ingredient.prefab.name);
@@ -88,7 +83,7 @@ public class SmoothieMachine : MonoBehaviour
     private void ProduceProduct()
     {
         ClearTopItems();
-        var smoothie = ingredientData.GetSmoothieObj(ingredients);
+        var smoothie = ingredientData.CreateSmoothieObj(ingredients);
         smoothie.transform.SetParent(transform);
         smoothie.transform.localPosition = MachineToItemOffset;
         topItems.Add(smoothie);
