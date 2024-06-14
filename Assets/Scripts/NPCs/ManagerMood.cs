@@ -18,7 +18,7 @@ public class ManagerMood : MonoBehaviour
 
     void Update()
     {
-        if (manager.Request == null)
+        if (manager.InTutorial || manager.Request == null)
         {
             moodBar.SetActive(false);
         }

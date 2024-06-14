@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public bool disableJump = false;
     private readonly float NormalSpeed = 5f;
     private readonly float NormalJumpForce = 10f;
     private readonly Color NormalColor = Color.white;
@@ -32,7 +33,7 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing)
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing && !disableJump)
         {
             isTryingToJump = true;
         }

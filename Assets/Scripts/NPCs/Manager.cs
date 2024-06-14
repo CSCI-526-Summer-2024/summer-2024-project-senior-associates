@@ -7,33 +7,43 @@ public class Manager : MonoBehaviour
     public RequestManager requestManager;
     public UIManager uiManager;
     public Range RequestCountdownStartingRange;
-    public float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
+    private TutorialManager tutorialManager; public bool InTutorial => tutorialManager != null;
+    private readonly float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
     private Request request = null; public Request Request => request;
-    private float nextRequestCountdown = 0.1f;
+    private float nextRequestCountdown = 0f;
     private ManagerMood mood;
 
-    void Start()
+    void Awake()
     {
         mood = GetComponent<ManagerMood>();
+        mood.gameObject.SetActive(true);
     }
 
     void Update()
     {
-        if (nextRequestCountdown > 0f)
+        if (!InTutorial)
         {
-            nextRequestCountdown -= Time.deltaTime;
-        }
-        if (request == null && nextRequestCountdown <= 0f)
-        {
-            request = requestManager.GetRequest(RewardMultiplier);
-            if (request != null)
+            if (nextRequestCountdown > 0f)
             {
-                request.obj.transform.SetParent(transform);
-                request.obj.transform.localPosition = ManagerToRequestOffset;
-                mood.SetRequestMaxTime(request.maxTime);
+                nextRequestCountdown -= Time.deltaTime;
+            }
+            if (request == null && nextRequestCountdown <= 0f)
+            {
+                request = requestManager.GetRequest(RewardMultiplier);
+                if (request != null)
+                {
+                    PositionRequest();
+                    mood.SetRequestMaxTime(request.maxTime);
+                }
             }
         }
+    }
+
+    public void SetRequestForTutorial(Request request)
+    {
+        this.request = request;
+        PositionRequest();
     }
 
     public bool Submit(Item item)
@@ -64,15 +74,41 @@ public class Manager : MonoBehaviour
 
     public void FinishRequest()
     {
-        nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
         mood.Reset();
         Destroy(request.obj);
         request = null;
-        requestManager.FinishRequest();
+        if (InTutorial)
+        {
+            tutorialManager.OnRequestSatisfied();
+        }
+        else
+        {
+            nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
+            requestManager.FinishRequest();
+        }
+    }
+
+    public void SetTutorialManager(TutorialManager tutorialManager)
+    {
+        this.tutorialManager = tutorialManager;
     }
 
     private int CalculateReward(int reward, float mood)
     {
-        return (int)Math.Round(reward * mood * 2);
+        if (InTutorial)
+        {
+            return reward;
+        }
+        else
+        {
+            return (int)Math.Round(reward * mood * 2);
+        }
     }
+
+    private void PositionRequest()
+    {
+        request.obj.transform.SetParent(transform);
+        request.obj.transform.localPosition = ManagerToRequestOffset;
+    }
+
 }

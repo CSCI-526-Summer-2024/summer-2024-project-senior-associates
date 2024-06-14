@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class RequestManager : MonoBehaviour
@@ -27,7 +27,7 @@ public class RequestManager : MonoBehaviour
         Request request = new();
         Range rewardBase;
 
-        float randomValue = Random.value;
+        float randomValue = UnityEngine.Random.value;
         if (randomValue < prob.itemProb)
         {
             request.item = new Item
@@ -64,6 +64,29 @@ public class RequestManager : MonoBehaviour
         request.reward = rewardRange.GetRandom();
         Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.reward}");
         numRequest++;
+
+        return request;
+    }
+
+    public Request GetTutorialRequest(Item item)
+    {
+        Request request = new()
+        {
+            item = item
+        };
+
+        Range rewardRange;
+        if (item.type == Item.Type.Ingredient)
+        {
+            rewardRange = ItemRewardBase;
+        }
+        else
+        {
+            rewardRange = item.ingredients.Count == 2 ? SingleSmoothieRewardBase : DoubleSmoothieRewardBase;
+        }
+        request.reward = rewardRange.GetRandom();
+        Debug.Log($"Tutorial request reward: {request.reward}");
+        request.obj = CreateRequestObj(request);
 
         return request;
     }

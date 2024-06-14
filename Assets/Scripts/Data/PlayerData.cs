@@ -27,6 +27,7 @@ public class LevelInfo
 public class PlayerData
 {
     public List<LevelInfo> levelInfos = new();
+    public bool firstTimePlaying = true;
 
     public void SavePlayerData()
     {
