@@ -1939,7 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 1995866073}
+  upperFloor: {fileID: 1995866073}
 --- !u!1 &1016882618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,7 +2365,7 @@ GameObject:
   - component: {fileID: 1120331748}
   - component: {fileID: 1120331747}
   m_Layer: 0
-  m_Name: Ladder3
+  m_Name: Ladder2
   m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2383,7 +2383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 25263969}
+  upperFloor: {fileID: 25263969}
 --- !u!61 &1120331748
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3289,9 +3289,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1995866075}
+  - {fileID: 1920614131}
   - {fileID: 25263968}
   - {fileID: 139921755}
-  - {fileID: 1920614131}
   - {fileID: 972467874}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3782,7 +3782,7 @@ GameObject:
   - component: {fileID: 1759130925}
   - component: {fileID: 1759130924}
   m_Layer: 0
-  m_Name: Ladder2
+  m_Name: Ladder3
   m_TagString: Ladder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3800,7 +3800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 972467872}
+  upperFloor: {fileID: 972467872}
 --- !u!61 &1759130925
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4459,7 +4459,7 @@ GameObject:
   - component: {fileID: 1920614133}
   - component: {fileID: 1920614132}
   m_Layer: 0
-  m_Name: 1stLvlFloor4 (1)
+  m_Name: 1stLvlFloor2
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4628,7 +4628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 240492985}
-  TotalRealTimeInSeconds: 120
+  TotalRealTimeInSeconds: 12
 --- !u!114 &1966574111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5268,8 +5268,8 @@ SceneRoots:
   - {fileID: 1038983963}
   - {fileID: 1505515207}
   - {fileID: 993350857}
-  - {fileID: 1759130927}
   - {fileID: 1120331750}
+  - {fileID: 1759130927}
   - {fileID: 928776434}
   - {fileID: 1387213888}
   - {fileID: 2070000444}

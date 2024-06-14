@@ -58,7 +58,6 @@ public class Manager : MonoBehaviour
 
     public void Schmooze()
     {
-        // request satisfied + KPI
         uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
         FinishRequest();
     }

@@ -17,7 +17,6 @@ public struct ClockTime
         suffix = Suffix.AM;
     }
 
-
     public override readonly string ToString()
     {
         var str = $"{displayHour}:";
