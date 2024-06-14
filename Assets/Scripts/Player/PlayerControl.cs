@@ -13,14 +13,14 @@ public class PlayerControl : MonoBehaviour
     private bool isTouchingCoffeeSpill = false;
     private float horizontalInput;
     private Rigidbody2D rb;
-    private ClimbLadder climbLadder;
+    private PlayerClimb playerClimb;
     private PlayerEnergy playerEnergy;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        climbLadder = GetComponent<ClimbLadder>();
+        playerClimb = GetComponent<PlayerClimb>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !climbLadder.IsClimbing)
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing)
         {
             isTryingToJump = true;
         }

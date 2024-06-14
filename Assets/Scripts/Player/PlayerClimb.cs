@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ClimbLadder : MonoBehaviour
+public class PlayerClimb : MonoBehaviour
 {
     private readonly float Speed = 5f;
     private readonly float NormalGravity = 4f;

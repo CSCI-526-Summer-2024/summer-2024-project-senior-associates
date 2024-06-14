@@ -1404,7 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 1995866073}
+  upperFloor: {fileID: 1995866073}
 --- !u!1 &1016882618
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,7 +1764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 972467872}
+  upperFloor: {fileID: 972467872}
 --- !u!61 &1147023485
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3155,7 +3155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 240492985}
-  TotalRealTimeInSeconds: 120
+  TotalRealTimeInSeconds: 12
 --- !u!114 &1966574111
 MonoBehaviour:
   m_ObjectHideFlags: 0

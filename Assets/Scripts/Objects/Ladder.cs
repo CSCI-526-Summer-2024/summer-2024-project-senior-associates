@@ -1,22 +1,22 @@
 using UnityEngine;
 
-public class IgnoreFloorCollision : MonoBehaviour
+public class Ladder : MonoBehaviour
 {
     // Our logic here: ignore the upper floor's collision if player is climbing
     // climbing = overlapping with ladder AND pressed up/down
-    public BoxCollider2D floorBc;
-    private ClimbLadder climbLadder;
+    public BoxCollider2D upperFloor;
+    private PlayerClimb playerClimb;
 
     void Update()
     {
-        floorBc.enabled = climbLadder == null || !climbLadder.IsClimbing;
+        upperFloor.enabled = playerClimb == null || !playerClimb.IsClimbing;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            climbLadder = other.GetComponent<ClimbLadder>();
+            playerClimb = other.GetComponent<PlayerClimb>();
         }
     }
 
@@ -24,7 +24,7 @@ public class IgnoreFloorCollision : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            climbLadder = null;
+            playerClimb = null;
         }
     }
 }
