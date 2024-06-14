@@ -61,7 +61,7 @@ public class Clock : MonoBehaviour
     private ClockTime clockTime = new(StartHour);
     private float incrementCountdown = 0f;
 
-    void Start()
+    void OnEnable()
     {
         clockText = GetComponent<TMP_Text>();
         clockText.text = $"{clockTime}";

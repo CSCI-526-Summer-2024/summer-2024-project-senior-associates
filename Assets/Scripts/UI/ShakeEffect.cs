@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class ShakeEffect : MonoBehaviour
 {
-    private readonly float shakeDuration = 0.5f;
-    private readonly float shakeMagnitude = 0.08f;
-    private readonly float shakeInterval = 0.02f;
-
+    private readonly float ShakeDuration = 0.5f;
+    private readonly float ShakeMagnitude = 0.08f;
+    private readonly float ShakeInterval = 0.02f;
     private Vector3 originalPosition;
     private float shakeTimeRemaining;
     private float shakeEffectCooldown;
@@ -26,10 +25,10 @@ public class ShakeEffect : MonoBehaviour
             }
             else
             {
-                float x = Random.Range(-1f, 1f) * shakeMagnitude;
-                float y = Random.Range(-1f, 1f) * shakeMagnitude;
+                float x = Random.Range(-1f, 1f) * ShakeMagnitude;
+                float y = Random.Range(-1f, 1f) * ShakeMagnitude;
                 transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
-                shakeEffectCooldown = shakeInterval;
+                shakeEffectCooldown = ShakeInterval;
             }
 
             if (shakeTimeRemaining <= 0f)
@@ -41,7 +40,7 @@ public class ShakeEffect : MonoBehaviour
 
     public void TriggerShake()
     {
-        shakeTimeRemaining = shakeDuration;
+        shakeTimeRemaining = ShakeDuration;
         shakeEffectCooldown = 0f;
     }
 }

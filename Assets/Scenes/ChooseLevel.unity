@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ba418ac1494b043a1b9380c8380d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minKpis: 32000000320000004b000000
+  minKpis: 23000000320000004b000000
   levelBoxPrefab: {fileID: 1540536882181898678, guid: 9b173b47e81f5954fb7355c41877edd1, type: 3}
 --- !u!1 &654141173
 GameObject:
