@@ -912,7 +912,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2755,7 +2755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 888811485}
-  TotalRealTimeInSeconds: 12
+  TotalRealTimeInSeconds: 180
 --- !u!1 &1038983959
 GameObject:
   m_ObjectHideFlags: 0
@@ -7150,10 +7150,10 @@ SceneRoots:
   - {fileID: 757385116}
   - {fileID: 598799642}
   - {fileID: 1982879263}
+  - {fileID: 101368991}
+  - {fileID: 41173588}
   - {fileID: 1448280934}
   - {fileID: 884943306}
   - {fileID: 1787212562}
   - {fileID: 685574114}
   - {fileID: 888811486}
-  - {fileID: 101368991}
-  - {fileID: 41173588}
