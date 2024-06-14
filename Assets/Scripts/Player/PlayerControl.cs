@@ -50,7 +50,7 @@ public class PlayerControl : MonoBehaviour
         {
             ContactPoint2D contact = other.GetContact(0);
             Bounds bounds = GetComponent<Collider2D>().bounds;
-            bool isCollisionFromBottom = contact.point.y < bounds.center.y - bounds.extents.y * 0.9f;
+            bool isCollisionFromBottom = Vector2.Dot(contact.normal, Vector2.up) > 0.5f;
             if (isCollisionFromBottom)
             {
                 isGrounded = true;

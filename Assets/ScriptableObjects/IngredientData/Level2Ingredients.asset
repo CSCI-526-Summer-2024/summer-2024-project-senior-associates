@@ -17,5 +17,7 @@ MonoBehaviour:
     type: 1
   - prefab: {fileID: 1008598596087466521, guid: 586100b025cfff14d99560592198e375, type: 3}
     type: 0
+  - prefab: {fileID: 1370488751887449752, guid: f0623526a9952574ca7fb5ae221a902f, type: 3}
+    type: 0
   cupPrefab: {fileID: 5098878505731321067, guid: 47ccae1a66c607d4d8b4b3bb3c759976, type: 3}
   backgroundPrefab: {fileID: 8822008812779645444, guid: 720d645db71ceca47848b7ca99794216, type: 3}
