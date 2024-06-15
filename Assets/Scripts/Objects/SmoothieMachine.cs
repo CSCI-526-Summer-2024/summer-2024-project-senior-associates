@@ -11,7 +11,7 @@ public class SmoothieMachine : MonoBehaviour
     private readonly float MachineTopItemXSpace = 0.2f;
     private readonly Vector3 MachineToItemOffset = new(0f, 1f, -0.1f);
     private readonly List<Ingredient> ingredients = new();
-    private readonly List<GameObject> topItems = new(); public int TopItemsCount => topItems.Count;
+    private readonly List<GameObject> topItems = new();
     private float productCountdown = 0f; public float ProductCountdown => productCountdown;
     private float productCountdownMax;
     private readonly Color NormalColor = new(1f, 1f, 1f);

@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -86,16 +86,7 @@ public class PlayerInteract : MonoBehaviour
 
     public List<Item> GetAllItems()
     {
-        List<Item> res = new();
-        if (leftItem != null)
-        {
-            res.Add(leftItem);
-        }
-        if (rightItem != null)
-        {
-            res.Add(rightItem);
-        }
-        return res;
+        return new List<Item> { leftItem, rightItem }.Where(item => item != null).ToList();
     }
 
     private bool CanTakeOutFromChest()

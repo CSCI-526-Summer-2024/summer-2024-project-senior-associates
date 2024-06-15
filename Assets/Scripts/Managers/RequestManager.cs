@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class RequestManager : MonoBehaviour
@@ -27,7 +26,7 @@ public class RequestManager : MonoBehaviour
         Request request = new();
         Range rewardBase;
 
-        float randomValue = UnityEngine.Random.value;
+        float randomValue = Random.value;
         if (randomValue < prob.itemProb)
         {
             request.item = new Item
@@ -84,8 +83,7 @@ public class RequestManager : MonoBehaviour
         {
             rewardRange = item.ingredients.Count == 2 ? SingleSmoothieRewardBase : DoubleSmoothieRewardBase;
         }
-        request.reward = rewardRange.GetRandom();
-        Debug.Log($"Tutorial request reward: {request.reward}");
+        request.reward = rewardRange.Min;
         request.obj = CreateRequestObj(request);
 
         return request;
