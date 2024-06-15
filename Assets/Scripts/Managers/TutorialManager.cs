@@ -107,7 +107,7 @@ public class TutorialManager : MonoBehaviour
                 ingredients = new() { ingredientData.allIngredients[1] }
             });
             manager1.SetTutorialRequest(tutorialRequest);
-            strawberryChest.Disable();
+            milkChest.Enable();
 
             indicator1 = CreateIndicator(milkChest.gameObject, new(0f, 1f, 0f));
         }
