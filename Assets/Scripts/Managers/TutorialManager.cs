@@ -173,6 +173,7 @@ public class TutorialManager : MonoBehaviour
             clock.gameObject.SetActive(true);
             tutorialTextBox.Hide();
             gameObject.SetActive(false);
+            playerInteract.gameObject.GetComponent<PlayerControl>().waitForSpaceKeyUp = true;
         }
     }
 

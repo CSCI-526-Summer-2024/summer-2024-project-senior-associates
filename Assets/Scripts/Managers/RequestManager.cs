@@ -22,7 +22,6 @@ public class RequestManager : MonoBehaviour
         }
 
         var prob = GetProb();
-        Debug.Log($"requestProb: {prob}");
         Request request = new();
         Range rewardBase;
 

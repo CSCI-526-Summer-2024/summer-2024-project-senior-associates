@@ -486,6 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gainedScoreAboveManagerPrefab: {fileID: 3632731737238723682, guid: a0df510673313dd4798e45af220d2d31, type: 3}
+  timeUpNoticePrefab: {fileID: 8686022017018350263, guid: a7f185eda95cbf8449c7c400f8820de8, type: 3}
   currentScoreText: {fileID: 124646663}
   canvas: {fileID: 1448280933}
   minKpiText: {fileID: 41215069}
@@ -1053,7 +1054,7 @@ GameObject:
   - component: {fileID: 685574115}
   m_Layer: 0
   m_Name: RequestManager
-  m_TagString: Manager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3557,7 +3558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b172dcd8d0154f543bcf0f6ffb694e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableAllAction: 0
   disableJump: 0
+  waitForSpaceKeyUp: 0
 --- !u!114 &1771702630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3807,6 +3810,7 @@ GameObject:
   - component: {fileID: 1966574109}
   - component: {fileID: 1966574112}
   - component: {fileID: 1966574110}
+  - component: {fileID: 1966574113}
   - component: {fileID: 1966574111}
   m_Layer: 5
   m_Name: ClockText
@@ -3945,6 +3949,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966574108}
   m_CullTransparentMesh: 1
+--- !u!114 &1966574113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966574108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff54ce84b463dd14c8217b252b5572c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1982879262
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class PlayerClimb : MonoBehaviour
     private bool isClimbing; public bool IsClimbing => isClimbing; // isClimbing = overlapping with ladder AND pressed up/down
     private Rigidbody2D rb;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
