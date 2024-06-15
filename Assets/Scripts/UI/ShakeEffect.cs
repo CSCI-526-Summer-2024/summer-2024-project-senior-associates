@@ -21,13 +21,13 @@ public class ShakeEffect : MonoBehaviour
             if (shakeIntervalCountdown > 0f)
             {
                 shakeIntervalCountdown -= Time.deltaTime;
-                if (shakeIntervalCountdown <= 0f)
-                {
-                    float x = Random.Range(-1f, 1f) * ShakeMagnitude;
-                    float y = Random.Range(-1f, 1f) * ShakeMagnitude;
-                    transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
-                    shakeIntervalCountdown = shakeInterval;
-                }
+            }
+            else
+            {
+                float x = Random.Range(-1f, 1f) * ShakeMagnitude;
+                float y = Random.Range(-1f, 1f) * ShakeMagnitude;
+                transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+                shakeIntervalCountdown = shakeInterval;
             }
 
             if (shakeDurationCountdown <= 0f)
