@@ -13,6 +13,7 @@ public class Manager : MonoBehaviour
     private Request request = null; public Request Request => request;
     private float nextRequestCountdown = 0f;
     private ManagerMood mood;
+    private bool disabled = false;
 
     void Awake()
     {
@@ -22,7 +23,7 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        if (!InTutorial)
+        if (!InTutorial && !disabled)
         {
             if (nextRequestCountdown > 0f)
             {
@@ -61,7 +62,7 @@ public class Manager : MonoBehaviour
         }
         else
         {
-            request.obj.GetComponent<ShakeEffect>().TriggerShake();
+            request.obj.GetComponent<ShakeEffect>().Trigger(0.5f, 0.02f);
         }
         return satisfied;
     }
@@ -75,8 +76,9 @@ public class Manager : MonoBehaviour
     public void FinishRequest()
     {
         mood.Reset();
-        Destroy(request.obj);
+        Destroy(request?.obj);
         request = null;
+
         if (InTutorial)
         {
             tutorialManager.OnRequestSatisfied();
@@ -86,6 +88,12 @@ public class Manager : MonoBehaviour
             nextRequestCountdown = RequestCountdownStartingRange.GetRandom();
             requestManager.FinishRequest();
         }
+    }
+
+    public void Disable()
+    {
+        disabled = true;
+        FinishRequest();
     }
 
     public TutorialManager TutorialManager

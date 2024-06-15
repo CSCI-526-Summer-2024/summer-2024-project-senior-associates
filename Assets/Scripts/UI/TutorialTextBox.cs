@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -20,7 +18,7 @@ public class TutorialTextBox : MonoBehaviour
         circularProgress.gameObject.SetActive(showPressToSkip);
         playerControl.disableJump = showPressToSkip;
 
-        mainText.GetComponent<FlickerEffect>().TriggerFlicker();
+        mainText.GetComponent<FlickerEffect>().Trigger(0.6f, 0.15f);
     }
 
     public void Hide()

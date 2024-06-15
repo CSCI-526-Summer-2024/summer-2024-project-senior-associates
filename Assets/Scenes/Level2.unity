@@ -460,7 +460,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.20496619, g: 0.8867924, b: 0.31005377, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -777,6 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gainedScoreAboveManagerPrefab: {fileID: 3632731737238723682, guid: a0df510673313dd4798e45af220d2d31, type: 3}
+  timeUpNoticePrefab: {fileID: 8686022017018350263, guid: a7f185eda95cbf8449c7c400f8820de8, type: 3}
   currentScoreText: {fileID: 124646663}
   canvas: {fileID: 1448280933}
   minKpiText: {fileID: 41215069}
@@ -1230,7 +1231,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.20496619, g: 0.8867924, b: 0.31005377, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1406,7 +1407,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.20496619, g: 0.8867924, b: 0.31005377, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1512,7 +1513,7 @@ GameObject:
   - component: {fileID: 685574115}
   m_Layer: 0
   m_Name: RequestManager
-  m_TagString: Manager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1548,10 +1549,10 @@ MonoBehaviour:
   ingredientData: {fileID: 11400000, guid: 4681d0e88382f9c4f8db2c1852cc4131, type: 2}
   probList:
   - itemProb: 0.4
-    singleItemSmoothieProb: 0.3
-    doubleItemSmoothieProb: 0.3
+    singleItemSmoothieProb: 0.6
+    doubleItemSmoothieProb: 0
     remainingRequestNum: 1
-    maxRequestNum: 1
+    maxRequestNum: 2
   ItemRewardBase:
     Min: 2
     Max: 4
@@ -2231,8 +2232,8 @@ Transform:
   m_GameObject: {fileID: 1038983959}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.084, y: -4.938, z: 0.1}
-  m_LocalScale: {x: 18.60892, y: 0.52, z: 1}
+  m_LocalPosition: {x: -1.44, y: -4.938, z: 0.1}
+  m_LocalScale: {x: 18, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4040,7 +4041,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b172dcd8d0154f543bcf0f6ffb694e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableAllAction: 0
   disableJump: 0
+  waitForSpaceKeyUp: 0
 --- !u!114 &1771702630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4589,6 +4592,7 @@ GameObject:
   - component: {fileID: 1966574112}
   - component: {fileID: 1966574110}
   - component: {fileID: 1966574111}
+  - component: {fileID: 1966574113}
   m_Layer: 5
   m_Name: ClockText
   m_TagString: Untagged
@@ -4726,6 +4730,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966574108}
   m_CullTransparentMesh: 1
+--- !u!114 &1966574113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966574108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff54ce84b463dd14c8217b252b5572c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1982879262
 GameObject:
   m_ObjectHideFlags: 0

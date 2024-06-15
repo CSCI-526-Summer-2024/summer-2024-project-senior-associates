@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public bool disableAllAction = false;
     public bool disableJump = false;
+    public bool waitForSpaceKeyUp = false;
     private readonly float NormalSpeed = 5f;
     private readonly float NormalJumpForce = 10f;
     private readonly Color NormalColor = Color.white;
@@ -33,7 +35,11 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing && !disableJump)
+        if (waitForSpaceKeyUp && Input.GetKeyUp(KeyCode.Space))
+        {
+            waitForSpaceKeyUp = false;
+        }
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing && !disableJump && !waitForSpaceKeyUp)
         {
             isTryingToJump = true;
         }
@@ -41,7 +47,19 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(playerEnergy != null && playerEnergy.IsSleeping ? 0f : horizontalInput * speed, isTryingToJump ? jumpForce : rb.velocity.y);
+        if (disableAllAction)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+        else
+        {
+            var horizontalVelocity = horizontalInput * speed;
+            if (playerEnergy != null && playerEnergy.IsSleeping)
+            {
+                horizontalVelocity = 0f;
+            }
+            rb.velocity = new(horizontalVelocity, isTryingToJump ? jumpForce : rb.velocity.y);
+        }
         isTryingToJump = false;
     }
 
