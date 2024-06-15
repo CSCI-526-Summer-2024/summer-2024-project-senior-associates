@@ -454,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd84cbd7bde6734ea9fa4c6e76e8ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialManager: {fileID: 1354782575}
+  tutorialManager: {fileID: 1354782577}
   circularImage: {fileID: 2068486932}
 --- !u!1 &240492984
 GameObject:
@@ -2474,7 +2474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1354782576}
-  - component: {fileID: 1354782575}
+  - component: {fileID: 1354782577}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -2482,30 +2482,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1354782575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354782574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a16b4c4d4b2f66246b11f6aa168a0877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  requestManager: {fileID: 685574115}
-  ingredientData: {fileID: 11400000, guid: 3168b66ef00ed2d41809eefa278162df, type: 2}
-  manager1: {fileID: 1479966386}
-  manager2: {fileID: 402199654}
-  milkChest: {fileID: 2070000442}
-  strawberryChest: {fileID: 1387213889}
-  smoothieMachine: {fileID: 1982879265}
-  clock: {fileID: 1966574110}
-  minKpiText: {fileID: 41215068}
-  tutorialTextBox: {fileID: 1494184475}
-  playerInteract: {fileID: 1771702631}
-  indicatorPrefab: {fileID: 8933791028433530461, guid: 8b21882f57f540f4eb4ac8fa6dec5ada, type: 3}
 --- !u!4 &1354782576
 Transform:
   m_ObjectHideFlags: 0
@@ -2521,6 +2497,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1354782577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354782574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033a89e8d37b7574f94822213134b999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requestManager: {fileID: 685574115}
+  ingredientData: {fileID: 11400000, guid: 3168b66ef00ed2d41809eefa278162df, type: 2}
+  manager1: {fileID: 1479966386}
+  manager2: {fileID: 402199654}
+  milkChest: {fileID: 2070000442}
+  strawberryChest: {fileID: 1387213889}
+  smoothieMachine: {fileID: 1982879265}
+  clock: {fileID: 1966574110}
+  minKpiText: {fileID: 41215068}
+  tutorialTextBox: {fileID: 1494184475}
+  playerInteract: {fileID: 1771702631}
+  indicatorPrefab: {fileID: 8933791028433530461, guid: 8b21882f57f540f4eb4ac8fa6dec5ada, type: 3}
 --- !u!1 &1387213886
 GameObject:
   m_ObjectHideFlags: 0
@@ -2952,7 +2952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a11239caae1a974bbb7e2c7ab3502e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialManager: {fileID: 1354782575}
+  tutorialManager: {fileID: 1354782577}
   mainText: {fileID: 809268538}
   circularProgress: {fileID: 136894286}
   playerControl: {fileID: 1771702629}
