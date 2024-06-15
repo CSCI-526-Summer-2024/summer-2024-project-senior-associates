@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public bool disableJump = false;
     private readonly float NormalSpeed = 5f;
     private readonly float NormalJumpForce = 10f;
     private readonly Color NormalColor = Color.white;
@@ -13,14 +14,14 @@ public class PlayerControl : MonoBehaviour
     private bool isTouchingCoffeeSpill = false;
     private float horizontalInput;
     private Rigidbody2D rb;
-    private ClimbLadder climbLadder;
+    private PlayerClimb playerClimb;
     private PlayerEnergy playerEnergy;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        climbLadder = GetComponent<ClimbLadder>();
+        playerClimb = GetComponent<PlayerClimb>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
@@ -32,7 +33,7 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !climbLadder.IsClimbing)
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing && !disableJump)
         {
             isTryingToJump = true;
         }
@@ -50,7 +51,7 @@ public class PlayerControl : MonoBehaviour
         {
             ContactPoint2D contact = other.GetContact(0);
             Bounds bounds = GetComponent<Collider2D>().bounds;
-            bool isCollisionFromBottom = contact.point.y < bounds.center.y - bounds.extents.y * 0.9f;
+            bool isCollisionFromBottom = Vector2.Dot(contact.normal, Vector2.up) > 0.5f;
             if (isCollisionFromBottom)
             {
                 isGrounded = true;

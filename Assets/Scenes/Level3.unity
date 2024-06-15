@@ -240,6 +240,38 @@ Transform:
   - {fileID: 1549198088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &41173587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 41173588}
+  m_Layer: 0
+  m_Name: CoffeeSpills
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &41173588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41173587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1549879550}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &96854498
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +284,7 @@ GameObject:
   - component: {fileID: 96854501}
   - component: {fileID: 96854500}
   m_Layer: 5
-  m_Name: PlayerEnergy
+  m_Name: EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -880,7 +912,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -925,8 +957,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -5
-  far clip plane: 1000
+  near clip plane: -20
+  far clip plane: 100
   field of view: 60
   orthographic: 1
   orthographic size: 5
@@ -1739,7 +1771,6 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 1
     Max: 4
-  RewardMultiplier: 1.5
 --- !u!114 &860390432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2317,7 +2348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 1414540839}
+  upperFloor: {fileID: 1414540839}
 --- !u!1 &1012655667
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,7 +2401,6 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 4
     Max: 7
-  RewardMultiplier: 1.5
 --- !u!114 &1012655670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3109,7 +3139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 890671617}
+  upperFloor: {fileID: 890671617}
 --- !u!61 &1147023485
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3957,7 +3987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 2073278067}
+  upperFloor: {fileID: 2073278067}
 --- !u!61 &1418123485
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4316,7 +4346,6 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 2
     Max: 3
-  RewardMultiplier: 1.5
 --- !u!114 &1479966387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4781,7 +4810,7 @@ GameObject:
   - component: {fileID: 1549879549}
   - component: {fileID: 1549879548}
   m_Layer: 0
-  m_Name: CoffeeSpill
+  m_Name: CoffeeSpill1
   m_TagString: CoffeeSpill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4892,12 +4921,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549879546}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2.817, y: -4.6681, z: 0}
-  m_LocalScale: {x: 0.43591842, y: 0.76430154, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 1.312, y: -4.6681, z: 0}
+  m_LocalScale: {x: 0.43591845, y: 0.5795928, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 41173588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &1595266237
 GameObject:
@@ -5329,7 +5358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 1595266239}
+  upperFloor: {fileID: 1595266239}
 --- !u!61 &1692515372
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5553,7 +5582,7 @@ Transform:
   m_GameObject: {fileID: 1771702624}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.624, y: -4.429, z: -1}
+  m_LocalPosition: {x: -9.624, y: -4.429, z: -10}
   m_LocalScale: {x: 0.52, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5571,6 +5600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b172dcd8d0154f543bcf0f6ffb694e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableJump: 0
 --- !u!114 &1771702630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5595,6 +5625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a14826c44059c0408e3365a1162d296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableDiscard: 0
 --- !u!61 &1771702632
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5833,7 +5864,7 @@ GameObject:
   - component: {fileID: 1841646104}
   - component: {fileID: 1841646105}
   m_Layer: 0
-  m_Name: Strawberry
+  m_Name: Milk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6042,7 +6073,6 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 3
     Max: 8
-  RewardMultiplier: 1.5
 --- !u!114 &1910195733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6216,7 +6246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 1528654154}
+  upperFloor: {fileID: 1528654154}
 --- !u!61 &1936077374
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6677,7 +6707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e948c614e61e5094c9a1efb4ace3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorBc: {fileID: 972467872}
+  upperFloor: {fileID: 972467872}
 --- !u!61 &2016248439
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7118,10 +7148,10 @@ SceneRoots:
   - {fileID: 757385116}
   - {fileID: 598799642}
   - {fileID: 1982879263}
+  - {fileID: 101368991}
+  - {fileID: 41173588}
   - {fileID: 1448280934}
   - {fileID: 884943306}
-  - {fileID: 1549879550}
   - {fileID: 1787212562}
   - {fileID: 685574114}
   - {fileID: 888811486}
-  - {fileID: 101368991}

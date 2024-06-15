@@ -1,8 +1,10 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerInteract : MonoBehaviour
 {
+    public bool disableDiscard = false;
     private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
     private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
     private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
@@ -13,15 +15,17 @@ public class PlayerInteract : MonoBehaviour
     private Manager manager;
     private bool isNearBed = false;
     private PlayerEnergy playerEnergy;
+    private int levelNum;
 
     void Start()
     {
         playerEnergy = GetComponent<PlayerEnergy>();
+        levelNum = Util.GetCurrentLevelNum();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
             DiscardOneItem();
         }
@@ -29,7 +33,11 @@ public class PlayerInteract : MonoBehaviour
         {
             if (chest != null && CanTakeOutFromChest())
             {
-                PickUp(chest.GetItem()); // if near chest, pick up item from chest
+                var item = chest.GetItem();
+                if (item != null)
+                {
+                    PickUp(item);
+                }
             }
             else if (smoothieMachine != null)
             {
@@ -63,7 +71,7 @@ public class PlayerInteract : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (manager != null && playerEnergy.CanSchmooze())
+            if (levelNum >= 3 && manager != null && playerEnergy.CanSchmooze())
             {
                 manager.Schmooze();
                 playerEnergy.LoseEnergy();
@@ -71,9 +79,14 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private Item GetCurrentItem()
+    public Item GetCurrentItem()
     {
         return rightItem ?? leftItem;
+    }
+
+    public List<Item> GetAllItems()
+    {
+        return new List<Item> { leftItem, rightItem }.Where(item => item != null).ToList();
     }
 
     private bool CanTakeOutFromChest()
