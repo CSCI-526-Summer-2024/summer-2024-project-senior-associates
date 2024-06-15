@@ -60,6 +60,7 @@ public class Clock : MonoBehaviour
     private TMP_Text clockText;
     private ClockTime clockTime = new(StartHour);
     private float incrementCountdown = 0f;
+    private bool disabled = false;
 
     void OnEnable()
     {
@@ -71,16 +72,21 @@ public class Clock : MonoBehaviour
 
     void Update()
     {
-        incrementCountdown -= Time.deltaTime;
-        if (incrementCountdown <= 0f)
+        if (!disabled)
         {
-            incrementCountdown = IncrementCountdownStart;
-            clockTime.AddMinutes(MinuteIncrement);
-            clockText.text = $"{clockTime}";
-
-            if (clockTime.realHour == EndHour)
+            incrementCountdown -= Time.deltaTime;
+            if (incrementCountdown <= 0f)
             {
-                uiManager.EndLevel();
+                incrementCountdown = IncrementCountdownStart;
+                clockTime.AddMinutes(MinuteIncrement);
+                clockText.text = $"{clockTime}";
+
+                if (clockTime.realHour == EndHour)
+                {
+                    disabled = true;
+                    uiManager.EndLevel();
+                    GetComponent<FlickerEffect>().Trigger(3f, 0.3f);
+                }
             }
         }
     }

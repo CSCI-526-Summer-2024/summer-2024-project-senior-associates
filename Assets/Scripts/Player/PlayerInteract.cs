@@ -15,16 +15,23 @@ public class PlayerInteract : MonoBehaviour
     private Manager manager;
     private bool isNearBed = false;
     private PlayerEnergy playerEnergy;
+    private PlayerControl playerControl;
     private int levelNum;
 
-    void Start()
+    void Awake()
     {
         playerEnergy = GetComponent<PlayerEnergy>();
+        playerControl = GetComponent<PlayerControl>();
         levelNum = Util.GetCurrentLevelNum();
     }
 
     void Update()
     {
+        if (playerControl.disableAllAction)
+        {
+            return;
+        }
+        
         if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
             DiscardOneItem();

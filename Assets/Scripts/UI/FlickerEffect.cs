@@ -3,9 +3,7 @@ using TMPro;
 
 public class FlickerEffect : MonoBehaviour
 {
-    private const float FlickerDuration = 0.6f;
-    private const float FlickerInterval = 0.15f;
-    private const float UpdateOpacitySpeed = 1f / FlickerInterval;
+    private float flickerInterval;
     private float flickerDurationCountdown = 0f;
     private float flickerIntervalCountdown = 0f;
     private bool isGettingBrighter = false;
@@ -26,12 +24,12 @@ public class FlickerEffect : MonoBehaviour
                 flickerIntervalCountdown -= Time.deltaTime;
                 if (flickerIntervalCountdown <= 0f)
                 {
-                    flickerIntervalCountdown = FlickerInterval;
+                    flickerIntervalCountdown = flickerInterval;
                     isGettingBrighter = !isGettingBrighter;
                 }
             }
-            UpdateTextOpacity(UpdateOpacitySpeed * Time.deltaTime * (isGettingBrighter ? 1 : -1));
-            
+            UpdateTextOpacity(1f / flickerInterval * Time.deltaTime * (isGettingBrighter ? 1 : -1));
+
             if (flickerDurationCountdown <= 0f)
             {
                 UpdateTextOpacity(1f);
@@ -39,10 +37,11 @@ public class FlickerEffect : MonoBehaviour
         }
     }
 
-    public void TriggerFlicker()
+    public void Trigger(float duration, float interval)
     {
-        flickerDurationCountdown = FlickerDuration;
-        flickerIntervalCountdown = FlickerInterval;
+        flickerDurationCountdown = duration;
+        flickerInterval = interval;
+        flickerIntervalCountdown = interval;
         isGettingBrighter = false;
     }
 

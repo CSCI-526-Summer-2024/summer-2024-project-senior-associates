@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelData
 {
@@ -13,18 +12,33 @@ public class LevelData
 public class UIManager : MonoBehaviour
 {
     public GameObject gainedScoreAboveManagerPrefab;
+    public GameObject timeUpNoticePrefab;
     public CurrentScoreText currentScoreText;
     public Canvas canvas;
     public TMP_Text minKpiText;
     private PlayerData playerData;
     private readonly LevelData levelData = new();
+    private readonly float LevelEndPauseDuration = 3f;
     private int levelNum;
+    private float levelEndPauseCountdown = 0f;
 
     void Start()
     {
         levelNum = Util.GetCurrentLevelNum() - 1;
         playerData = PlayerData.LoadPlayerData();
         minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
+    }
+
+    void Update()
+    {
+        if (levelEndPauseCountdown > 0f)
+        {
+            levelEndPauseCountdown -= Time.deltaTime;
+            if (levelEndPauseCountdown <= 0f)
+            {
+                Util.EnterLevel(-1);
+            }
+        }
     }
 
     public void UpdateScore(int score, Vector3 position)
@@ -47,6 +61,14 @@ public class UIManager : MonoBehaviour
 
     public void EndLevel()
     {
+        levelEndPauseCountdown = LevelEndPauseDuration;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().disableAllAction = true;
+        foreach (var manager in GameObject.FindGameObjectsWithTag("Manager"))
+        {
+            manager.GetComponent<Manager>().Disable();
+        }
+        Instantiate(timeUpNoticePrefab);
+
         var totalKpi = levelData.deliveredKpi + levelData.failedKpi;
         playerData.levelInfos[levelNum].UpdateBestKpi(totalKpi);
         if (levelNum + 1 < playerData.levelInfos.Count && totalKpi >= playerData.levelInfos[levelNum].minKpi)
@@ -60,7 +82,6 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("DeliveredKPI", levelData.deliveredKpi);
         PlayerPrefs.SetInt("FailedNum", levelData.failedNum);
         PlayerPrefs.SetInt("FailedKPI", levelData.failedKpi);
-        Util.EnterLevel(-1);
     }
 
     private string GetGainedScoreMessage(int score)
