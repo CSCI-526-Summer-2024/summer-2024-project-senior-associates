@@ -40,9 +40,9 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void SetRequestForTutorial(Request request)
+    public void SetTutorialRequest(Request tutorialRequest)
     {
-        this.request = request;
+        request = tutorialRequest;
         PositionRequest();
     }
 
@@ -88,21 +88,14 @@ public class Manager : MonoBehaviour
         }
     }
 
-    public void SetTutorialManager(TutorialManager tutorialManager)
+    public TutorialManager TutorialManager
     {
-        this.tutorialManager = tutorialManager;
+        set { tutorialManager = value; }
     }
 
     private int CalculateReward(int reward, float mood)
     {
-        if (InTutorial)
-        {
-            return reward;
-        }
-        else
-        {
-            return (int)Math.Round(reward * mood * 2);
-        }
+        return InTutorial ? reward : (int)Math.Round(reward * mood * 2);
     }
 
     private void PositionRequest()

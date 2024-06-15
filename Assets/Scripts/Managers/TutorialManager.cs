@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -27,9 +24,11 @@ public class TutorialManager : MonoBehaviour
         playerData = PlayerData.LoadPlayerData();
         if (playerData.firstTimePlaying)
         {
-            manager1.SetTutorialManager(this);
-            manager2.SetTutorialManager(this);
+            manager1.TutorialManager = this;
+            manager2.TutorialManager = this;
             playerInteract.disableDiscard = true;
+            milkChest.Disable();
+            strawberryChest.Disable();
             smoothieMachine.Disable();
             clock.gameObject.SetActive(false);
             tutorialTextBox.gameObject.SetActive(true);
@@ -102,12 +101,12 @@ public class TutorialManager : MonoBehaviour
         if (phase == 1)
         {
             tutorialTextBox.SetContents("Press C to grab a milk (use arrow keys to move).");
-            var request = requestManager.GetTutorialRequest(new()
+            var tutorialRequest = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Ingredient,
                 ingredients = new() { ingredientData.allIngredients[1] }
             });
-            manager1.SetRequestForTutorial(request);
+            manager1.SetTutorialRequest(tutorialRequest);
             strawberryChest.Disable();
 
             indicator1 = CreateIndicator(milkChest.gameObject, new(0f, 1f, 0f));
@@ -122,13 +121,13 @@ public class TutorialManager : MonoBehaviour
         else if (phase == 3)
         {
             Destroy(indicator1);
-            tutorialTextBox.SetContents("Nicely done! Now grab a milk & a strawberry.");
+            tutorialTextBox.SetContents("Nicely done! Now grab a milk and a strawberry.");
             var request = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Smoothie,
                 ingredients = new() { ingredientData.allIngredients[0], ingredientData.allIngredients[1] }
             });
-            manager2.SetRequestForTutorial(request);
+            manager2.SetTutorialRequest(request);
             milkChest.Enable();
             strawberryChest.Enable();
 
@@ -151,7 +150,7 @@ public class TutorialManager : MonoBehaviour
         else if (phase == 6)
         {
             Destroy(indicator1);
-            tutorialTextBox.SetContents("Well done! You may also press Q to throw away one item.", true);
+            tutorialTextBox.SetContents("Well done! You may also press Q to throw away an item.", true);
             playerInteract.disableDiscard = false;
         }
         else if (phase == 7)
@@ -169,8 +168,8 @@ public class TutorialManager : MonoBehaviour
 
             milkChest.Enable();
             strawberryChest.Enable();
-            manager1.SetTutorialManager(null);
-            manager2.SetTutorialManager(null);
+            manager1.TutorialManager = null;
+            manager2.TutorialManager = null;
             clock.gameObject.SetActive(true);
             tutorialTextBox.Hide();
             gameObject.SetActive(false);
@@ -190,8 +189,7 @@ public class TutorialManager : MonoBehaviour
 
     private bool IsHoldingIngredient(string ingredientName)
     {
-        var items = playerInteract.GetAllItems();
-        foreach (var item in items)
+        foreach (var item in playerInteract.GetAllItems())
         {
             if (item.type == Item.Type.Ingredient && item.ingredients[0].prefab.name.Contains(ingredientName))
             {
