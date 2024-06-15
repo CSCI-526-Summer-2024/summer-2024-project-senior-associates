@@ -2,29 +2,32 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public readonly float NormalSpeed = 5f;
-    public readonly float NormalJumpForce = 10f;
+    public bool disableAllAction = false;
+    public bool disableJump = false;
+    public bool waitForSpaceKeyUp = false;
+    private readonly float NormalSpeed = 5f;
+    private readonly float NormalJumpForce = 10f;
     private readonly Color NormalColor = Color.white;
     private readonly Color DizzyColor = Color.grey;
-    public float speed;
-    public float jumpForce;
-
-    public bool tired = false;
+    private float speed;
+    private float jumpForce;
     private bool isTryingToJump = false;
     private bool isGrounded = true;
     private bool isTouchingCoffeeSpill = false;
     private float horizontalInput;
     private Rigidbody2D rb;
-    private ClimbLadder climbLadder;
+    private PlayerClimb playerClimb;
+    private PlayerEnergy playerEnergy;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        climbLadder = GetComponent<ClimbLadder>();
+        playerClimb = GetComponent<PlayerClimb>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
+        playerEnergy = GetComponent<PlayerEnergy>();
     }
 
     void Update()
@@ -32,7 +35,11 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !climbLadder.isClimbing)
+        if (waitForSpaceKeyUp && Input.GetKeyUp(KeyCode.Space))
+        {
+            waitForSpaceKeyUp = false;
+        }
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing && !disableJump && !waitForSpaceKeyUp)
         {
             isTryingToJump = true;
         }
@@ -40,7 +47,19 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontalInput * speed, isTryingToJump ? jumpForce : rb.velocity.y);
+        if (disableAllAction)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+        else
+        {
+            var horizontalVelocity = horizontalInput * speed;
+            if (playerEnergy != null && playerEnergy.IsSleeping)
+            {
+                horizontalVelocity = 0f;
+            }
+            rb.velocity = new(horizontalVelocity, isTryingToJump ? jumpForce : rb.velocity.y);
+        }
         isTryingToJump = false;
     }
 
@@ -50,7 +69,7 @@ public class PlayerControl : MonoBehaviour
         {
             ContactPoint2D contact = other.GetContact(0);
             Bounds bounds = GetComponent<Collider2D>().bounds;
-            bool isCollisionFromBottom = contact.point.y < bounds.center.y - bounds.extents.y * 0.9f;
+            bool isCollisionFromBottom = Vector2.Dot(contact.normal, Vector2.up) > 0.5f;
             if (isCollisionFromBottom)
             {
                 isGrounded = true;
@@ -85,7 +104,7 @@ public class PlayerControl : MonoBehaviour
 
     private void SetPlayerSlowDown(bool slow)
     {
-        if (slow || tired)
+        if (slow || playerEnergy != null && playerEnergy.Tired)
         {
             speed = NormalSpeed / 3;
             jumpForce = NormalJumpForce / 3;

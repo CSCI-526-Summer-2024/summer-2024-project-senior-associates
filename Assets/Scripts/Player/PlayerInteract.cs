@@ -1,8 +1,10 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerInteract : MonoBehaviour
 {
+    public bool disableDiscard = false;
     private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
     private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
     private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
@@ -11,12 +13,26 @@ public class PlayerInteract : MonoBehaviour
     private Chest chest;
     private SmoothieMachine smoothieMachine;
     private Manager manager;
+    private bool isNearBed = false;
+    private PlayerEnergy playerEnergy;
+    private PlayerControl playerControl;
+    private int levelNum;
 
-    private GameObject bed;
+    void Awake()
+    {
+        playerEnergy = GetComponent<PlayerEnergy>();
+        playerControl = GetComponent<PlayerControl>();
+        levelNum = Util.GetCurrentLevelNum();
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (playerControl.disableAllAction)
+        {
+            return;
+        }
+        
+        if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
             DiscardOneItem();
         }
@@ -24,7 +40,11 @@ public class PlayerInteract : MonoBehaviour
         {
             if (chest != null && CanTakeOutFromChest())
             {
-                PickUp(chest.GetItem()); // if near chest, pick up item from chest
+                var item = chest.GetItem();
+                if (item != null)
+                {
+                    PickUp(item);
+                }
             }
             else if (smoothieMachine != null)
             {
@@ -51,16 +71,29 @@ public class PlayerInteract : MonoBehaviour
                     DiscardOneItem();
                 }
             }
-            else if (bed != null)
+            else if (isNearBed)
             {
-                GetComponent<PlayerEnergy>().Sleep();
+                playerEnergy.ToggleSleeping();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (levelNum >= 3 && manager != null && playerEnergy.CanSchmooze())
+            {
+                manager.Schmooze();
+                playerEnergy.LoseEnergy();
             }
         }
     }
 
-    private Item GetCurrentItem()
+    public Item GetCurrentItem()
     {
         return rightItem ?? leftItem;
+    }
+
+    public List<Item> GetAllItems()
+    {
+        return new List<Item> { leftItem, rightItem }.Where(item => item != null).ToList();
     }
 
     private bool CanTakeOutFromChest()
@@ -122,7 +155,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bed"))
         {
-            bed = GameObject.FindWithTag("Bed");
+            isNearBed = true;
         }
     }
 
@@ -142,7 +175,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bed"))
         {
-            bed = null;
+            isNearBed = false;
         }
     }
 }
