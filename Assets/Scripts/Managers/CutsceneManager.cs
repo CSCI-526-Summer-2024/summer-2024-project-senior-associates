@@ -17,7 +17,7 @@ public class CutsceneManager : MonoBehaviour
     void Start()
     {
         playerData = PlayerData.LoadPlayerData();
-        if (playerData.firstTimePlaying)
+        if (playerData.levelInfos.Count < 2 || playerData.levelInfos[1].bestKpi == 0)
         {
             cutsceneTextBox.gameObject.SetActive(true);
             playerEnergy.enableEnergyDrop = false;
@@ -26,17 +26,10 @@ public class CutsceneManager : MonoBehaviour
         else
         {
             cutsceneTextBox.gameObject.SetActive(false);
+            SceneManager.LoadScene($"Level2");
         }
     }
 
-    void Update()
-    {
-        if (phase == 1)
-        {
-
-        }
-
-    }
 
     public void OnCircularProgressDone()
     {
@@ -71,9 +64,10 @@ public class CutsceneManager : MonoBehaviour
         else if (phase == 4)
         {
             Destroy(indicator1);
-            /*
+
             playerData.firstTimePlaying = false;
             playerData.SavePlayerData();
+            /*
             cutsceneTextBox.Hide();
             gameObject.SetActive(false);
             playerInteract.gameObject.GetComponent<PlayerControl>().waitForSpaceKeyUp = true;*/
