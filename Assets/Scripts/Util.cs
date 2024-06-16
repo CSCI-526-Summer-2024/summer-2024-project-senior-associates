@@ -52,7 +52,14 @@ public static class Util
         }
         else
         {
-            SceneManager.LoadScene($"Level{levelNum}");
+            if (levelNum == 2)
+            {
+                SceneManager.LoadScene($"Level2Cutscene");
+            }
+            else
+            {
+                SceneManager.LoadScene($"Level{levelNum}");
+            }
         }
     }
 
