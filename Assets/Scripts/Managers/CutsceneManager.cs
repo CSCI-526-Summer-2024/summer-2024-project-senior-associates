@@ -17,7 +17,7 @@ public class CutsceneManager : MonoBehaviour
     void Start()
     {
         playerData = PlayerData.LoadPlayerData();
-        if (playerData.levelInfos.Count < 2 || playerData.levelInfos[1].bestKpi == 0)
+        if (!playerData.levelInfos[1].played)
         {
             cutsceneTextBox.gameObject.SetActive(true);
             playerEnergy.enableEnergyDrop = false;

@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         playerData = PlayerData.LoadPlayerData();
-        if (playerData.levelInfos.Count < 1 || playerData.levelInfos[0].bestKpi == 0)
+        if (!playerData.levelInfos[0].played)
         {
             manager1.TutorialManager = this;
             manager2.TutorialManager = this;
