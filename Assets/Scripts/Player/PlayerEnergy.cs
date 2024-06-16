@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PlayerEnergy : MonoBehaviour
 {
     public GameObject energyBar;
+    public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
     private readonly Color ZeroEnergyColor = Color.red;
@@ -23,10 +24,13 @@ public class PlayerEnergy : MonoBehaviour
 
     void Update()
     {
-        energy += energyChange * Time.deltaTime;
-        energy = Mathf.Clamp(energy, MinEnergy, 1f);
-        energyBar.GetComponent<Image>().color = Color.Lerp(ZeroEnergyColor, FullEnergyColor, energy);
-        energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
+        if (enableEnergyDrop)
+        {
+            energy += energyChange * Time.deltaTime;
+            energy = Mathf.Clamp(energy, MinEnergy, 1f);
+            energyBar.GetComponent<Image>().color = Color.Lerp(ZeroEnergyColor, FullEnergyColor, energy);
+            energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
+        }
     }
 
     // public void StartSleeping()
