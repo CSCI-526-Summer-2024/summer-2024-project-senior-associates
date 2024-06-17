@@ -12,6 +12,7 @@ public class WinLostManager : MonoBehaviour
     public TMP_Text failedKpiText;
     public TMP_Text totalKpiText;
 
+
     void Start()
     {
         SetText(PlayerPrefs.GetInt("MinKpi", 0), PlayerPrefs.GetInt("DeliveredNum", 0), PlayerPrefs.GetInt("DeliveredKPI", 0), PlayerPrefs.GetInt("FailedNum", 0), PlayerPrefs.GetInt("FailedKPI", 0));
