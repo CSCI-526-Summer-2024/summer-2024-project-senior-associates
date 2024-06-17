@@ -5700,6 +5700,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyBar: {fileID: 96854498}
+  bed: {fileID: 101368989}
+  cPrefab: {fileID: 8933791028433530461, guid: f1bfb159e4cfd4549997d289ccc183fd, type: 3}
+  enableEnergyDrop: 1
 --- !u!1 &1787212561
 GameObject:
   m_ObjectHideFlags: 0
