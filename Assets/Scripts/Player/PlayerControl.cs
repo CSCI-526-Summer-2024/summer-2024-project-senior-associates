@@ -1,7 +1,16 @@
 using UnityEngine;
+using Proyecto26;
+
+public class FirebaseTest
+{
+    public string num;
+    public int age;
+}
 
 public class PlayerControl : MonoBehaviour
 {
+    public FirebaseTest firebaseTest = new();
+
     public bool disableAllAction = false;
     public bool disableJump = false;
     public bool waitForSpaceKeyUp = false;
@@ -28,6 +37,15 @@ public class PlayerControl : MonoBehaviour
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
         playerEnergy = GetComponent<PlayerEnergy>();
+
+        firebaseTest.num = "John";
+        firebaseTest.age = 14;
+
+        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/test.json", firebaseTest);
+        Debug.Log("send test data to firebase");
+
+
+
     }
 
     void Update()

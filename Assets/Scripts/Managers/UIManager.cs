@@ -7,6 +7,8 @@ public class LevelData
     public int deliveredKpi = 0;
     public int failedNum = 0;
     public int failedKpi = 0;
+    public int totalRequestNum = 0;
+    public int wrongItemNum = 0;
 }
 
 public class UIManager : MonoBehaviour
@@ -53,10 +55,16 @@ public class UIManager : MonoBehaviour
             levelData.failedNum++;
             levelData.failedKpi += score;
         }
+        levelData.totalRequestNum++;
 
         currentScoreText.UpdateScore(score);
         CreateGainedScoreText(score, position + new Vector3(0, 0.5f, -1f));
         CreateGainedScoreText(score, currentScoreText.GetBottomRightPoint() + new Vector3(1f, -0.2f, -1f));
+    }
+
+    public void AddWrongItemNum()
+    {
+        levelData.wrongItemNum++;
     }
 
     public void EndLevel()
@@ -82,6 +90,9 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("DeliveredKPI", levelData.deliveredKpi);
         PlayerPrefs.SetInt("FailedNum", levelData.failedNum);
         PlayerPrefs.SetInt("FailedKPI", levelData.failedKpi);
+        PlayerPrefs.SetInt("TotalRequestNum", levelData.totalRequestNum);
+        PlayerPrefs.SetInt("WrongItemNum", levelData.wrongItemNum);
+
     }
 
     private string GetGainedScoreMessage(int score)
