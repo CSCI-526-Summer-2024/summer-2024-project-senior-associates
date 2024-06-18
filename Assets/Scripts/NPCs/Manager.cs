@@ -24,10 +24,13 @@ public class Manager : MonoBehaviour
         mood = GetComponent<ManagerMood>();
         mood.gameObject.SetActive(true);
         playerEnergy = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEnergy>();
-        schmoozeText = Instantiate(schmoozeTextPrefab);
-        schmoozeText.transform.SetParent(transform);
-        schmoozeText.transform.localPosition = schmoozeTextOffset;
-        schmoozeText.SetActive(false);
+        if (schmoozeTextPrefab != null)
+        {
+            schmoozeText = Instantiate(schmoozeTextPrefab);
+            schmoozeText.transform.SetParent(transform);
+            schmoozeText.transform.localPosition = schmoozeTextOffset;
+            schmoozeText.SetActive(false);
+        }
     }
 
     void Update()
@@ -132,7 +135,7 @@ public class Manager : MonoBehaviour
 
     private void ShowSchmoozeText()
     {
-        if (!schmoozeText.activeSelf)
+        if (schmoozeText != null && !schmoozeText.activeSelf)
         {
             schmoozeText.SetActive(true);
             schmoozeText.GetComponentInChildren<FlickerEffect>().Trigger(0.6f, 0.15f);
@@ -141,7 +144,10 @@ public class Manager : MonoBehaviour
 
     private void HideSchmoozeText()
     {
-        schmoozeText.SetActive(false);
+        if (schmoozeText != null)
+        {
+            schmoozeText.SetActive(false);
+        }
     }
 
 }
