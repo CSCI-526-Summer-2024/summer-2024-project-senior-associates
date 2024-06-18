@@ -163,7 +163,6 @@ public class TutorialManager : MonoBehaviour
         {
             Destroy(indicator1);
 
-            playerData.firstTimePlaying = false;
             playerData.SavePlayerData();
 
             milkChest.Enable();
