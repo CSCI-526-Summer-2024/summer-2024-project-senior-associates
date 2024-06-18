@@ -21,6 +21,7 @@ public class WinLostManager : MonoBehaviour
     public TMP_Text failedKpiText;
     public TMP_Text totalKpiText;
 
+
     public int DeliveredNum;
     public int FailedNum;
     public int TotalRequestNum;
