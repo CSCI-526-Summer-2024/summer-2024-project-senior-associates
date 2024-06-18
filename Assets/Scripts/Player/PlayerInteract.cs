@@ -16,13 +16,11 @@ public class PlayerInteract : MonoBehaviour
     private bool isNearBed = false;
     private PlayerEnergy playerEnergy;
     private PlayerControl playerControl;
-    private int levelNum;
-
+    
     void Awake()
     {
         playerEnergy = GetComponent<PlayerEnergy>();
         playerControl = GetComponent<PlayerControl>();
-        levelNum = Util.GetCurrentLevelNum();
     }
 
     void Update()
@@ -78,7 +76,7 @@ public class PlayerInteract : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (levelNum >= 3 && manager != null && playerEnergy.CanSchmooze())
+            if (manager != null && playerEnergy.CanSchmooze())
             {
                 manager.Schmooze();
                 playerEnergy.LoseEnergy();

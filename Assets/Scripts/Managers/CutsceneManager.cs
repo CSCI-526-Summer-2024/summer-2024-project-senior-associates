@@ -46,26 +46,25 @@ public class CutsceneManager : MonoBehaviour
         phase++;
         if (phase == 1)
         {
-            cutsceneTextBox.SetContents("Energy is tracked with Energy Bar", true);
+            cutsceneTextBox.SetContents("From now on, you need energy to move around.", true);
 
             indicator1 = CreateIndicator(energyBar.gameObject, new(0.05f, -0.4f, 0f), true);
         }
         else if (phase == 2)
         {
-            cutsceneTextBox.SetContents("Energy will drop", true);
+            cutsceneTextBox.SetContents("Energy will drop as you move...", true);
             playerEnergy.enableEnergyDrop = true;
         }
         else if (phase == 3)
         {
             Destroy(indicator1);
-            cutsceneTextBox.SetContents("Go to bed to refill Energy. Press space to start Level 2", true);
-            indicator1 = CreateIndicator(bed.gameObject, new(-1f, 0.01f, 0));
+            cutsceneTextBox.SetContents("Go to bed to restore energy before it depletes!", true);
+            indicator1 = CreateIndicator(bed.gameObject, new(-1f, 0.5f, 0));
         }
         else if (phase == 4)
         {
             Destroy(indicator1);
 
-            playerData.firstTimePlaying = false;
             playerData.SavePlayerData();
             /*
             cutsceneTextBox.Hide();

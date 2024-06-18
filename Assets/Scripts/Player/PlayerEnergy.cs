@@ -16,14 +16,15 @@ public class PlayerEnergy : MonoBehaviour
     private float energy;
     private bool isSleeping = false; public bool IsSleeping => isSleeping;
     private float energyBarOriginalXScale;
-
     private GameObject indicator;
+    private int levelNum;
 
     void Start()
     {
         energy = 1f;
         energyChange = NormalEnergyChange;
         energyBarOriginalXScale = energyBar.transform.localScale.x;
+        levelNum = Util.GetCurrentLevelNum();
     }
 
     void Update()
@@ -73,7 +74,7 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool CanSchmooze()
     {
-        return energy >= 0.25f;
+        return levelNum >= 3 && energy >= 0.25f;
     }
 
     private void IndicateBed()
@@ -84,17 +85,13 @@ public class PlayerEnergy : MonoBehaviour
         }
         else
         {
-            indicator = CreateIndicator(bed.gameObject, new(-1f, 0.5f, 0f));
+            indicator = CreateIndicator(bed, new(-1.15f, 0.5f, 0f));
         }
     }
 
-    private GameObject CreateIndicator(GameObject obj, Vector3 offset, bool upSideDown = false)
+    private GameObject CreateIndicator(GameObject obj, Vector3 offset)
     {
         var indicator = Instantiate(cPrefab);
-        if (upSideDown)
-        {
-            indicator.transform.rotation = Quaternion.Euler(0, 0, 180);
-        }
         indicator.GetComponent<FloatingAnim>().Init(obj, offset);
         return indicator;
     }
