@@ -63,6 +63,7 @@ public class Manager : MonoBehaviour
         else
         {
             request.obj.GetComponent<ShakeEffect>().Trigger(0.5f, 0.02f);
+            uiManager.AddWrongItemNum();
         }
         return satisfied;
     }
