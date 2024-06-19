@@ -866,6 +866,8 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 4
     Max: 6
+  schmoozeTextPrefab: {fileID: 0}
+  schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2849,6 +2851,8 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 4
     Max: 6
+  schmoozeTextPrefab: {fileID: 0}
+  schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
 --- !u!61 &1479966387
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3258,7 +3262,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 9.682648, y: -0.19067144}
+  m_Offset: {x: 8.944024, y: -0.19067144}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3269,7 +3273,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.58225536, y: 11.395726}
+  m_Size: {x: 0.6835842, y: 11.395726}
   m_EdgeRadius: 0
 --- !u!1 &1688106167
 GameObject:
