@@ -76,6 +76,15 @@ public static class Util
             return 0;
         }
     }
+
+    public static string GetNowTime()
+    {
+        TimeZoneInfo pacificZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
+        DateTime utcTime = DateTime.UtcNow;
+        DateTime pacificTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, pacificZone);
+        return pacificTime.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+
 }
 
 
