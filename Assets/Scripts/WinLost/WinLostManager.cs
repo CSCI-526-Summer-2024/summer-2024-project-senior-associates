@@ -6,8 +6,9 @@ public class FirebaseData
 {
     public int deliveredNum;
     public int failedNum;
-    public int totalRequestNum;
     public int wrongItemNum;
+    public string date;
+    public int level;
 }
 
 
@@ -24,10 +25,7 @@ public class WinLostManager : MonoBehaviour
 
     public int DeliveredNum;
     public int FailedNum;
-    public int TotalRequestNum;
     public int WrongItemNum;
-
-    FirebaseData firebaseData = new();
 
     void Start()
     {
@@ -59,19 +57,15 @@ public class WinLostManager : MonoBehaviour
 
     private void SendDataFirebase()
     {
-
-        DeliveredNum = PlayerPrefs.GetInt("DeliveredNum", 0);
-        FailedNum = PlayerPrefs.GetInt("FailedNum", 0);
-        TotalRequestNum = PlayerPrefs.GetInt("TotalRequestNum", 0);
-        WrongItemNum = PlayerPrefs.GetInt("WrongItemNum", 0);
-
-        firebaseData.deliveredNum = DeliveredNum;
-        firebaseData.failedNum = FailedNum;
-        firebaseData.totalRequestNum = TotalRequestNum;
-        firebaseData.wrongItemNum = WrongItemNum;
-
-        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", firebaseData);
-
+        FirebaseData data = new()
+        {
+            deliveredNum = PlayerPrefs.GetInt("DeliveredNum", -1),
+            failedNum = PlayerPrefs.GetInt("FailedNum", -1),
+            wrongItemNum = PlayerPrefs.GetInt("WrongItemNum", -1),
+            date = PlayerPrefs.GetString("Date", "???"),
+            level = PlayerPrefs.GetInt("Level", -1),
+        };
+        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", data);
     }
 
 }

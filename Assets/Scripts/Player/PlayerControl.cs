@@ -42,10 +42,7 @@ public class PlayerControl : MonoBehaviour
         firebaseTest.age = 14;
 
         RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/test.json", firebaseTest);
-        Debug.Log("send test data to firebase");
-
-
-
+        Debug.Log("Successfully sent to firebase.");
     }
 
     void Update()
