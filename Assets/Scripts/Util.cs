@@ -79,7 +79,7 @@ public static class Util
 
     public static string GetNowTime()
     {
-        return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        return DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
     }
 
 }
