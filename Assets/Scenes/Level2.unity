@@ -4084,6 +4084,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDiscard: 0
+  cPrefab: {fileID: 2244461953645496080, guid: 5f04789368e54f9428ec86669051a8bb, type: 3}
+  player: {fileID: 1771702624}
 --- !u!61 &1771702632
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4145,6 +4147,7 @@ MonoBehaviour:
   bed: {fileID: 1802561331}
   cPrefab: {fileID: 2244461953645496080, guid: 5f04789368e54f9428ec86669051a8bb, type: 3}
   bedText: {fileID: 1948147915}
+  player: {fileID: 0}
   enableEnergyDrop: 1
 --- !u!1 &1789351083
 GameObject:

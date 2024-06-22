@@ -70,7 +70,7 @@ public class SmoothieMachine : MonoBehaviour
         }
     }
 
-    public Item GetProduct()
+    public Item GetProduct(bool peek)
     {
         if (!disabled && topItems.Count > 0 && productCountdown <= 0f)
         {
@@ -80,12 +80,18 @@ public class SmoothieMachine : MonoBehaviour
                 type = Item.Type.Smoothie,
                 ingredients = new List<Ingredient>(ingredients)
             };
-            topItems.Clear();
-            ingredients.Clear();
+
+            if (!peek)
+            {
+                topItems.Clear();
+                ingredients.Clear();
+            }
             return item;
         }
         return null;
     }
+
+
 
     public void Enable()
     {
