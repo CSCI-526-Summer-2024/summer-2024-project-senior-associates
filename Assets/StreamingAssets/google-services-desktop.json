@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774100262505",
+    "project_id": "cs526-senior-associates",
+    "storage_bucket": "cs526-senior-associates.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774100262505:android:0a015b50e3125c256e8cf8",
+        "android_client_info": {
+          "package_name": "CS562.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPqBJQdyd93AMVaP9p4KnyqslqzoG0oMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

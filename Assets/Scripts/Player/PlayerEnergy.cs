@@ -6,6 +6,7 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject energyBar;
     public GameObject bed;
     public GameObject cPrefab;
+    public GameObject bedText;
     public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
@@ -18,6 +19,7 @@ public class PlayerEnergy : MonoBehaviour
     private float energyBarOriginalXScale;
     private GameObject indicator;
     private int levelNum;
+    private bool createdIndicator = false;
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class PlayerEnergy : MonoBehaviour
         energyChange = NormalEnergyChange;
         energyBarOriginalXScale = energyBar.transform.localScale.x;
         levelNum = Util.GetCurrentLevelNum();
+        bedText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -39,6 +42,11 @@ public class PlayerEnergy : MonoBehaviour
             if (isSleeping && energy >= 1f)
             {
                 ToggleSleeping();
+            }
+
+            if (Tired && !createdIndicator || !Tired && createdIndicator)
+            {
+                IndicateBed();
             }
         }
     }
@@ -59,7 +67,8 @@ public class PlayerEnergy : MonoBehaviour
     {
         isSleeping = !isSleeping;
         energyChange = isSleeping ? SleepEnergyChange : NormalEnergyChange;
-        IndicateBed();
+        bedText.gameObject.SetActive(isSleeping);
+        //IndicateBed();
     }
 
     public bool Tired
@@ -79,13 +88,15 @@ public class PlayerEnergy : MonoBehaviour
 
     private void IndicateBed()
     {
-        if (!isSleeping)
+        if (isSleeping)
         {
             Destroy(indicator);
+            createdIndicator = false;
         }
         else
         {
             indicator = CreateIndicator(bed, new(-1.15f, 0.5f, 0f));
+            createdIndicator = true;
         }
     }
 
