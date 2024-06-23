@@ -3855,7 +3855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 240492985}
-  TotalRealTimeInSeconds: 60
+  TotalRealTimeInSeconds: 95
 --- !u!114 &1966574111
 MonoBehaviour:
   m_ObjectHideFlags: 0
