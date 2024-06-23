@@ -27,6 +27,9 @@ public class ManagerMood : MonoBehaviour
             moodBar.SetActive(true);
             moodBar.transform.localScale = Util.ChangeX(moodBar.transform.localScale, mood / MoodMax);
             moodBar.GetComponent<Image>().color = Color.Lerp(Color.red, Color.green, mood);
+
+            //Color.Lerp(Color.red, Color.magenta, mood);
+            manager.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.red, Color.green, mood); ;
             mood -= moodDropSpeed * Time.deltaTime;
             if (mood < 0f)
             {
