@@ -67,7 +67,7 @@ public class Manager : MonoBehaviour
         PositionRequest();
     }
 
-    public bool Submit(Item item)
+    public bool Submit(Item item, bool peek)
     {
         if (request == null || item == null)
         {
@@ -77,8 +77,11 @@ public class Manager : MonoBehaviour
         var satisfied = request.item == item;
         if (satisfied)
         {
-            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
-            FinishRequest();
+            if (!peek)
+            {
+                uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+                FinishRequest();
+            }
         }
         else
         {
