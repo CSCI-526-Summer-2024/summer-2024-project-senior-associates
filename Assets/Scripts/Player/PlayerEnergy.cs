@@ -7,6 +7,7 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject bed;
     public GameObject cPrefab;
     public GameObject bedText;
+    public GameObject player;
     public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
