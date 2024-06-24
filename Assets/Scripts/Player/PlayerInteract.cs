@@ -5,6 +5,8 @@ using System.Linq;
 public class PlayerInteract : MonoBehaviour
 {
     public bool disableDiscard = false;
+    public GameObject cPrefab;
+    public GameObject player;
     private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
     private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
     private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
@@ -16,13 +18,15 @@ public class PlayerInteract : MonoBehaviour
     private bool isNearBed = false;
     private PlayerEnergy playerEnergy;
     private PlayerControl playerControl;
-    private int levelNum;
+    private GameObject indicator;
 
     void Awake()
     {
         playerEnergy = GetComponent<PlayerEnergy>();
         playerControl = GetComponent<PlayerControl>();
-        levelNum = Util.GetCurrentLevelNum();
+        indicator = CreateIndicator(player, new(-1f, 0f, 0f));
+        indicator.gameObject.SetActive(false);
+
     }
 
     void Update()
@@ -31,54 +35,88 @@ public class PlayerInteract : MonoBehaviour
         {
             return;
         }
-        
+
         if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
             DiscardOneItem();
         }
-        if (Input.GetKeyDown(KeyCode.C))
+
+        if (chest != null && CanTakeOutFromChest())
         {
-            if (chest != null && CanTakeOutFromChest())
+            indicator.gameObject.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.C))
             {
+                indicator.gameObject.SetActive(false);
                 var item = chest.GetItem();
                 if (item != null)
                 {
                     PickUp(item);
                 }
             }
-            else if (smoothieMachine != null)
+        }
+        else if (smoothieMachine != null)
+        {
+
+            if (CanTakeOutFromSmoothie())
             {
-                if (CanTakeOutFromSmoothie())
+                if (smoothieMachine.GetProduct(true) != null)
                 {
-                    var product = smoothieMachine.GetProduct();
+                    indicator.gameObject.SetActive(true);
+                }
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    var product = smoothieMachine.GetProduct(false);
                     if (product != null)
                     {
                         PickUp(product);
+                        indicator.gameObject.SetActive(false);
                     }
                 }
-                else if (GetCurrentItem() != null)
+            }
+            else if (GetCurrentItem() != null)
+            {
+                indicator.gameObject.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.C))
                 {
+
                     if (smoothieMachine.AddIngredient(GetCurrentItem()))
                     {
                         DiscardOneItem();
                     }
+                    if (GetCurrentItem() == null)
+                    {
+                        indicator.gameObject.SetActive(false);
+                    }
                 }
             }
-            else if (manager != null)
+
+        }
+        else if (manager != null)
+        {
+            if (manager.Submit(GetCurrentItem(), true))
             {
-                if (GetCurrentItem() != null && manager.Submit(GetCurrentItem()))
+                indicator.gameObject.SetActive(true);
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (GetCurrentItem() != null && manager.Submit(GetCurrentItem(), false))
                 {
                     DiscardOneItem();
+                    indicator.gameObject.SetActive(false);
                 }
             }
-            else if (isNearBed)
+        }
+        else if (isNearBed)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 playerEnergy.ToggleSleeping();
             }
         }
+
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (levelNum >= 3 && manager != null && playerEnergy.CanSchmooze())
+            if (manager != null && playerEnergy.CanSchmooze())
             {
                 manager.Schmooze();
                 playerEnergy.LoseEnergy();
@@ -164,10 +202,12 @@ public class PlayerInteract : MonoBehaviour
         if (collision.gameObject.CompareTag("Chest"))
         {
             chest = null;
+            indicator.gameObject.SetActive(false);
         }
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
             smoothieMachine = null;
+            indicator.gameObject.SetActive(false);
         }
         else if (collision.gameObject.CompareTag("Manager"))
         {
@@ -177,5 +217,12 @@ public class PlayerInteract : MonoBehaviour
         {
             isNearBed = false;
         }
+    }
+
+    private GameObject CreateIndicator(GameObject obj, Vector3 offset)
+    {
+        var indicator = Instantiate(cPrefab);
+        indicator.GetComponent<FloatingAnim>().Init(obj, offset);
+        return indicator;
     }
 }

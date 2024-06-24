@@ -6,6 +6,8 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject energyBar;
     public GameObject bed;
     public GameObject cPrefab;
+    public GameObject bedText;
+    public GameObject player;
     public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
@@ -16,14 +18,17 @@ public class PlayerEnergy : MonoBehaviour
     private float energy;
     private bool isSleeping = false; public bool IsSleeping => isSleeping;
     private float energyBarOriginalXScale;
-
     private GameObject indicator;
+    private int levelNum;
+    private bool createdIndicator = false;
 
     void Start()
     {
         energy = 1f;
         energyChange = NormalEnergyChange;
         energyBarOriginalXScale = energyBar.transform.localScale.x;
+        levelNum = Util.GetCurrentLevelNum();
+        bedText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -38,6 +43,11 @@ public class PlayerEnergy : MonoBehaviour
             if (isSleeping && energy >= 1f)
             {
                 ToggleSleeping();
+            }
+
+            if (Tired && !createdIndicator || !Tired && createdIndicator)
+            {
+                IndicateBed();
             }
         }
     }
@@ -58,7 +68,8 @@ public class PlayerEnergy : MonoBehaviour
     {
         isSleeping = !isSleeping;
         energyChange = isSleeping ? SleepEnergyChange : NormalEnergyChange;
-        IndicateBed();
+        bedText.gameObject.SetActive(isSleeping);
+        //IndicateBed();
     }
 
     public bool Tired
@@ -73,28 +84,26 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool CanSchmooze()
     {
-        return energy >= 0.25f;
+        return levelNum >= 3 && energy >= 0.25f;
     }
 
     private void IndicateBed()
     {
-        if (!isSleeping)
+        if (isSleeping)
         {
             Destroy(indicator);
+            createdIndicator = false;
         }
         else
         {
-            indicator = CreateIndicator(bed.gameObject, new(-1f, 0.5f, 0f));
+            indicator = CreateIndicator(bed, new(-1.15f, 0.5f, 0f));
+            createdIndicator = true;
         }
     }
 
-    private GameObject CreateIndicator(GameObject obj, Vector3 offset, bool upSideDown = false)
+    private GameObject CreateIndicator(GameObject obj, Vector3 offset)
     {
         var indicator = Instantiate(cPrefab);
-        if (upSideDown)
-        {
-            indicator.transform.rotation = Quaternion.Euler(0, 0, 180);
-        }
         indicator.GetComponent<FloatingAnim>().Init(obj, offset);
         return indicator;
     }

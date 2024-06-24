@@ -7,6 +7,8 @@ public class Manager : MonoBehaviour
     public RequestManager requestManager;
     public UIManager uiManager;
     public Range RequestCountdownStartingRange;
+    public GameObject schmoozeTextPrefab;
+    public Vector3 schmoozeTextOffset = new(1.5f, 0.5f, 0f);
     private TutorialManager tutorialManager; public bool InTutorial => tutorialManager != null;
     private readonly float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
@@ -14,11 +16,21 @@ public class Manager : MonoBehaviour
     private float nextRequestCountdown = 0f;
     private ManagerMood mood;
     private bool disabled = false;
+    private PlayerEnergy playerEnergy;
+    private GameObject schmoozeText;
 
     void Awake()
     {
         mood = GetComponent<ManagerMood>();
         mood.gameObject.SetActive(true);
+        playerEnergy = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEnergy>();
+        if (schmoozeTextPrefab != null)
+        {
+            schmoozeText = Instantiate(schmoozeTextPrefab);
+            schmoozeText.transform.SetParent(transform);
+            schmoozeText.transform.localPosition = schmoozeTextOffset;
+            schmoozeText.SetActive(false);
+        }
     }
 
     void Update()
@@ -38,6 +50,14 @@ public class Manager : MonoBehaviour
                     mood.SetRequestMaxTime(request.maxTime);
                 }
             }
+            if (playerEnergy != null && playerEnergy.CanSchmooze() && request != null)
+            {
+                ShowSchmoozeText();
+            }
+            else
+            {
+                HideSchmoozeText();
+            }
         }
     }
 
@@ -47,7 +67,7 @@ public class Manager : MonoBehaviour
         PositionRequest();
     }
 
-    public bool Submit(Item item)
+    public bool Submit(Item item, bool peek)
     {
         if (request == null || item == null)
         {
@@ -57,8 +77,11 @@ public class Manager : MonoBehaviour
         var satisfied = request.item == item;
         if (satisfied)
         {
-            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
-            FinishRequest();
+            if (!peek)
+            {
+                uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+                FinishRequest();
+            }
         }
         else
         {
@@ -111,6 +134,23 @@ public class Manager : MonoBehaviour
     {
         request.obj.transform.SetParent(transform);
         request.obj.transform.localPosition = ManagerToRequestOffset;
+    }
+
+    private void ShowSchmoozeText()
+    {
+        if (schmoozeText != null && !schmoozeText.activeSelf)
+        {
+            schmoozeText.SetActive(true);
+            schmoozeText.GetComponentInChildren<FlickerEffect>().Trigger(0.6f, 0.15f);
+        }
+    }
+
+    private void HideSchmoozeText()
+    {
+        if (schmoozeText != null)
+        {
+            schmoozeText.SetActive(false);
+        }
     }
 
 }

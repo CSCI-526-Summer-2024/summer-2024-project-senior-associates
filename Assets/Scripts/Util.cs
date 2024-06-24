@@ -76,6 +76,12 @@ public static class Util
             return 0;
         }
     }
+
+    public static string GetNowTime()
+    {
+        return DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+
 }
 
 

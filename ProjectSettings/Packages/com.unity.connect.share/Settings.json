@@ -4,7 +4,22 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/justi/Unity/Pair_Programming/realCorporateLadder/corporateLadder/AlphaProgressBuild;C:/Users/justi/Unity/Pair_Programming/realCorporateLadder/corporateLadder/AlphaREAL;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/cresc/Desktop/3;C:/Users/justi/Unity/Pair_Programming/realCorporateLadder/corporateLadder/AlphaProgressBuild;C:/Users/justi/Unity/Pair_Programming/realCorporateLadder/corporateLadder/AlphaREAL;;;;;;;\"}"
+            },
+            {
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "key": "firstTime",
+                "value": "{\"m_Value\":false}"
+            },
+            {
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "key": "autoPublish",
+                "value": "{\"m_Value\":true}"
+            },
+            {
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "key": "createDefaultBuildsFolder",
+                "value": "{\"m_Value\":true}"
             }
         ]
     }
