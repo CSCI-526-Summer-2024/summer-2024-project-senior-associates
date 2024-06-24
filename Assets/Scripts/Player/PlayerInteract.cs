@@ -200,12 +200,12 @@ public class PlayerInteract : MonoBehaviour
         if (collision.gameObject.CompareTag("Chest"))
         {
             chest = null;
-            cKeyHint.gameObject.SetActive(false);
+            HideCHint();
         }
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
             smoothieMachine = null;
-            cKeyHint.gameObject.SetActive(false);
+            HideCHint();
         }
         else if (collision.gameObject.CompareTag("Manager"))
         {
