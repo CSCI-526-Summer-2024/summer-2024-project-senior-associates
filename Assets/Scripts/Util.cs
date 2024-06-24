@@ -28,6 +28,7 @@ public static class Util
         int randomIndex = UnityEngine.Random.Range(0, array.Length);
         return array[randomIndex];
     }
+    
     public static T ChooseRandom<T>(List<T> list)
     {
         if (list == null || list.Count == 0)
@@ -54,7 +55,7 @@ public static class Util
         {
             if (levelNum == 2)
             {
-                SceneManager.LoadScene($"Level2Cutscene");
+                SceneManager.LoadScene($"CutSceneLevel2");
             }
             else
             {

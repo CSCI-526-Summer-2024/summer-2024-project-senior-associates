@@ -8,7 +8,7 @@ public class SmoothieMachine : MonoBehaviour
     public IngredientData ingredientData;
     public GameObject progressBar;
     public bool allowDoubleSmoothie = true;
-    private readonly float TimeIncrementWhenNewItemAdded = 2f;
+    private readonly float TimeIncrementWhenNewItemAdded = 3f;
     private readonly float MachineTopItemXSpace = 0.2f;
     private readonly Vector3 MachineToItemOffset = new(0f, 1f, -0.1f);
     private readonly List<Ingredient> ingredients = new();
@@ -70,14 +70,17 @@ public class SmoothieMachine : MonoBehaviour
         {
             ingredients.Add(ingredient);
             AddTopItem(ingredient);
-            UpdateProductCountdown();
+            if (ingredients.Count > 1)
+            {
+                UpdateProductCountdown();
+            }
             return true;
         }
     }
 
     public bool HasProduct()
     {
-        return !disabled && topItems.Count > 0 && productCountdown <= 0f;
+        return !disabled && topItems.Count > 0 && productCountdown <= 0f && ingredients.Count > 1;
     }
 
     public Item GetProduct()
@@ -138,7 +141,7 @@ public class SmoothieMachine : MonoBehaviour
     private void ProduceProduct()
     {
         ClearTopItems();
-        var smoothie = ingredientData.CreateSmoothieObj(ingredients);
+        var smoothie = ingredientData.CreateSmoothieObj(ingredients, true);
         smoothie.transform.SetParent(transform);
         smoothie.transform.localPosition = MachineToItemOffset;
         topItems.Add(smoothie);

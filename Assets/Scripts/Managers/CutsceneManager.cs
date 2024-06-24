@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour
 {
-
     public CutsceneTextBox cutsceneTextBox;
     public PlayerInteract playerInteract;
     public PlayerEnergy playerEnergy;
@@ -47,8 +46,7 @@ public class CutsceneManager : MonoBehaviour
         if (phase == 1)
         {
             cutsceneTextBox.SetContents("From now on, you need energy to move around.", true);
-
-            indicator1 = CreateIndicator(energyBar.gameObject, new(0.05f, -0.4f, 0f), true);
+            indicator1 = CreateIndicator(energyBar, new(0.05f, -0.4f, 0f), true);
         }
         else if (phase == 2)
         {
@@ -59,17 +57,13 @@ public class CutsceneManager : MonoBehaviour
         {
             Destroy(indicator1);
             cutsceneTextBox.SetContents("Go to bed to restore energy before it depletes!", true);
-            indicator1 = CreateIndicator(bed.gameObject, new(-1f, 0.5f, 0));
+            indicator1 = CreateIndicator(bed, new(-1f, 0.5f, 0));
         }
         else if (phase == 4)
         {
             Destroy(indicator1);
-
             playerData.SavePlayerData();
-            /*
-            cutsceneTextBox.Hide();
-            gameObject.SetActive(false);
-            playerInteract.gameObject.GetComponent<PlayerControl>().waitForSpaceKeyUp = true;*/
+            DataManager.waitForSpaceKeyUpAtStart = true;
             SceneManager.LoadScene($"Level2");
         }
     }

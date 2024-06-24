@@ -17,12 +17,16 @@ public class IngredientData : ScriptableObject
     private static readonly Vector3 CupToBackgroundOffset = new(0f, 0.5f, -0.1f);
     private static readonly Vector3 CupToIngredientOffset = new(0f, 0.5f, -0.2f);
 
-    public GameObject CreateSmoothieObj(List<Ingredient> ingredients)
+    public GameObject CreateSmoothieObj(List<Ingredient> ingredients, bool normalSizedCup = false)
     {
         var obj = new GameObject("Smoothie");
         var cup = Instantiate(cupPrefab);
         cup.transform.SetParent(obj.transform);
         cup.transform.localPosition = new(0f, 0f, 0f);
+        if (normalSizedCup)
+        {
+            cup.transform.localScale = new(0.24f, 0.24f, 0f);
+        }
 
         // add ingredients as children
         float offset = -(ingredients.Count - 1) * CupTopItemXSpace;

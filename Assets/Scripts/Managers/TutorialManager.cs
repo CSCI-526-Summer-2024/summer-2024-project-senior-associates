@@ -150,7 +150,7 @@ public class TutorialManager : MonoBehaviour
         else if (phase == 6)
         {
             Destroy(indicator1);
-            tutorialTextBox.SetContents("Well done! You may also press Q to throw away an item.", true);
+            tutorialTextBox.SetContents("Well done! You may also press Q to throw away an item, or press R to switch between items.", true);
             playerInteract.disableDiscard = false;
         }
         else if (phase == 7)
