@@ -17,21 +17,25 @@ public class PlayerControl : MonoBehaviour
     private bool isTryingToJump = false;
     private bool isGrounded = true;
     private bool isTouchingCoffeeSpill = false;
-    private bool isNearLadder = false;
     private bool isClimbing = false; public bool IsClimbing => isClimbing;
     private float horizontalInput;
     private float verticalInput;
+    private BoxCollider2D ladderCollider;
+    private float overlapWithLadderBelow = 0f;
     private Rigidbody2D rb;
+    private BoxCollider2D bc;
     private PlayerEnergy playerEnergy;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
+        playerEnergy = GetComponent<PlayerEnergy>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
-        playerEnergy = GetComponent<PlayerEnergy>();
     }
 
     void Update()
@@ -45,11 +49,18 @@ public class PlayerControl : MonoBehaviour
             waitForSpaceKeyUp = false;
         }
 
-        if (isNearLadder && Mathf.Abs(verticalInput) > 0f)
+        if (ladderCollider != null)
         {
-            isClimbing = true;
+            if (overlapWithLadderBelow > 0f && overlapWithLadderBelow < 0.1f)
+            {
+                isClimbing = verticalInput < 0f;
+            }
+            else
+            {
+                isClimbing = verticalInput != 0f;
+            }
         }
-        else if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded && !isClimbing && !disableJump && !waitForSpaceKeyUp)
+        if (!isClimbing && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded && !disableJump && !waitForSpaceKeyUp)
         {
             isTryingToJump = true;
         }
@@ -90,7 +101,6 @@ public class PlayerControl : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             ContactPoint2D contact = other.GetContact(0);
-            Bounds bounds = GetComponent<Collider2D>().bounds;
             bool isCollisionFromBottom = Vector2.Dot(contact.normal, Vector2.up) > 0.5f;
             if (isCollisionFromBottom)
             {
@@ -116,7 +126,25 @@ public class PlayerControl : MonoBehaviour
         }
         else if (other.CompareTag("Ladder"))
         {
-            isNearLadder = true;
+            ladderCollider = other.GetComponent<BoxCollider2D>();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Ladder"))
+        {
+            float ladderTopY = ladderCollider.bounds.max.y;
+            float playerTopY = transform.position.y + bc.bounds.size.y / 2;
+            float playerBottomY = transform.position.y - bc.bounds.size.y / 2;
+            if (playerTopY > ladderTopY && ladderTopY > playerBottomY)
+            {
+                overlapWithLadderBelow = (ladderTopY - playerBottomY) / bc.bounds.size.y;
+            }
+            else
+            {
+                overlapWithLadderBelow = 0f;
+            }
         }
     }
 
@@ -128,7 +156,7 @@ public class PlayerControl : MonoBehaviour
         }
         else if (other.CompareTag("Ladder"))
         {
-            isNearLadder = false;
+            ladderCollider = null;
             isClimbing = false;
         }
     }
