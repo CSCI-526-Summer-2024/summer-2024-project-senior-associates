@@ -10,10 +10,12 @@ public class ManagerMood : MonoBehaviour
     private float mood = 1f; public float Mood => mood;
     private float moodDropSpeed = 0f;
     private Manager manager;
+    private SpriteRenderer circleSR;
 
     void Awake()
     {
         manager = GetComponent<Manager>();
+        circleSR = manager.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -27,9 +29,8 @@ public class ManagerMood : MonoBehaviour
             moodBar.SetActive(true);
             moodBar.transform.localScale = Util.ChangeX(moodBar.transform.localScale, mood / MoodMax);
             moodBar.GetComponent<Image>().color = Color.Lerp(Color.red, Color.green, mood);
+            UpdateManagerColor();
 
-            //Color.Lerp(Color.red, Color.magenta, mood);
-            manager.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.red, Color.green, mood); ;
             mood -= moodDropSpeed * Time.deltaTime;
             if (mood < 0f)
             {
@@ -42,10 +43,16 @@ public class ManagerMood : MonoBehaviour
     public void Reset()
     {
         mood = 1f;
+        UpdateManagerColor();
     }
 
     public void SetRequestMaxTime(float requestMaxTime)
     {
         moodDropSpeed = 1 / requestMaxTime;
+    }
+
+    private void UpdateManagerColor()
+    {
+        circleSR.color = Color.Lerp(Color.red, Color.green, mood);
     }
 }
