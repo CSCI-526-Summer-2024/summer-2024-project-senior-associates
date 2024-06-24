@@ -1,5 +1,6 @@
 using UnityEngine;
 using Proyecto26;
+using System;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -10,21 +11,23 @@ public class PlayerControl : MonoBehaviour
     private readonly float NormalJumpForce = 10f;
     private readonly Color NormalColor = Color.white;
     private readonly Color DizzyColor = Color.grey;
+    private readonly float NormalGravity = 4f;
     private float speed;
     private float jumpForce;
     private bool isTryingToJump = false;
     private bool isGrounded = true;
     private bool isTouchingCoffeeSpill = false;
+    private bool isNearLadder = false;
+    private bool isClimbing = false; public bool IsClimbing => isClimbing;
     private float horizontalInput;
+    private float verticalInput;
     private Rigidbody2D rb;
-    private PlayerClimb playerClimb;
     private PlayerEnergy playerEnergy;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerClimb = GetComponent<PlayerClimb>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
@@ -36,11 +39,17 @@ public class PlayerControl : MonoBehaviour
         SetPlayerSlowDown(isTouchingCoffeeSpill);
 
         horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
         if (waitForSpaceKeyUp && Input.GetKeyUp(KeyCode.Space))
         {
             waitForSpaceKeyUp = false;
         }
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !playerClimb.IsClimbing && !disableJump && !waitForSpaceKeyUp)
+
+        if (isNearLadder && Mathf.Abs(verticalInput) > 0f)
+        {
+            isClimbing = true;
+        }
+        else if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded && !isClimbing && !disableJump && !waitForSpaceKeyUp)
         {
             isTryingToJump = true;
         }
@@ -59,9 +68,21 @@ public class PlayerControl : MonoBehaviour
             {
                 horizontalVelocity = 0f;
             }
-            rb.velocity = new(horizontalVelocity, isTryingToJump ? jumpForce : rb.velocity.y);
+
+            var verticalVelocity = rb.velocity.y;
+            if (isClimbing)
+            {
+                verticalVelocity = verticalInput * NormalSpeed;
+            }
+            else if (isTryingToJump)
+            {
+                verticalVelocity = jumpForce;
+            }
+
+            rb.velocity = new(horizontalVelocity, verticalVelocity);
         }
         isTryingToJump = false;
+        rb.gravityScale = isClimbing ? 0f : NormalGravity;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -93,6 +114,10 @@ public class PlayerControl : MonoBehaviour
         {
             isTouchingCoffeeSpill = true;
         }
+        else if (other.CompareTag("Ladder"))
+        {
+            isNearLadder = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -100,6 +125,11 @@ public class PlayerControl : MonoBehaviour
         if (other.CompareTag("CoffeeSpill"))
         {
             isTouchingCoffeeSpill = false;
+        }
+        else if (other.CompareTag("Ladder"))
+        {
+            isNearLadder = false;
+            isClimbing = false;
         }
     }
 

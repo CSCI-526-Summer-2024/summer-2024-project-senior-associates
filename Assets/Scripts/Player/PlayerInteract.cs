@@ -25,8 +25,7 @@ public class PlayerInteract : MonoBehaviour
         playerEnergy = GetComponent<PlayerEnergy>();
         playerControl = GetComponent<PlayerControl>();
         indicator = CreateIndicator(player, new(-1f, 0f, 0f));
-        indicator.gameObject.SetActive(false);
-
+        indicator.SetActive(false);
     }
 
     void Update()
@@ -43,10 +42,10 @@ public class PlayerInteract : MonoBehaviour
 
         if (chest != null && CanTakeOutFromChest())
         {
-            indicator.gameObject.SetActive(true);
+            indicator.SetActive(true);
             if (Input.GetKeyDown(KeyCode.C))
             {
-                indicator.gameObject.SetActive(false);
+                indicator.SetActive(false);
                 var item = chest.GetItem();
                 if (item != null)
                 {
@@ -61,7 +60,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (smoothieMachine.GetProduct(true) != null)
                 {
-                    indicator.gameObject.SetActive(true);
+                    indicator.SetActive(true);
                 }
                 if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -69,13 +68,13 @@ public class PlayerInteract : MonoBehaviour
                     if (product != null)
                     {
                         PickUp(product);
-                        indicator.gameObject.SetActive(false);
+                        indicator.SetActive(false);
                     }
                 }
             }
             else if (GetCurrentItem() != null)
             {
-                indicator.gameObject.SetActive(true);
+                indicator.SetActive(true);
                 if (Input.GetKeyDown(KeyCode.C))
                 {
 
@@ -85,7 +84,7 @@ public class PlayerInteract : MonoBehaviour
                     }
                     if (GetCurrentItem() == null)
                     {
-                        indicator.gameObject.SetActive(false);
+                        indicator.SetActive(false);
                     }
                 }
             }
@@ -95,14 +94,14 @@ public class PlayerInteract : MonoBehaviour
         {
             if (manager.Submit(GetCurrentItem(), true))
             {
-                indicator.gameObject.SetActive(true);
+                indicator.SetActive(true);
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
                 if (GetCurrentItem() != null && manager.Submit(GetCurrentItem(), false))
                 {
                     DiscardOneItem();
-                    indicator.gameObject.SetActive(false);
+                    indicator.SetActive(false);
                 }
             }
         }
