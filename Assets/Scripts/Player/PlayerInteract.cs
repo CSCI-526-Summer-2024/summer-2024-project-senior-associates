@@ -6,10 +6,11 @@ public class PlayerInteract : MonoBehaviour
 {
     public bool disableDiscard = false;
     public GameObject cPrefab;
-    public GameObject player;
+    public GameObject activeItemBorderPrefab;
     private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
     private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
     private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
+    private bool rightActive = true;
     private Item leftItem;
     private Item rightItem;
     private Chest chest;
@@ -26,7 +27,7 @@ public class PlayerInteract : MonoBehaviour
         playerControl = GetComponent<PlayerControl>();
         if (Util.GetCurrentLevelNum() == 1)
         {
-            cKeyHint = CreateCKeyHint(player, new(1.45f, 1.8f, 0f));
+            cKeyHint = CreateCKeyHint(gameObject, new(1.45f, 1.8f, 0f));
             HideCHint();
         }
     }
@@ -124,7 +125,14 @@ public class PlayerInteract : MonoBehaviour
 
     public Item GetCurrentItem()
     {
-        return rightItem ?? leftItem;
+        if (rightActive)
+        {
+            return rightItem ?? leftItem;
+        }
+        else
+        {
+            return leftItem ?? rightItem;
+        }
     }
 
     public List<Item> GetAllItems()
@@ -146,7 +154,15 @@ public class PlayerInteract : MonoBehaviour
     {
         if (rightItem != null)
         {
-            Destroy(rightItem.obj);
+            if (rightActive)
+            {
+                Destroy(rightItem.obj);
+            }
+            else
+            {
+                Destroy(leftItem.obj);
+                leftItem = rightItem;
+            }
             rightItem = null;
             leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingOne;
         }

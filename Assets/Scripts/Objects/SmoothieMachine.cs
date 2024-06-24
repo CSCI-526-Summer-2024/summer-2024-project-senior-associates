@@ -84,12 +84,15 @@ public class SmoothieMachine : MonoBehaviour
     {
         if (HasProduct())
         {
-            return new Item
+            var item = new Item
             {
                 obj = topItems[0],
                 type = Item.Type.Smoothie,
                 ingredients = new List<Ingredient>(ingredients)
             };
+            topItems.Clear();
+            ingredients.Clear();
+            return item;
         }
         return null;
     }
