@@ -3939,7 +3939,6 @@ GameObject:
   - component: {fileID: 1771702627}
   - component: {fileID: 1771702625}
   - component: {fileID: 1771702629}
-  - component: {fileID: 1771702630}
   - component: {fileID: 1771702631}
   - component: {fileID: 1771702633}
   - component: {fileID: 1771702632}
@@ -4059,18 +4058,6 @@ MonoBehaviour:
   disableAllAction: 0
   disableJump: 0
   waitForSpaceKeyUp: 0
---- !u!114 &1771702630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771702624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83c66ef2f0a28ad44b3d65bcad150d0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1771702631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4085,7 +4072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disableDiscard: 0
   cPrefab: {fileID: 2244461953645496080, guid: 5f04789368e54f9428ec86669051a8bb, type: 3}
-  player: {fileID: 1771702624}
+  activeItemBorderPrefab: {fileID: 7216398580418941724, guid: 546d3a7691aecda4eaee8cc73ed85f15, type: 3}
 --- !u!61 &1771702632
 BoxCollider2D:
   m_ObjectHideFlags: 0
