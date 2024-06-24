@@ -70,28 +70,24 @@ public class SmoothieMachine : MonoBehaviour
         }
     }
 
-    public Item GetProduct(bool peek)
+    public bool HasProduct()
     {
-        if (!disabled && topItems.Count > 0 && productCountdown <= 0f)
+        return !disabled && topItems.Count > 0 && productCountdown <= 0f;
+    }
+
+    public Item GetProduct()
+    {
+        if (HasProduct())
         {
-            var item = new Item
+            return new Item
             {
                 obj = topItems[0],
                 type = Item.Type.Smoothie,
                 ingredients = new List<Ingredient>(ingredients)
             };
-
-            if (!peek)
-            {
-                topItems.Clear();
-                ingredients.Clear();
-            }
-            return item;
         }
         return null;
     }
-
-
 
     public void Enable()
     {

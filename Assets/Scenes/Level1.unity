@@ -1115,9 +1115,9 @@ MonoBehaviour:
   DoubleSmoothieRewardBase:
     Min: 7
     Max: 11
-  ItemMaxTime: 25
-  SingleSmoothieMaxTime: 35
-  DoubleSmoothieMaxTime: 35
+  ItemMaxTime: 30
+  SingleSmoothieMaxTime: 60
+  DoubleSmoothieMaxTime: 60
 --- !u!1 &715266763
 GameObject:
   m_ObjectHideFlags: 0
