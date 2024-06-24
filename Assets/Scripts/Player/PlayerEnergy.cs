@@ -28,7 +28,10 @@ public class PlayerEnergy : MonoBehaviour
         energyChange = NormalEnergyChange;
         energyBarOriginalXScale = energyBar.transform.localScale.x;
         levelNum = Util.GetCurrentLevelNum();
-        bedText.gameObject.SetActive(false);
+        if (bedText != null)
+        {
+            bedText.SetActive(false);
+        }
     }
 
     void Update()

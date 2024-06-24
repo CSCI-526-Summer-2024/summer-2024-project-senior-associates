@@ -31,9 +31,12 @@ public class PlayerInteract : MonoBehaviour
             cKeyHint = CreateCKeyHint(gameObject, new(1.45f, 1.8f, 0f));
             HideCHint();
         }
-        activeItemBorder = Instantiate(activeItemBorderPrefab);
-        activeItemBorder.transform.SetParent(transform);
-        activeItemBorder.SetActive(false);
+        if (activeItemBorderPrefab != null)
+        {
+            activeItemBorder = Instantiate(activeItemBorderPrefab);
+            activeItemBorder.transform.SetParent(transform);
+            activeItemBorder.SetActive(false);
+        }
     }
 
     void Update()
