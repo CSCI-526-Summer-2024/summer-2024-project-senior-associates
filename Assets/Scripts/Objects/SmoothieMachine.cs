@@ -7,6 +7,7 @@ public class SmoothieMachine : MonoBehaviour
 {
     public IngredientData ingredientData;
     public GameObject progressBar;
+    public bool allowDoubleSmoothie = true;
     private readonly float TimeIncrementWhenNewItemAdded = 2f;
     private readonly float MachineTopItemXSpace = 0.2f;
     private readonly Vector3 MachineToItemOffset = new(0f, 1f, -0.1f);
@@ -60,9 +61,13 @@ public class SmoothieMachine : MonoBehaviour
             Debug.Log("Ignored because there is already a liquid base: " + ingredient.prefab.name);
             return false;
         }
+        else if (!allowDoubleSmoothie && ingredients.Count >= 2)
+        {
+            Debug.Log("Ignored because double smoothie is not allowed: " + ingredient.prefab.name);
+            return false;
+        }
         else
         {
-            Debug.Log("Added ingredient: " + ingredient.prefab.name);
             ingredients.Add(ingredient);
             AddTopItem(ingredient);
             UpdateProductCountdown();

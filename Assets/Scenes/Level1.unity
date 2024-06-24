@@ -4060,6 +4060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientData: {fileID: 11400000, guid: 3168b66ef00ed2d41809eefa278162df, type: 2}
   progressBar: {fileID: 1621578737}
+  allowDoubleSmoothie: 0
 --- !u!1 &1995866072
 GameObject:
   m_ObjectHideFlags: 0
