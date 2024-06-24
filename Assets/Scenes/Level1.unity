@@ -713,7 +713,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.91134197, g: 0.4390055, b: 0.9496855, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -748,7 +748,7 @@ Transform:
   m_GameObject: {fileID: 298094186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.80813515, y: -1.6745923, z: -2.0186872}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -784,7 +784,7 @@ Transform:
   m_GameObject: {fileID: 402199650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.269, y: 1.4175923, z: 2.0186872}
+  m_LocalPosition: {x: 5.469, y: -0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1115,9 +1115,9 @@ MonoBehaviour:
   DoubleSmoothieRewardBase:
     Min: 7
     Max: 11
-  ItemMaxTime: 25
-  SingleSmoothieMaxTime: 35
-  DoubleSmoothieMaxTime: 35
+  ItemMaxTime: 30
+  SingleSmoothieMaxTime: 60
+  DoubleSmoothieMaxTime: 60
 --- !u!1 &715266763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2827,7 +2827,7 @@ Transform:
   m_GameObject: {fileID: 1479966384}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.733865, y: 1.4175923, z: 2.0186872}
+  m_LocalPosition: {x: -7.5420003, y: -0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4433,7 +4433,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

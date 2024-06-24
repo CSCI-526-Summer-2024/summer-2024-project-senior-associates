@@ -18,15 +18,17 @@ public class PlayerInteract : MonoBehaviour
     private bool isNearBed = false;
     private PlayerEnergy playerEnergy;
     private PlayerControl playerControl;
-    private GameObject indicator;
+    private GameObject cKeyHint;
 
     void Awake()
     {
         playerEnergy = GetComponent<PlayerEnergy>();
         playerControl = GetComponent<PlayerControl>();
-        indicator = CreateIndicator(player, new(-1f, 0f, 0f));
-        indicator.gameObject.SetActive(false);
-
+        if (Util.GetCurrentLevelNum() == 1)
+        {
+            cKeyHint = CreateCKeyHint(player, new(1.45f, 1.8f, 0f));
+            HideCHint();
+        }
     }
 
     void Update()
@@ -43,66 +45,71 @@ public class PlayerInteract : MonoBehaviour
 
         if (chest != null && CanTakeOutFromChest())
         {
-            indicator.gameObject.SetActive(true);
+            ShowCHint();
             if (Input.GetKeyDown(KeyCode.C))
             {
-                indicator.gameObject.SetActive(false);
                 var item = chest.GetItem();
                 if (item != null)
                 {
                     PickUp(item);
+                    HideCHint();
                 }
             }
         }
         else if (smoothieMachine != null)
         {
-
             if (CanTakeOutFromSmoothie())
             {
-                if (smoothieMachine.GetProduct(true) != null)
+                if (smoothieMachine.HasProduct())
                 {
-                    indicator.gameObject.SetActive(true);
+                    ShowCHint();
                 }
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    var product = smoothieMachine.GetProduct(false);
+                    var product = smoothieMachine.GetProduct();
                     if (product != null)
                     {
                         PickUp(product);
-                        indicator.gameObject.SetActive(false);
+                        HideCHint();
                     }
                 }
             }
             else if (GetCurrentItem() != null)
             {
-                indicator.gameObject.SetActive(true);
+                ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-
                     if (smoothieMachine.AddIngredient(GetCurrentItem()))
                     {
                         DiscardOneItem();
-                    }
-                    if (GetCurrentItem() == null)
-                    {
-                        indicator.gameObject.SetActive(false);
+                        if (GetCurrentItem() == null)
+                        {
+                            HideCHint();
+                        }
                     }
                 }
             }
-
         }
         else if (manager != null)
         {
             if (manager.Submit(GetCurrentItem(), true))
             {
-                indicator.gameObject.SetActive(true);
+                ShowCHint();
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
                 if (GetCurrentItem() != null && manager.Submit(GetCurrentItem(), false))
                 {
                     DiscardOneItem();
-                    indicator.gameObject.SetActive(false);
+                    HideCHint();
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                if (playerEnergy.CanSchmooze())
+                {
+                    manager.Schmooze();
+                    playerEnergy.LoseEnergy();
                 }
             }
         }
@@ -111,15 +118,6 @@ public class PlayerInteract : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.C))
             {
                 playerEnergy.ToggleSleeping();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (manager != null && playerEnergy.CanSchmooze())
-            {
-                manager.Schmooze();
-                playerEnergy.LoseEnergy();
             }
         }
     }
@@ -202,12 +200,12 @@ public class PlayerInteract : MonoBehaviour
         if (collision.gameObject.CompareTag("Chest"))
         {
             chest = null;
-            indicator.gameObject.SetActive(false);
+            HideCHint();
         }
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
             smoothieMachine = null;
-            indicator.gameObject.SetActive(false);
+            HideCHint();
         }
         else if (collision.gameObject.CompareTag("Manager"))
         {
@@ -219,10 +217,26 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private GameObject CreateIndicator(GameObject obj, Vector3 offset)
+    private GameObject CreateCKeyHint(GameObject obj, Vector3 offset)
     {
-        var indicator = Instantiate(cPrefab);
-        indicator.GetComponent<FloatingAnim>().Init(obj, offset);
-        return indicator;
+        var cKeyHint = Instantiate(cPrefab);
+        cKeyHint.GetComponent<FloatingAnim>().Init(obj, offset);
+        return cKeyHint;
+    }
+
+    private void ShowCHint()
+    {
+        if (cKeyHint != null)
+        {
+            cKeyHint.SetActive(true);
+        }
+    }
+
+    private void HideCHint()
+    {
+        if (cKeyHint != null)
+        {
+            cKeyHint.SetActive(false);
+        }
     }
 }
