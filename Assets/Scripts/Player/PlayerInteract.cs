@@ -20,6 +20,7 @@ public class PlayerInteract : MonoBehaviour
     private PlayerEnergy playerEnergy;
     private PlayerControl playerControl;
     private GameObject cKeyHint;
+    private GameObject activeItemBorder;
 
     void Awake()
     {
@@ -30,6 +31,9 @@ public class PlayerInteract : MonoBehaviour
             cKeyHint = CreateCKeyHint(gameObject, new(1.45f, 1.8f, 0f));
             HideCHint();
         }
+        activeItemBorder = Instantiate(activeItemBorderPrefab);
+        activeItemBorder.transform.SetParent(transform);
+        activeItemBorder.SetActive(false);
     }
 
     void Update()
@@ -42,6 +46,12 @@ public class PlayerInteract : MonoBehaviour
         if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
             DiscardOneItem();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            rightActive = !rightActive;
+            UpdateActiveItemBorder();
         }
 
         if (chest != null && CanTakeOutFromChest())
@@ -59,6 +69,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (smoothieMachine != null)
         {
+            var hasTakenProductOut = false;
             if (CanTakeOutFromSmoothie())
             {
                 if (smoothieMachine.HasProduct())
@@ -72,10 +83,11 @@ public class PlayerInteract : MonoBehaviour
                     {
                         PickUp(product);
                         HideCHint();
+                        hasTakenProductOut = true;
                     }
                 }
             }
-            else if (GetCurrentItem() != null)
+            if (!hasTakenProductOut && GetCurrentItem() != null)
             {
                 ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
@@ -147,7 +159,7 @@ public class PlayerInteract : MonoBehaviour
 
     private bool CanTakeOutFromSmoothie()
     {
-        return rightItem == null && (GetCurrentItem() == null || GetCurrentItem().type != Item.Type.Ingredient);
+        return rightItem == null;
     }
 
     private void DiscardOneItem()
@@ -171,8 +183,8 @@ public class PlayerInteract : MonoBehaviour
             Destroy(leftItem.obj);
             leftItem = null;
         }
+        UpdateActiveItemBorder();
     }
-
 
     private void PickUp(Item item)
     {
@@ -189,6 +201,7 @@ public class PlayerInteract : MonoBehaviour
             rightItem.obj.transform.localPosition = RightItemOffset;
             leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingTwo;
         }
+        UpdateActiveItemBorder();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -253,6 +266,34 @@ public class PlayerInteract : MonoBehaviour
         if (cKeyHint != null)
         {
             cKeyHint.SetActive(false);
+        }
+    }
+
+    private void UpdateActiveItemBorder()
+    {
+        if (GetCurrentItem() == null)
+        {
+            activeItemBorder.SetActive(false);
+        }
+        else
+        {
+            activeItemBorder.SetActive(true);
+            Vector3 itemToBorderOffset = new(0f, 0.5f, 0f);
+            if (rightItem == null)
+            {
+                activeItemBorder.transform.localPosition = LeftItemOffsetWhenHoldingOne + itemToBorderOffset;
+            }
+            else
+            {
+                if (rightActive)
+                {
+                    activeItemBorder.transform.localPosition = RightItemOffset + itemToBorderOffset;
+                }
+                else
+                {
+                    activeItemBorder.transform.localPosition = LeftItemOffsetWhenHoldingTwo + itemToBorderOffset;
+                }
+            }
         }
     }
 }
