@@ -104,15 +104,17 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (manager != null)
         {
-            if (manager.Submit(GetActiveItem(), true))
+            var res = manager.TrySubmit(GetAllItems());
+            if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
             {
                 ShowCHint();
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                if (GetActiveItem() != null && manager.Submit(GetActiveItem(), false))
+                res = manager.Submit(GetAllItems());
+                if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
                 {
-                    DiscardOneItem(rightActive);
+                    DiscardOneItem(res == SubmitResult.SubmittedRight);
                     HideCHint();
                 }
             }
