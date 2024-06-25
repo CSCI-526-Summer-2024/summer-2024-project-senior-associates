@@ -48,7 +48,7 @@ public class PlayerInteract : MonoBehaviour
 
         if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
-            DiscardOneItem();
+            DiscardOneItem(rightActive);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -86,15 +86,15 @@ public class PlayerInteract : MonoBehaviour
                     }
                 }
             }
-            if (!hasTakenProductOut && GetCurrentItem() != null)
+            if (!hasTakenProductOut && GetActiveItem() != null)
             {
                 ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    if (smoothieMachine.AddIngredient(GetCurrentItem()))
+                    if (smoothieMachine.AddIngredient(GetActiveItem()))
                     {
-                        DiscardOneItem();
-                        if (GetCurrentItem() == null)
+                        DiscardOneItem(rightActive);
+                        if (GetActiveItem() == null)
                         {
                             HideCHint();
                         }
@@ -104,15 +104,15 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (manager != null)
         {
-            if (manager.Submit(GetCurrentItem(), true))
+            if (manager.Submit(GetActiveItem(), true))
             {
                 ShowCHint();
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                if (GetCurrentItem() != null && manager.Submit(GetCurrentItem(), false))
+                if (GetActiveItem() != null && manager.Submit(GetActiveItem(), false))
                 {
-                    DiscardOneItem();
+                    DiscardOneItem(rightActive);
                     HideCHint();
                 }
             }
@@ -134,7 +134,7 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    public Item GetCurrentItem()
+    public Item GetActiveItem()
     {
         if (rightActive)
         {
@@ -161,11 +161,11 @@ public class PlayerInteract : MonoBehaviour
         return rightItem == null;
     }
 
-    private void DiscardOneItem()
+    private void DiscardOneItem(bool discardRightFirst)
     {
         if (rightItem != null)
         {
-            if (rightActive)
+            if (discardRightFirst)
             {
                 Destroy(rightItem.obj);
             }
@@ -270,7 +270,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void UpdateActiveItemBorder()
     {
-        if (GetCurrentItem() == null)
+        if (GetActiveItem() == null)
         {
             activeItemBorder.SetActive(false);
         }
