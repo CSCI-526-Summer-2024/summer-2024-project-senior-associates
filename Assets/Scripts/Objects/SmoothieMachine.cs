@@ -61,7 +61,8 @@ public class SmoothieMachine : MonoBehaviour
             Debug.Log("Ignored because there is already a liquid base: " + ingredient.prefab.name);
             return false;
         }
-        else if (!allowDoubleSmoothie && ingredients.Count >= 2)
+        else if (!allowDoubleSmoothie && ingredient.type == Ingredient.Type.Solid
+            && ingredients.Any(info => info.type == Ingredient.Type.Solid))
         {
             Debug.Log("Ignored because double smoothie is not allowed: " + ingredient.prefab.name);
             return false;
