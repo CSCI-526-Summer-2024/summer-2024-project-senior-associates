@@ -125,7 +125,7 @@ public class PlayerInteract : MonoBehaviour
                 if (playerEnergy.CanSchmooze())
                 {
                     manager.Schmooze();
-                    playerEnergy.LoseEnergy();
+                    playerEnergy.LoseEnergyFromSchmooze();
                 }
             }
         }
