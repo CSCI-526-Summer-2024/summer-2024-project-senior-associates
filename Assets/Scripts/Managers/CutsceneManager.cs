@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour
 {
-    public CutsceneTextBox cutsceneTextBox;
+    public TutorialTextBox tutorialTextBox;
     public PlayerInteract playerInteract;
     public PlayerEnergy playerEnergy;
     public GameObject indicatorPrefab;
@@ -18,17 +18,17 @@ public class CutsceneManager : MonoBehaviour
         playerData = PlayerData.LoadPlayerData();
         if (!playerData.levelInfos[1].played)
         {
-            cutsceneTextBox.gameObject.SetActive(true);
+            tutorialTextBox.gameObject.SetActive(true);
             playerEnergy.enableEnergyDrop = false;
             UpdatePhase();
         }
         else
         {
-            cutsceneTextBox.gameObject.SetActive(false);
-            SceneManager.LoadScene($"Level2");
+            tutorialTextBox.gameObject.SetActive(false);
+            SceneManager.LoadScene("Level2");
         }
+        tutorialTextBox.circularProgress.onCircularProgressDone = UpdatePhase;
     }
-
 
     public void OnCircularProgressDone()
     {
@@ -45,18 +45,18 @@ public class CutsceneManager : MonoBehaviour
         phase++;
         if (phase == 1)
         {
-            cutsceneTextBox.SetContents("From now on, you need energy to move around.", true);
+            tutorialTextBox.SetContents("From now on, you need energy to move around.", true);
             indicator1 = CreateIndicator(energyBar, new(0.05f, -0.4f, 0f), true);
         }
         else if (phase == 2)
         {
-            cutsceneTextBox.SetContents("Energy will drop as you move...", true);
+            tutorialTextBox.SetContents("Energy will drop as you move...", true);
             playerEnergy.enableEnergyDrop = true;
         }
         else if (phase == 3)
         {
             Destroy(indicator1);
-            cutsceneTextBox.SetContents("Go to bed to restore energy before it depletes!", true);
+            tutorialTextBox.SetContents("Go to bed to restore energy before it depletes!", true);
             indicator1 = CreateIndicator(bed, new(-1f, 0.5f, 0));
         }
         else if (phase == 4)

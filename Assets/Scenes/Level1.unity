@@ -3119,7 +3119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a11239caae1a974bbb7e2c7ab3502e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialManager: {fileID: 1354782575}
   mainText: {fileID: 809268538}
   holdToSkipText: {fileID: 874229784}
   circularProgress: {fileID: 136894286}
@@ -4094,7 +4093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 240492985}
-  TotalRealTimeInSeconds: 95
+  TotalRealTimeInSeconds: 90
 --- !u!114 &1966574111
 MonoBehaviour:
   m_ObjectHideFlags: 0
