@@ -12,20 +12,24 @@ public class TutorialTextBox : MonoBehaviour
 
     public void SetContents(string text, bool showPressToSkip = false)
     {
-        mainText.transform.localPosition = showPressToSkip ? MainTextOffsetWithSkip : MainTextOffsetWithoutSkip;
-        mainText.text = text;
-
-        circularProgress.gameObject.SetActive(showPressToSkip);
-        playerControl.disableJump = showPressToSkip;
-        if (showPressToSkip)
+        if (text != null)
         {
-            Debug.Log("Triggered flicker.");
-            holdToSkipText.GetComponent<FlickerEffect>().Trigger(6f, 0.3f);
+            gameObject.SetActive(true);
+            mainText.transform.localPosition = showPressToSkip ? MainTextOffsetWithSkip : MainTextOffsetWithoutSkip;
+            mainText.text = text;
+            mainText.GetComponent<FlickerEffect>().Trigger(0.6f, 0.15f);
+
+            circularProgress.gameObject.SetActive(showPressToSkip);
+            playerControl.disableJump = showPressToSkip;
+            if (showPressToSkip)
+            {
+                holdToSkipText.GetComponent<FlickerEffect>().Trigger(6f, 0.3f);
+            }
         }
-
-        mainText.GetComponent<FlickerEffect>().Trigger(0.6f, 0.15f);
-
-        gameObject.SetActive(showPressToSkip);
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void Hide()

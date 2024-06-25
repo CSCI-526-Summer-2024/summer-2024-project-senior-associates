@@ -79,7 +79,7 @@ public class Manager : MonoBehaviour
     {
         if (request == null || items.Count == 0)
         {
-            return SubmitResult.Failed;
+            return SubmitResult.Unsubmittable;
         }
         for (var idx = 0; idx < items.Count && idx < 2; idx++)
         {

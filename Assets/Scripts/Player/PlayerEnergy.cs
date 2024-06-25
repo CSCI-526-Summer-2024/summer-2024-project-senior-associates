@@ -11,7 +11,7 @@ public class PlayerEnergy : MonoBehaviour
     public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
-    private readonly float SchmoozeEnergyDrop = 0.4f;
+    private readonly float SchmoozeEnergyDrop = 0.3f;
     private readonly Color ZeroEnergyColor = Color.red;
     private readonly Color FullEnergyColor = Color.green;
     private readonly float MinEnergy = 0.1f;
@@ -75,7 +75,7 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool CanSchmooze()
     {
-        return levelNum >= 3 && energy >= SchmoozeEnergyDrop;
+        return levelNum >= 3 && energy > MinEnergy;
     }
 
     private void IndicateBed()

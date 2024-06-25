@@ -47,35 +47,49 @@ public class SmoothieMachine : MonoBehaviour
         }
     }
 
-    public bool AddIngredient(Item item)
+    public bool TryAddIngredient(Item item)
     {
         if (disabled || item == null || item.type != Item.Type.Ingredient)
         {
             return false;
         }
-
         var ingredient = item.ingredients[0];
         if (ingredient.type == Ingredient.Type.Liquid
             && ingredients.Any(info => info.type == Ingredient.Type.Liquid))
         {
-            Debug.Log("Ignored because there is already a liquid base: " + ingredient.prefab.name);
             return false;
         }
         else if (!allowDoubleSmoothie && ingredient.type == Ingredient.Type.Solid
             && ingredients.Any(info => info.type == Ingredient.Type.Solid))
         {
-            Debug.Log("Ignored because double smoothie is not allowed: " + ingredient.prefab.name);
             return false;
         }
         else
         {
-            ingredients.Add(ingredient);
-            AddTopItem(ingredient);
-            if (ingredients.Count > 1)
-            {
-                UpdateProductCountdown();
-            }
             return true;
+        }
+    }
+
+    public void AddIngredient(Item item)
+    {
+        if (TryAddIngredient(item))
+        {
+            ingredients.Add(item.ingredients[0]);
+            AddTopItem(item.ingredients[0]);
+            if (ingredients.Any(info => info.type == Ingredient.Type.Liquid))
+            {
+                if (item.ingredients[0].type != Ingredient.Type.Liquid)
+                {
+                    UpdateProductCountdown();
+                }
+                else
+                {
+                    for (var i = 0; i < ingredients.Count - 1; i++)
+                    {
+                        UpdateProductCountdown();
+                    }
+                }
+            }
         }
     }
 
