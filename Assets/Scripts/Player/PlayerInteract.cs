@@ -57,20 +57,16 @@ public class PlayerInteract : MonoBehaviour
             UpdateActiveItemBorder();
         }
 
-        if (chest != null && CanTakeOutFromChest())
+        if (chest != null && !chest.Disabled && CanTakeOutFromChest())
         {
             ShowCHint();
             if (Input.GetKeyDown(KeyCode.C))
             {
-                var item = chest.GetItem();
-                if (item != null)
-                {
-                    PickUp(item);
-                    HideCHint();
-                }
+                PickUp(chest.GetItem());
+                HideCHint();
             }
         }
-        else if (smoothieMachine != null)
+        else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
             var hasTakenProductOut = false;
             if (CanTakeOutFromSmoothie())

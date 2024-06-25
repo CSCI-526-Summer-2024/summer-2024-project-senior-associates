@@ -17,7 +17,7 @@ public class SmoothieMachine : MonoBehaviour
     private float productCountdownMax;
     private readonly Color NormalColor = new(1f, 1f, 1f);
     private readonly Color DisabledColor = new(0.5f, 0.5f, 0.5f);
-    private bool disabled = false;
+    private bool disabled = false; public bool Disabled => disabled;
     private SpriteRenderer[] spriteRenderers;
 
     void Awake()

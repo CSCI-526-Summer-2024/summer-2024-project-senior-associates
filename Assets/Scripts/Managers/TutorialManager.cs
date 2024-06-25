@@ -110,17 +110,16 @@ public class TutorialManager : MonoBehaviour
             milkChest.Enable();
 
             indicator1 = CreateIndicator(milkChest.gameObject, new(0f, 1f, 0f));
+            indicator2 = CreateIndicator(manager1.gameObject, new(0f, 1.8f, 0f));
         }
         else if (phase == 2)
         {
             Destroy(indicator1);
             tutorialTextBox.SetContents("Press C to give it to the manager.");
-
-            indicator1 = CreateIndicator(manager1.gameObject, new(0f, 1.8f, 0f));
         }
         else if (phase == 3)
         {
-            Destroy(indicator1);
+            Destroy(indicator2);
             tutorialTextBox.SetContents("Nicely done! Now grab a milk and a strawberry.");
             var request = requestManager.GetTutorialRequest(new()
             {
