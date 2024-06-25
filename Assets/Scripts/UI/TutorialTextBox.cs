@@ -5,10 +5,11 @@ public class TutorialTextBox : MonoBehaviour
 {
     public TutorialManager tutorialManager;
     public TMP_Text mainText;
+    public TMP_Text holdToSkipText;
     public CircularProgress circularProgress;
     public PlayerControl playerControl;
-    private readonly Vector3 MainTextOffsetWithoutSkip = new(0f, 0f, 0f);
-    private readonly Vector3 MainTextOffsetWithSkip = new(0f, 0.0705f, 0f);
+    private readonly Vector3 MainTextOffsetWithoutSkip = new(0f, -0.18f, 0f);
+    private readonly Vector3 MainTextOffsetWithSkip = new(0f, -0.08f, 0f);
 
     public void SetContents(string text, bool showPressToSkip = false)
     {
@@ -17,6 +18,11 @@ public class TutorialTextBox : MonoBehaviour
 
         circularProgress.gameObject.SetActive(showPressToSkip);
         playerControl.disableJump = showPressToSkip;
+        if (showPressToSkip)
+        {
+            Debug.Log("Triggered flicker.");
+            holdToSkipText.GetComponent<FlickerEffect>().Trigger(2f, 0.4f);
+        }
 
         mainText.GetComponent<FlickerEffect>().Trigger(0.6f, 0.15f);
     }

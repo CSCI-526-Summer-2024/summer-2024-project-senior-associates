@@ -96,7 +96,7 @@ public class Manager : MonoBehaviour
 
     public void Schmooze()
     {
-        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood) / 2, transform.position);
         FinishRequest();
     }
 
