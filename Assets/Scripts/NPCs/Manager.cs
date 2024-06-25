@@ -75,13 +75,16 @@ public class Manager : MonoBehaviour
         }
 
         var satisfied = request.item == item;
+        if (peek)
+        {
+            return satisfied;
+        }
         if (satisfied)
         {
-            if (!peek)
-            {
-                uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
-                FinishRequest();
-            }
+
+            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+            FinishRequest();
+
         }
         else
         {
