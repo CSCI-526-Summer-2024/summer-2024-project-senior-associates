@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+public delegate void OnCircularProgressDone();
+
 public class CircularProgress : MonoBehaviour
 {
+    public OnCircularProgressDone onCircularProgressDone;
     public TutorialManager tutorialManager;
     public Image circularImage;
     private const KeyCode KeyToHold = KeyCode.Space;
@@ -33,7 +36,7 @@ public class CircularProgress : MonoBehaviour
             if (circularImage.fillAmount >= 1f)
             {
                 circularImage.fillAmount = 0f;
-                tutorialManager.OnCircularProgressDone();
+                onCircularProgressDone();
                 waitForKeyUp = true;
             }
         }

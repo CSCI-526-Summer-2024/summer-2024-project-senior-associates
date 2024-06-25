@@ -38,6 +38,7 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialTextBox.gameObject.SetActive(false);
         }
+        tutorialTextBox.circularProgress.onCircularProgressDone = UpdatePhase;
     }
 
     void Update()
@@ -83,11 +84,6 @@ public class TutorialManager : MonoBehaviour
                 UpdatePhase();
             }
         }
-    }
-
-    public void OnCircularProgressDone()
-    {
-        UpdatePhase();
     }
 
     public void OnRequestSatisfied()

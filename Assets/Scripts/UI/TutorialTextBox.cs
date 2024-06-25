@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class TutorialTextBox : MonoBehaviour
 {
-    public TutorialManager tutorialManager;
     public TMP_Text mainText;
     public TMP_Text holdToSkipText;
     public CircularProgress circularProgress;
