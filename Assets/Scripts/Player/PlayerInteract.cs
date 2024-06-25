@@ -57,7 +57,7 @@ public class PlayerInteract : MonoBehaviour
             UpdateActiveItemBorder();
         }
 
-        if (chest != null && !chest.Disabled && CanTakeOutFromChest())
+        if (chest != null && !chest.Disabled && !InventoryIsFull())
         {
             ShowCHint();
             if (Input.GetKeyDown(KeyCode.C))
@@ -68,37 +68,28 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
-            var hasTakenProductOut = false;
-            if (CanTakeOutFromSmoothie())
-            {
-                if (smoothieMachine.HasProduct())
-                {
-                    ShowCHint();
-                }
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    var product = smoothieMachine.GetProduct();
-                    if (product != null)
-                    {
-                        PickUp(product);
-                        HideCHint();
-                        hasTakenProductOut = true;
-                    }
-                }
-            }
-            if (!hasTakenProductOut && GetActiveItem() != null)
+            var hasAddedIngredient = false;
+            if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
                 ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    if (smoothieMachine.AddIngredient(GetActiveItem()))
+                    smoothieMachine.AddIngredient(GetActiveItem());
+                    DiscardOneItem(rightActive);
+                    hasAddedIngredient = true;
+                    if (!smoothieMachine.TryAddIngredient(GetActiveItem()))
                     {
-                        DiscardOneItem(rightActive);
-                        if (GetActiveItem() == null)
-                        {
-                            HideCHint();
-                        }
+                        HideCHint();
                     }
+                }
+            }
+            if (!hasAddedIngredient && !InventoryIsFull() && smoothieMachine.HasProduct())
+            {
+                ShowCHint();
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    PickUp(smoothieMachine.GetProduct());
+                    HideCHint();
                 }
             }
         }
@@ -153,14 +144,9 @@ public class PlayerInteract : MonoBehaviour
         return new List<Item> { leftItem, rightItem }.Where(item => item != null).ToList();
     }
 
-    private bool CanTakeOutFromChest()
+    private bool InventoryIsFull()
     {
-        return rightItem == null;
-    }
-
-    private bool CanTakeOutFromSmoothie()
-    {
-        return rightItem == null;
+        return rightItem != null;
     }
 
     private void DiscardOneItem(bool discardRightFirst)

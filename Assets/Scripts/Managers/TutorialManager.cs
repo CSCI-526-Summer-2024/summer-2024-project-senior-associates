@@ -96,7 +96,7 @@ public class TutorialManager : MonoBehaviour
         phase++;
         if (phase == 1)
         {
-            tutorialTextBox.SetContents("Press C to grab a milk (use arrow keys to move).");
+            tutorialTextBox.SetContents("Use arrow keys to move..");
             var tutorialRequest = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Ingredient,
@@ -111,12 +111,13 @@ public class TutorialManager : MonoBehaviour
         else if (phase == 2)
         {
             Destroy(indicator1);
-            tutorialTextBox.SetContents("Press C to give it to the manager.");
+            tutorialTextBox.SetContents(null);
+            // tutorialTextBox.SetContents("Press C to give it to the manager.");
         }
         else if (phase == 3)
         {
             Destroy(indicator2);
-            tutorialTextBox.SetContents("Nicely done! Now grab a milk and a strawberry.");
+            // tutorialTextBox.SetContents("Nicely done! Now grab a milk and a strawberry.");
             var request = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Smoothie,
@@ -131,14 +132,14 @@ public class TutorialManager : MonoBehaviour
         }
         else if (phase == 4)
         {
-            tutorialTextBox.SetContents("Press C to put them in the smoothie machine.");
+            // tutorialTextBox.SetContents("Press C to put them in the smoothie machine.");
             smoothieMachine.Enable();
 
             indicator1 = CreateIndicator(smoothieMachine.gameObject, new(0f, 1f, 0f));
         }
         else if (phase == 5)
         {
-            tutorialTextBox.SetContents("Press C to take out the smoothie, and give it to the manager.");
+            // tutorialTextBox.SetContents("Press C to take out the smoothie, and give it to the manager.");
 
             indicator1 = CreateIndicator(manager2.gameObject, new(0f, 2.2f, 0f));
         }
