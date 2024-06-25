@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Level2Ingredients
   m_EditorClassIdentifier: 
   allIngredients:
-  - prefab: {fileID: 9168498407691930845, guid: f9fa2c66800bf3b45bcb146eb7ccd01b, type: 3}
+  - prefab: {fileID: 2411173886039890447, guid: 8c2898365daf55e4282737db0d1081fb, type: 3}
     type: 1
-  - prefab: {fileID: 1008598596087466521, guid: 586100b025cfff14d99560592198e375, type: 3}
+  - prefab: {fileID: 806247638796918245, guid: d6c571571349d5f4b84f605a793765c5, type: 3}
     type: 0
-  - prefab: {fileID: 1370488751887449752, guid: f0623526a9952574ca7fb5ae221a902f, type: 3}
+  - prefab: {fileID: 8871696999972314960, guid: a5649c2f2fa01114487b413a617767a4, type: 3}
     type: 0
-  cupPrefab: {fileID: 5098878505731321067, guid: 47ccae1a66c607d4d8b4b3bb3c759976, type: 3}
+  cupPrefab: {fileID: 806247638796918245, guid: 21688876d03ec9f49b07df9844976d8c, type: 3}
   backgroundPrefab: {fileID: 8822008812779645444, guid: 720d645db71ceca47848b7ca99794216, type: 3}

@@ -1802,7 +1802,6 @@ GameObject:
   - component: {fileID: 1771702627}
   - component: {fileID: 1771702625}
   - component: {fileID: 1771702629}
-  - component: {fileID: 1771702630}
   - component: {fileID: 1771702631}
   - component: {fileID: 1771702633}
   - component: {fileID: 1771702632}
@@ -1922,18 +1921,6 @@ MonoBehaviour:
   disableAllAction: 0
   disableJump: 0
   waitForSpaceKeyUp: 0
---- !u!114 &1771702630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771702624}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83c66ef2f0a28ad44b3d65bcad150d0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1771702631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1947,6 +1934,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableDiscard: 0
+  cPrefab: {fileID: 0}
+  activeItemBorderPrefab: {fileID: 0}
 --- !u!61 &1771702632
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2007,6 +1996,8 @@ MonoBehaviour:
   energyBar: {fileID: 1789351083}
   bed: {fileID: 0}
   cPrefab: {fileID: 0}
+  bedText: {fileID: 0}
+  player: {fileID: 0}
   enableEnergyDrop: 1
 --- !u!1 &1789351083
 GameObject:
@@ -2058,7 +2049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4117647, g: 0.87058824, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

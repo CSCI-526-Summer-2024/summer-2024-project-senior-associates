@@ -36,6 +36,12 @@ public class PlayerControl : MonoBehaviour
 
         speed = NormalSpeed;
         jumpForce = NormalJumpForce;
+
+        if (DataManager.waitForSpaceKeyUpAtStart)
+        {
+            DataManager.waitForSpaceKeyUpAtStart = false;
+            waitForSpaceKeyUp = true;
+        }
     }
 
     void Update()
