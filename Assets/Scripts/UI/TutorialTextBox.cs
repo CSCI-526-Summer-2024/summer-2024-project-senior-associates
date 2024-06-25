@@ -21,10 +21,12 @@ public class TutorialTextBox : MonoBehaviour
         if (showPressToSkip)
         {
             Debug.Log("Triggered flicker.");
-            holdToSkipText.GetComponent<FlickerEffect>().Trigger(2f, 0.4f);
+            holdToSkipText.GetComponent<FlickerEffect>().Trigger(6f, 0.3f);
         }
 
         mainText.GetComponent<FlickerEffect>().Trigger(0.6f, 0.15f);
+
+        gameObject.SetActive(showPressToSkip);
     }
 
     public void Hide()
