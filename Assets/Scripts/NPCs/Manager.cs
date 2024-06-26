@@ -1,6 +1,14 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
+public enum SubmitResult
+{
+    Unsubmittable,
+    Failed,
+    SubmittedRight,
+    SubmittedLeft,
+}
 
 public class Manager : MonoBehaviour
 {
@@ -67,36 +75,41 @@ public class Manager : MonoBehaviour
         PositionRequest();
     }
 
-    public bool Submit(Item item, bool peek)
+    public SubmitResult TrySubmit(List<Item> items)
     {
-        if (request == null || item == null)
+        if (request == null || items.Count == 0)
         {
-            return false;
+            return SubmitResult.Unsubmittable;
         }
-
-        var satisfied = request.item == item;
-        if (peek)
+        for (var idx = 0; idx < items.Count && idx < 2; idx++)
         {
-            return satisfied;
+            if (items[idx] == request.item)
+            {
+                return idx == 0 ? SubmitResult.SubmittedLeft : SubmitResult.SubmittedRight;
+            }
         }
-        if (satisfied)
-        {
+        return SubmitResult.Failed;
+    }
 
-            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
-            FinishRequest();
-
-        }
-        else
+    public SubmitResult Submit(List<Item> items)
+    {
+        var res = TrySubmit(items);
+        if (res == SubmitResult.Failed)
         {
             request.obj.GetComponent<ShakeEffect>().Trigger(0.5f, 0.02f);
             uiManager.AddWrongItemNum();
         }
-        return satisfied;
+        else if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
+        {
+            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+            FinishRequest();
+        }
+        return res;
     }
 
     public void Schmooze()
     {
-        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood) / 2, transform.position);
         FinishRequest();
     }
 

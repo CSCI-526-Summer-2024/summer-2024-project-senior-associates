@@ -48,7 +48,7 @@ public class PlayerInteract : MonoBehaviour
 
         if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
-            DiscardOneItem();
+            DiscardOneItem(rightActive);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -57,66 +57,55 @@ public class PlayerInteract : MonoBehaviour
             UpdateActiveItemBorder();
         }
 
-        if (chest != null && CanTakeOutFromChest())
+        if (chest != null && !chest.Disabled && !InventoryIsFull())
         {
             ShowCHint();
             if (Input.GetKeyDown(KeyCode.C))
             {
-                var item = chest.GetItem();
-                if (item != null)
-                {
-                    PickUp(item);
-                    HideCHint();
-                }
+                PickUp(chest.GetItem());
+                HideCHint();
             }
         }
-        else if (smoothieMachine != null)
+        else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
-            var hasTakenProductOut = false;
-            if (CanTakeOutFromSmoothie())
-            {
-                if (smoothieMachine.HasProduct())
-                {
-                    ShowCHint();
-                }
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    var product = smoothieMachine.GetProduct();
-                    if (product != null)
-                    {
-                        PickUp(product);
-                        HideCHint();
-                        hasTakenProductOut = true;
-                    }
-                }
-            }
-            if (!hasTakenProductOut && GetCurrentItem() != null)
+            var hasAddedIngredient = false;
+            if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
                 ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    if (smoothieMachine.AddIngredient(GetCurrentItem()))
+                    smoothieMachine.AddIngredient(GetActiveItem());
+                    DiscardOneItem(rightActive);
+                    hasAddedIngredient = true;
+                    if (!smoothieMachine.TryAddIngredient(GetActiveItem()))
                     {
-                        DiscardOneItem();
-                        if (GetCurrentItem() == null)
-                        {
-                            HideCHint();
-                        }
+                        HideCHint();
                     }
+                }
+            }
+            if (!hasAddedIngredient && !InventoryIsFull() && smoothieMachine.HasProduct())
+            {
+                ShowCHint();
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    PickUp(smoothieMachine.GetProduct());
+                    HideCHint();
                 }
             }
         }
         else if (manager != null)
         {
-            if (manager.Submit(GetCurrentItem(), true))
+            var res = manager.TrySubmit(GetAllItems());
+            if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
             {
                 ShowCHint();
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                if (GetCurrentItem() != null && manager.Submit(GetCurrentItem(), false))
+                res = manager.Submit(GetAllItems());
+                if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
                 {
-                    DiscardOneItem();
+                    DiscardOneItem(res == SubmitResult.SubmittedRight);
                     HideCHint();
                 }
             }
@@ -125,7 +114,7 @@ public class PlayerInteract : MonoBehaviour
                 if (playerEnergy.CanSchmooze())
                 {
                     manager.Schmooze();
-                    playerEnergy.LoseEnergy();
+                    playerEnergy.LoseEnergyFromSchmooze();
                 }
             }
         }
@@ -138,7 +127,7 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    public Item GetCurrentItem()
+    public Item GetActiveItem()
     {
         if (rightActive)
         {
@@ -155,21 +144,16 @@ public class PlayerInteract : MonoBehaviour
         return new List<Item> { leftItem, rightItem }.Where(item => item != null).ToList();
     }
 
-    private bool CanTakeOutFromChest()
+    private bool InventoryIsFull()
     {
-        return rightItem == null;
+        return rightItem != null;
     }
 
-    private bool CanTakeOutFromSmoothie()
-    {
-        return rightItem == null;
-    }
-
-    private void DiscardOneItem()
+    private void DiscardOneItem(bool discardRightFirst)
     {
         if (rightItem != null)
         {
-            if (rightActive)
+            if (discardRightFirst)
             {
                 Destroy(rightItem.obj);
             }
@@ -274,7 +258,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void UpdateActiveItemBorder()
     {
-        if (GetCurrentItem() == null)
+        if (GetActiveItem() == null)
         {
             activeItemBorder.SetActive(false);
         }

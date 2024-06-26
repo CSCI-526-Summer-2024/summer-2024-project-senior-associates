@@ -439,7 +439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.805, y: -0.486}
+  m_AnchoredPosition: {x: 4.805, y: -0.82}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &136894286
@@ -1056,6 +1056,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SBCup
       objectReference: {fileID: 0}
+    - target: {fileID: 3222832783607181008, guid: 21688876d03ec9f49b07df9844976d8c, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222832783607181008, guid: 21688876d03ec9f49b07df9844976d8c, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222832783607181008, guid: 21688876d03ec9f49b07df9844976d8c, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222832783607181008, guid: 21688876d03ec9f49b07df9844976d8c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f363a3abfa2b17e4a8001abf4d867780, type: 2}
     - target: {fileID: 3434684140353481715, guid: 21688876d03ec9f49b07df9844976d8c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.001
@@ -1214,8 +1230,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 1.25}
+  m_AnchoredPosition: {x: 0, y: -0.1875}
+  m_SizeDelta: {x: 10, y: 1.625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &715266765
 MonoBehaviour:
@@ -1539,7 +1555,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0705}
+  m_AnchoredPosition: {x: 0, y: -0.08}
   m_SizeDelta: {x: 10, y: 1.109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &809268538
@@ -1562,7 +1578,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press C to take out the smoothie, and give it to the manager.
+  m_text: Well done! You may also press Q to throw away an item, or press R to switch
+    between items.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1662,6 +1679,7 @@ GameObject:
   - component: {fileID: 874229783}
   - component: {fileID: 874229785}
   - component: {fileID: 874229784}
+  - component: {fileID: 874229786}
   m_Layer: 0
   m_Name: HoldToSkipText
   m_TagString: Untagged
@@ -1735,8 +1753,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.25
-  m_fontSizeBase: 0.25
+  m_fontSize: 0.3
+  m_fontSizeBase: 0.3
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1785,6 +1803,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874229782}
   m_CullTransparentMesh: 1
+--- !u!114 &874229786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874229782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff54ce84b463dd14c8217b252b5572c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &884943303
 GameObject:
   m_ObjectHideFlags: 0
@@ -3089,8 +3119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a11239caae1a974bbb7e2c7ab3502e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialManager: {fileID: 1354782575}
   mainText: {fileID: 809268538}
+  holdToSkipText: {fileID: 874229784}
   circularProgress: {fileID: 136894286}
   playerControl: {fileID: 1771702629}
 --- !u!1 &1549879546
@@ -3627,6 +3657,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4734439962252848468, guid: 8c2898365daf55e4282737db0d1081fb, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4734439962252848468, guid: 8c2898365daf55e4282737db0d1081fb, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4734439962252848468, guid: 8c2898365daf55e4282737db0d1081fb, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4734439962252848468, guid: 8c2898365daf55e4282737db0d1081fb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f363a3abfa2b17e4a8001abf4d867780, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4047,7 +4093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 240492985}
-  TotalRealTimeInSeconds: 95
+  TotalRealTimeInSeconds: 90
 --- !u!114 &1966574111
 MonoBehaviour:
   m_ObjectHideFlags: 0
