@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour
 {
-    private bool disabled = false;
+    private bool disabled = false; public bool Disabled => disabled;
     public IngredientData ingredientData;
     public int ingredientIndex;
     private Ingredient ingredient;
@@ -18,19 +18,12 @@ public class Chest : MonoBehaviour
 
     public Item GetItem()
     {
-        if (disabled)
+        return new Item
         {
-            return null;
-        }
-        else
-        {
-            return new Item
-            {
-                obj = Instantiate(ingredient.prefab),
-                type = Item.Type.Ingredient,
-                ingredients = new() { ingredient },
-            };
-        }
+            obj = Instantiate(ingredient.prefab),
+            type = Item.Type.Ingredient,
+            ingredients = new() { ingredient },
+        };
     }
 
     public void Enable()

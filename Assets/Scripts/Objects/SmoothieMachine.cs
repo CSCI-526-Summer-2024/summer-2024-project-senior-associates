@@ -7,7 +7,8 @@ public class SmoothieMachine : MonoBehaviour
 {
     public IngredientData ingredientData;
     public GameObject progressBar;
-    private readonly float TimeIncrementWhenNewItemAdded = 2f;
+    public bool allowDoubleSmoothie = true;
+    private readonly float TimeIncrementWhenNewItemAdded = 3f;
     private readonly float MachineTopItemXSpace = 0.2f;
     private readonly Vector3 MachineToItemOffset = new(0f, 1f, -0.1f);
     private readonly List<Ingredient> ingredients = new();
@@ -16,7 +17,7 @@ public class SmoothieMachine : MonoBehaviour
     private float productCountdownMax;
     private readonly Color NormalColor = new(1f, 1f, 1f);
     private readonly Color DisabledColor = new(0.5f, 0.5f, 0.5f);
-    private bool disabled = false;
+    private bool disabled = false; public bool Disabled => disabled;
     private SpriteRenderer[] spriteRenderers;
 
     void Awake()
@@ -46,33 +47,60 @@ public class SmoothieMachine : MonoBehaviour
         }
     }
 
-    public bool AddIngredient(Item item)
+    public bool TryAddIngredient(Item item)
     {
         if (disabled || item == null || item.type != Item.Type.Ingredient)
         {
             return false;
         }
-
         var ingredient = item.ingredients[0];
         if (ingredient.type == Ingredient.Type.Liquid
             && ingredients.Any(info => info.type == Ingredient.Type.Liquid))
         {
-            Debug.Log("Ignored because there is already a liquid base: " + ingredient.prefab.name);
+            return false;
+        }
+        else if (!allowDoubleSmoothie && ingredient.type == Ingredient.Type.Solid
+            && ingredients.Any(info => info.type == Ingredient.Type.Solid))
+        {
             return false;
         }
         else
         {
-            Debug.Log("Added ingredient: " + ingredient.prefab.name);
-            ingredients.Add(ingredient);
-            AddTopItem(ingredient);
-            UpdateProductCountdown();
             return true;
         }
     }
 
-    public Item GetProduct(bool peek)
+    public void AddIngredient(Item item)
     {
-        if (!disabled && topItems.Count > 0 && productCountdown <= 0f)
+        if (TryAddIngredient(item))
+        {
+            ingredients.Add(item.ingredients[0]);
+            AddTopItem(item.ingredients[0]);
+            if (ingredients.Any(info => info.type == Ingredient.Type.Liquid))
+            {
+                if (item.ingredients[0].type != Ingredient.Type.Liquid)
+                {
+                    UpdateProductCountdown();
+                }
+                else
+                {
+                    for (var i = 0; i < ingredients.Count - 1; i++)
+                    {
+                        UpdateProductCountdown();
+                    }
+                }
+            }
+        }
+    }
+
+    public bool HasProduct()
+    {
+        return !disabled && topItems.Count > 0 && productCountdown <= 0f && ingredients.Count > 1;
+    }
+
+    public Item GetProduct()
+    {
+        if (HasProduct())
         {
             var item = new Item
             {
@@ -80,18 +108,12 @@ public class SmoothieMachine : MonoBehaviour
                 type = Item.Type.Smoothie,
                 ingredients = new List<Ingredient>(ingredients)
             };
-
-            if (!peek)
-            {
-                topItems.Clear();
-                ingredients.Clear();
-            }
+            topItems.Clear();
+            ingredients.Clear();
             return item;
         }
         return null;
     }
-
-
 
     public void Enable()
     {
@@ -134,7 +156,7 @@ public class SmoothieMachine : MonoBehaviour
     private void ProduceProduct()
     {
         ClearTopItems();
-        var smoothie = ingredientData.CreateSmoothieObj(ingredients);
+        var smoothie = ingredientData.CreateSmoothieObj(ingredients, true);
         smoothie.transform.SetParent(transform);
         smoothie.transform.localPosition = MachineToItemOffset;
         topItems.Add(smoothie);

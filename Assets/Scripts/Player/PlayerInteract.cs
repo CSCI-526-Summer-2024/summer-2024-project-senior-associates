@@ -6,10 +6,11 @@ public class PlayerInteract : MonoBehaviour
 {
     public bool disableDiscard = false;
     public GameObject cPrefab;
-    public GameObject player;
+    public GameObject activeItemBorderPrefab;
     private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
     private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
     private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
+    private bool rightActive = true;
     private Item leftItem;
     private Item rightItem;
     private Chest chest;
@@ -18,15 +19,24 @@ public class PlayerInteract : MonoBehaviour
     private bool isNearBed = false;
     private PlayerEnergy playerEnergy;
     private PlayerControl playerControl;
-    private GameObject indicator;
+    private GameObject cKeyHint;
+    private GameObject activeItemBorder;
 
     void Awake()
     {
         playerEnergy = GetComponent<PlayerEnergy>();
         playerControl = GetComponent<PlayerControl>();
-        indicator = CreateIndicator(player, new(-1f, 0f, 0f));
-        indicator.gameObject.SetActive(false);
-
+        if (Util.GetCurrentLevelNum() == 1)
+        {
+            cKeyHint = CreateCKeyHint(gameObject, new(1.45f, 1.8f, 0f));
+            HideCHint();
+        }
+        if (activeItemBorderPrefab != null)
+        {
+            activeItemBorder = Instantiate(activeItemBorderPrefab);
+            activeItemBorder.transform.SetParent(transform);
+            activeItemBorder.SetActive(false);
+        }
     }
 
     void Update()
@@ -38,71 +48,73 @@ public class PlayerInteract : MonoBehaviour
 
         if (!disableDiscard && Input.GetKeyDown(KeyCode.Q))
         {
-            DiscardOneItem();
+            DiscardOneItem(rightActive);
         }
 
-        if (chest != null && CanTakeOutFromChest())
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            indicator.gameObject.SetActive(true);
+            rightActive = !rightActive;
+            UpdateActiveItemBorder();
+        }
+
+        if (chest != null && !chest.Disabled && !InventoryIsFull())
+        {
+            ShowCHint();
             if (Input.GetKeyDown(KeyCode.C))
             {
-                indicator.gameObject.SetActive(false);
-                var item = chest.GetItem();
-                if (item != null)
-                {
-                    PickUp(item);
-                }
+                PickUp(chest.GetItem());
+                HideCHint();
             }
         }
-        else if (smoothieMachine != null)
+        else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
-
-            if (CanTakeOutFromSmoothie())
+            var hasAddedIngredient = false;
+            if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
-                if (smoothieMachine.GetProduct(true) != null)
-                {
-                    indicator.gameObject.SetActive(true);
-                }
+                ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    var product = smoothieMachine.GetProduct(false);
-                    if (product != null)
+                    smoothieMachine.AddIngredient(GetActiveItem());
+                    DiscardOneItem(rightActive);
+                    hasAddedIngredient = true;
+                    if (!smoothieMachine.TryAddIngredient(GetActiveItem()))
                     {
-                        PickUp(product);
-                        indicator.gameObject.SetActive(false);
+                        HideCHint();
                     }
                 }
             }
-            else if (GetCurrentItem() != null)
+            if (!hasAddedIngredient && !InventoryIsFull() && smoothieMachine.HasProduct())
             {
-                indicator.gameObject.SetActive(true);
+                ShowCHint();
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-
-                    if (smoothieMachine.AddIngredient(GetCurrentItem()))
-                    {
-                        DiscardOneItem();
-                    }
-                    if (GetCurrentItem() == null)
-                    {
-                        indicator.gameObject.SetActive(false);
-                    }
+                    PickUp(smoothieMachine.GetProduct());
+                    HideCHint();
                 }
             }
-
         }
         else if (manager != null)
         {
-            if (manager.Submit(GetCurrentItem(), true))
+            var res = manager.TrySubmit(GetAllItems());
+            if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
             {
-                indicator.gameObject.SetActive(true);
+                ShowCHint();
             }
             if (Input.GetKeyDown(KeyCode.C))
             {
-                if (GetCurrentItem() != null && manager.Submit(GetCurrentItem(), false))
+                res = manager.Submit(GetAllItems());
+                if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
                 {
-                    DiscardOneItem();
-                    indicator.gameObject.SetActive(false);
+                    DiscardOneItem(res == SubmitResult.SubmittedRight);
+                    HideCHint();
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                if (playerEnergy.CanSchmooze())
+                {
+                    manager.Schmooze();
+                    playerEnergy.LoseEnergyFromSchmooze();
                 }
             }
         }
@@ -113,20 +125,18 @@ public class PlayerInteract : MonoBehaviour
                 playerEnergy.ToggleSleeping();
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (manager != null && playerEnergy.CanSchmooze())
-            {
-                manager.Schmooze();
-                playerEnergy.LoseEnergy();
-            }
-        }
     }
 
-    public Item GetCurrentItem()
+    public Item GetActiveItem()
     {
-        return rightItem ?? leftItem;
+        if (rightActive)
+        {
+            return rightItem ?? leftItem;
+        }
+        else
+        {
+            return leftItem ?? rightItem;
+        }
     }
 
     public List<Item> GetAllItems()
@@ -134,21 +144,24 @@ public class PlayerInteract : MonoBehaviour
         return new List<Item> { leftItem, rightItem }.Where(item => item != null).ToList();
     }
 
-    private bool CanTakeOutFromChest()
+    private bool InventoryIsFull()
     {
-        return rightItem == null;
+        return rightItem != null;
     }
 
-    private bool CanTakeOutFromSmoothie()
-    {
-        return rightItem == null && (GetCurrentItem() == null || GetCurrentItem().type != Item.Type.Ingredient);
-    }
-
-    private void DiscardOneItem()
+    private void DiscardOneItem(bool discardRightFirst)
     {
         if (rightItem != null)
         {
-            Destroy(rightItem.obj);
+            if (discardRightFirst)
+            {
+                Destroy(rightItem.obj);
+            }
+            else
+            {
+                Destroy(leftItem.obj);
+                leftItem = rightItem;
+            }
             rightItem = null;
             leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingOne;
         }
@@ -157,8 +170,8 @@ public class PlayerInteract : MonoBehaviour
             Destroy(leftItem.obj);
             leftItem = null;
         }
+        UpdateActiveItemBorder();
     }
-
 
     private void PickUp(Item item)
     {
@@ -175,6 +188,7 @@ public class PlayerInteract : MonoBehaviour
             rightItem.obj.transform.localPosition = RightItemOffset;
             leftItem.obj.transform.localPosition = LeftItemOffsetWhenHoldingTwo;
         }
+        UpdateActiveItemBorder();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -202,12 +216,12 @@ public class PlayerInteract : MonoBehaviour
         if (collision.gameObject.CompareTag("Chest"))
         {
             chest = null;
-            indicator.gameObject.SetActive(false);
+            HideCHint();
         }
         else if (collision.gameObject.CompareTag("SmoothieMachine"))
         {
             smoothieMachine = null;
-            indicator.gameObject.SetActive(false);
+            HideCHint();
         }
         else if (collision.gameObject.CompareTag("Manager"))
         {
@@ -219,10 +233,54 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private GameObject CreateIndicator(GameObject obj, Vector3 offset)
+    private GameObject CreateCKeyHint(GameObject obj, Vector3 offset)
     {
-        var indicator = Instantiate(cPrefab);
-        indicator.GetComponent<FloatingAnim>().Init(obj, offset);
-        return indicator;
+        var cKeyHint = Instantiate(cPrefab);
+        cKeyHint.GetComponent<FloatingAnim>().Init(obj, offset);
+        return cKeyHint;
+    }
+
+    private void ShowCHint()
+    {
+        if (cKeyHint != null)
+        {
+            cKeyHint.SetActive(true);
+        }
+    }
+
+    private void HideCHint()
+    {
+        if (cKeyHint != null)
+        {
+            cKeyHint.SetActive(false);
+        }
+    }
+
+    private void UpdateActiveItemBorder()
+    {
+        if (GetActiveItem() == null)
+        {
+            activeItemBorder.SetActive(false);
+        }
+        else
+        {
+            activeItemBorder.SetActive(true);
+            Vector3 itemToBorderOffset = new(0f, 0.5f, 0f);
+            if (rightItem == null)
+            {
+                activeItemBorder.transform.localPosition = LeftItemOffsetWhenHoldingOne + itemToBorderOffset;
+            }
+            else
+            {
+                if (rightActive)
+                {
+                    activeItemBorder.transform.localPosition = RightItemOffset + itemToBorderOffset;
+                }
+                else
+                {
+                    activeItemBorder.transform.localPosition = LeftItemOffsetWhenHoldingTwo + itemToBorderOffset;
+                }
+            }
+        }
     }
 }
