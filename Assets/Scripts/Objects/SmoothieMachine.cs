@@ -59,15 +59,16 @@ public class SmoothieMachine : MonoBehaviour
         {
             return false;
         }
-        else if (!allowDoubleSmoothie && ingredient.type == Ingredient.Type.Solid
-            && ingredients.Any(info => info.type == Ingredient.Type.Solid))
+        if (ingredient.type == Ingredient.Type.Solid)
         {
-            return false;
+            var maxSolidCount = allowDoubleSmoothie ? 2 : 1;
+            var currentSolidCount = ingredients.Count(info => info.type == Ingredient.Type.Solid);
+            if (currentSolidCount >= maxSolidCount)
+            {
+                return false;
+            }
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     public void AddIngredient(Item item)
@@ -95,7 +96,9 @@ public class SmoothieMachine : MonoBehaviour
 
     public bool HasProduct()
     {
-        return !disabled && topItems.Count > 0 && productCountdown <= 0f && ingredients.Count > 1;
+        return !disabled && topItems.Count == 1 && productCountdown <= 0f
+        && ingredients.Count(info => info.type == Ingredient.Type.Solid) >= 1
+        && ingredients.Count(info => info.type == Ingredient.Type.Liquid) == 1;
     }
 
     public Item GetProduct()
