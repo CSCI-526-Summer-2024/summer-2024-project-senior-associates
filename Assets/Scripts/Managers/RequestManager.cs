@@ -1,8 +1,10 @@
 using UnityEngine;
+using TMPro;
 
 public class RequestManager : MonoBehaviour
 {
     public GameObject requestBackgroundPrefab;
+    public GameObject scorePrefab;
     public IngredientData ingredientData;
     public RequestProbability[] probList;
     public Range ItemRewardBase;
@@ -13,6 +15,8 @@ public class RequestManager : MonoBehaviour
     public int DoubleSmoothieMaxTime;
     private int index = 0;
     private int numRequest = 0;
+    public Vector3 scoreTextOffset = new(1.42f, -0.56f, 0f);
+    private GameObject scoreText;
 
     public Request GetRequest(float rewardMultiplier)
     {
@@ -62,7 +66,6 @@ public class RequestManager : MonoBehaviour
         request.reward = rewardRange.GetRandom();
         Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.reward}");
         numRequest++;
-
         return request;
     }
 
@@ -120,6 +123,11 @@ public class RequestManager : MonoBehaviour
         }
         item.transform.SetParent(obj.transform);
         SetItemPositionAndScale(request, item);
+
+        GameObject score = Instantiate(scorePrefab);
+        score.transform.SetParent(obj.transform);
+        score.transform.localPosition = scoreTextOffset;
+        score.transform.localScale = new(1.5f, 1.5f, 1f);
 
         return obj;
     }
