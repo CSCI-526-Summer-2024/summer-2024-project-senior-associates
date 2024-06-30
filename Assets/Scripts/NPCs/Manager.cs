@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using System;
 using System.Collections.Generic;
 
@@ -66,6 +67,11 @@ public class Manager : MonoBehaviour
             {
                 HideSchmoozeText();
             }
+        }
+        if (request != null)
+        {
+            request.obj.GetComponentInChildren<TextMeshProUGUI>().text = "+ " + CalculateReward(request.reward, mood.Mood).ToString() + " KPI";
+
         }
     }
 

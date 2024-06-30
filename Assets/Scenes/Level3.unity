@@ -1547,6 +1547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requestBackgroundPrefab: {fileID: 2766954271715062740, guid: cc08bbbcd5aa0d44f9620637944ef1fc, type: 3}
+  scorePrefab: {fileID: 5913329219554156347, guid: ee8e94c4f022f944abe4e0abb89877f6, type: 3}
   ingredientData: {fileID: 11400000, guid: 7af97fe8c256f944d8d578a95f501f33, type: 2}
   probList:
   - itemProb: 0.5
@@ -1576,6 +1577,7 @@ MonoBehaviour:
   ItemMaxTime: 37
   SingleSmoothieMaxTime: 52
   DoubleSmoothieMaxTime: 60
+  scoreTextOffset: {x: 1.42, y: -0.56, z: 0}
 --- !u!1 &708697876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,7 +1907,7 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 1
     Max: 4
-  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: ee8e94c4f022f944abe4e0abb89877f6, type: 3}
+  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: 52706ef275789a84ab1f3dea373492ed, type: 3}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
 --- !u!114 &860390432
 MonoBehaviour:
@@ -2538,7 +2540,7 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 4
     Max: 7
-  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: ee8e94c4f022f944abe4e0abb89877f6, type: 3}
+  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: 52706ef275789a84ab1f3dea373492ed, type: 3}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
 --- !u!114 &1012655670
 MonoBehaviour:
@@ -4498,7 +4500,7 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 2
     Max: 3
-  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: ee8e94c4f022f944abe4e0abb89877f6, type: 3}
+  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: 52706ef275789a84ab1f3dea373492ed, type: 3}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
 --- !u!114 &1479966387
 MonoBehaviour:
@@ -6089,7 +6091,7 @@ MonoBehaviour:
   RequestCountdownStartingRange:
     Min: 3
     Max: 8
-  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: ee8e94c4f022f944abe4e0abb89877f6, type: 3}
+  schmoozeTextPrefab: {fileID: 5913329219554156347, guid: 52706ef275789a84ab1f3dea373492ed, type: 3}
   schmoozeTextOffset: {x: -1.5, y: 0.5, z: 0}
 --- !u!114 &1910195733
 MonoBehaviour:
