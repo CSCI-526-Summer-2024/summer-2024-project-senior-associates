@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+
+
+
 
 public class LevelData
 {
@@ -13,6 +17,13 @@ public class LevelData
     public int wrongItemNum = 0;
     public int schmoozeNum = 0;
     public int schmoozeKpi = 0;
+    public List<int> kpiTrend; // Declare the property
+
+    public LevelData()
+    {
+        kpiTrend = new List<int>(); // Initialize kpiTrend here
+    }
+
 }
 
 public class UIManager : MonoBehaviour
@@ -33,7 +44,18 @@ public class UIManager : MonoBehaviour
         levelNum = Util.GetCurrentLevelNum() - 1;
         playerData = PlayerData.LoadPlayerData();
         minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
+
+        InvokeRepeating(nameof(AddElement), 0f, 5f);
     }
+
+
+    private void AddElement()
+    {
+        // Add KPI to kpiTrend
+        DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi);
+        Debug.Log("kpiTrend : " + DataManager.levelDataFirebase.kpiTrend);
+    }
+
 
     void Update()
     {
@@ -101,6 +123,8 @@ public class UIManager : MonoBehaviour
 
         DataManager.levelDataFirebase.date = Util.GetNowTime();
         DataManager.levelDataFirebase.level = Util.GetCurrentLevelNum();
+
+
 
 
 
