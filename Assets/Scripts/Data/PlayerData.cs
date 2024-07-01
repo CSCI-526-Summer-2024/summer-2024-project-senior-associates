@@ -6,7 +6,7 @@ public class LevelInfo
 {
     public int bestKpi = 0;
     public bool played = false;
-    public bool unlocked = false;
+    public bool unlocked = true;
     public int minKpi = 0;
     public string GetBestKpiString()
     {
