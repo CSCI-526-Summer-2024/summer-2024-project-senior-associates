@@ -101,7 +101,7 @@ public class Manager : MonoBehaviour
         }
         else if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
         {
-            uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood), transform.position);
+            uiManager.UpdateScore(false, CalculateReward(request.reward, mood.Mood), transform.position);
             FinishRequest();
         }
         return res;
@@ -109,7 +109,7 @@ public class Manager : MonoBehaviour
 
     public void Schmooze()
     {
-        uiManager.UpdateScore(CalculateReward(request.reward, mood.Mood) / 2, transform.position);
+        uiManager.UpdateScore(true, CalculateReward(request.reward, mood.Mood) / 2, transform.position);
         FinishRequest();
     }
 

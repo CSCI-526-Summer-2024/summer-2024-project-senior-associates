@@ -1,16 +1,17 @@
 using TMPro;
 using UnityEngine;
 using Proyecto26;
+using Newtonsoft.Json;
 
-public class FirebaseData
-{
-    public int deliveredNum;
-    public int failedNum;
-    public int wrongItemNum;
-    public string date;
-    public int level;
-}
+// public class FirebaseData
+// {
+//     public string date;
+//     public int level;
+//     public int deliveredNum;
+//     public int failedNum;
+//     public int wrongItemNum;
 
+// }
 
 public class WinLostManager : MonoBehaviour
 {
@@ -57,15 +58,18 @@ public class WinLostManager : MonoBehaviour
 
     private void SendDataFirebase()
     {
-        FirebaseData data = new()
-        {
-            deliveredNum = PlayerPrefs.GetInt("DeliveredNum", -1),
-            failedNum = PlayerPrefs.GetInt("FailedNum", -1),
-            wrongItemNum = PlayerPrefs.GetInt("WrongItemNum", -1),
-            date = PlayerPrefs.GetString("Date", "???"),
-            level = PlayerPrefs.GetInt("Level", -1),
-        };
-        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", data);
+
+
+        // FirebaseData data = new();
+        // FirebaseData data = new()
+        // {
+        //     deliveredNum = PlayerPrefs.GetInt("DeliveredNum", -1),
+        //     failedNum = PlayerPrefs.GetInt("FailedNum", -1),
+        //     wrongItemNum = PlayerPrefs.GetInt("WrongItemNum", -1),
+        //     date = PlayerPrefs.GetString("Date", "???"),
+        //     level = PlayerPrefs.GetInt("Level", -1),
+        // };
+        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", DataManager.levelDataFirebase);
     }
 
 }

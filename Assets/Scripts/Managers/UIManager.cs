@@ -1,13 +1,18 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class LevelData
 {
+    public string date;
+    public int level;
     public int deliveredNum = 0;
     public int deliveredKpi = 0;
     public int failedNum = 0;
     public int failedKpi = 0;
     public int wrongItemNum = 0;
+    public int schmoozeNum = 0;
+    public int schmoozeKpi = 0;
 }
 
 public class UIManager : MonoBehaviour
@@ -18,7 +23,7 @@ public class UIManager : MonoBehaviour
     public Canvas canvas;
     public TMP_Text minKpiText;
     private PlayerData playerData;
-    private readonly LevelData levelData = new();
+    // private static readonly LevelData DataManager.levelDataFirebase = new();
     private readonly float LevelEndPauseDuration = 3f;
     private int levelNum;
     private float levelEndPauseCountdown = 0f;
@@ -42,17 +47,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int score, Vector3 position)
+    // enum ScoreType { }
+
+    public void UpdateScore(Boolean ifSchmoozeBool, int score, Vector3 position)
     {
-        if (score > 0)
+        if (ifSchmoozeBool == true)
         {
-            levelData.deliveredNum++;
-            levelData.deliveredKpi += score;
+            DataManager.levelDataFirebase.schmoozeNum++;
+            DataManager.levelDataFirebase.schmoozeKpi += score;
+            Debug.Log("schmoozeNum: " + DataManager.levelDataFirebase.schmoozeNum + "   schmoozeKpi: " + DataManager.levelDataFirebase.schmoozeKpi);
         }
         else
         {
-            levelData.failedNum++;
-            levelData.failedKpi += score;
+            if (score > 0)
+            {
+                DataManager.levelDataFirebase.deliveredNum++;
+                DataManager.levelDataFirebase.deliveredKpi += score;
+            }
+            else
+            {
+                DataManager.levelDataFirebase.failedNum++;
+                DataManager.levelDataFirebase.failedKpi += score;
+            }
         }
 
         currentScoreText.UpdateScore(score);
@@ -62,7 +78,7 @@ public class UIManager : MonoBehaviour
 
     public void AddWrongItemNum()
     {
-        levelData.wrongItemNum++;
+        DataManager.levelDataFirebase.wrongItemNum++;
     }
 
     public void EndLevel()
@@ -75,7 +91,7 @@ public class UIManager : MonoBehaviour
         }
         Instantiate(timeUpNoticePrefab);
 
-        var totalKpi = levelData.deliveredKpi + levelData.failedKpi;
+        var totalKpi = DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi;
         playerData.levelInfos[levelNum].UpdateBestKpi(totalKpi);
         if (levelNum + 1 < playerData.levelInfos.Count && totalKpi >= playerData.levelInfos[levelNum].minKpi)
         {
@@ -83,14 +99,12 @@ public class UIManager : MonoBehaviour
         }
         playerData.SavePlayerData();
 
-        PlayerPrefs.SetInt("MinKpi", playerData.levelInfos[levelNum].minKpi);
-        PlayerPrefs.SetInt("DeliveredNum", levelData.deliveredNum);
-        PlayerPrefs.SetInt("DeliveredKPI", levelData.deliveredKpi);
-        PlayerPrefs.SetInt("FailedNum", levelData.failedNum);
-        PlayerPrefs.SetInt("FailedKPI", levelData.failedKpi);
-        PlayerPrefs.SetInt("WrongItemNum", levelData.wrongItemNum);
-        PlayerPrefs.SetString("Date", Util.GetNowTime());
-        PlayerPrefs.SetInt("Level", Util.GetCurrentLevelNum());
+        DataManager.levelDataFirebase.date = Util.GetNowTime();
+        DataManager.levelDataFirebase.level = Util.GetCurrentLevelNum();
+
+
+
+
     }
 
     private string GetGainedScoreMessage(int score)
