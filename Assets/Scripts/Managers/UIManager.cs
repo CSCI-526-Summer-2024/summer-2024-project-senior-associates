@@ -17,11 +17,11 @@ public class LevelData
     public int wrongItemNum = 0;
     public int schmoozeNum = 0;
     public int schmoozeKpi = 0;
-    public List<int> kpiTrend; // Declare the property
+    public List<int> kpiTrend;
 
     public LevelData()
     {
-        kpiTrend = new List<int>(); // Initialize kpiTrend here
+        kpiTrend = new List<int>();
     }
 
 }
@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
     public Canvas canvas;
     public TMP_Text minKpiText;
     private PlayerData playerData;
-    // private static readonly LevelData DataManager.levelDataFirebase = new();
     private readonly float LevelEndPauseDuration = 3f;
     private int levelNum;
     private float levelEndPauseCountdown = 0f;
@@ -45,13 +44,12 @@ public class UIManager : MonoBehaviour
         playerData = PlayerData.LoadPlayerData();
         minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
 
-        InvokeRepeating(nameof(AddElement), 0f, 5f);
+        InvokeRepeating(nameof(RecordKPI), 0f, 5f);
     }
 
 
-    private void AddElement()
+    private void RecordKPI()
     {
-        // Add KPI to kpiTrend
         DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi);
         Debug.Log("kpiTrend : " + DataManager.levelDataFirebase.kpiTrend);
     }
@@ -69,11 +67,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // enum ScoreType { }
 
-    public void UpdateScore(Boolean ifSchmoozeBool, int score, Vector3 position)
+    public void UpdateScore(Boolean isSchmooze, int score, Vector3 position)
     {
-        if (ifSchmoozeBool == true)
+        if (isSchmooze == true)
         {
             DataManager.levelDataFirebase.schmoozeNum++;
             DataManager.levelDataFirebase.schmoozeKpi += score;
