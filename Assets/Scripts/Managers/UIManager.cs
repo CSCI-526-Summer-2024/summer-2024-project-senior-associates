@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
     private void RecordKPI()
     {
         DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi);
-        Debug.Log("kpiTrend : " + DataManager.levelDataFirebase.kpiTrend);
+        //Debug.Log("kpiTrend : " + DataManager.levelDataFirebase.kpiTrend);
     }
 
 
@@ -82,6 +82,7 @@ public class UIManager : MonoBehaviour
             {
                 DataManager.levelDataFirebase.deliveredNum++;
                 DataManager.levelDataFirebase.deliveredKpi += score;
+                Debug.Log("Submitted: " + DataManager.levelDataFirebase.deliveredNum);
             }
             else
             {
@@ -110,7 +111,8 @@ public class UIManager : MonoBehaviour
         }
         Instantiate(timeUpNoticePrefab);
 
-        var totalKpi = DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi;
+        var totalKpi = DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi;
+        Debug.Log("UI manager endlevel " + totalKpi);
         playerData.levelInfos[levelNum].UpdateBestKpi(totalKpi);
         if (levelNum + 1 < playerData.levelInfos.Count && totalKpi >= playerData.levelInfos[levelNum].minKpi)
         {
@@ -121,8 +123,14 @@ public class UIManager : MonoBehaviour
         DataManager.levelDataFirebase.date = Util.GetNowTime();
         DataManager.levelDataFirebase.level = Util.GetCurrentLevelNum();
 
-
-
+        PlayerPrefs.SetInt("MinKpi", playerData.levelInfos[levelNum].minKpi);
+        PlayerPrefs.SetInt("DeliveredNum", DataManager.levelDataFirebase.deliveredNum + DataManager.levelDataFirebase.schmoozeNum);
+        PlayerPrefs.SetInt("DeliveredKPI", DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.schmoozeKpi);
+        PlayerPrefs.SetInt("FailedNum", DataManager.levelDataFirebase.failedNum);
+        PlayerPrefs.SetInt("FailedKPI", DataManager.levelDataFirebase.failedKpi);
+        PlayerPrefs.SetInt("WrongItemNum", DataManager.levelDataFirebase.wrongItemNum);
+        PlayerPrefs.SetString("Date", Util.GetNowTime());
+        PlayerPrefs.SetInt("Level", Util.GetCurrentLevelNum());
 
 
 
