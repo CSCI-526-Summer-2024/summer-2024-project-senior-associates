@@ -68,6 +68,14 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
+            if (smoothieMachine.HasItem() && leftItem == null)
+            {
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    smoothieMachine.ClearSmoothie();
+                    Debug.Log("smoothie machine cleared");
+                }
+            }
             var hasAddedIngredient = false;
             if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {

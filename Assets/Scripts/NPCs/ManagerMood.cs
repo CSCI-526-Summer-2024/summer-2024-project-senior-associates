@@ -34,7 +34,7 @@ public class ManagerMood : MonoBehaviour
             mood -= moodDropSpeed * Time.deltaTime;
             if (mood < 0f)
             {
-                manager.uiManager.UpdateScore((int)Math.Round(PenaltyMultiplier * manager.Request.reward), transform.position);
+                manager.uiManager.UpdateScore(false, (int)Math.Round(PenaltyMultiplier * manager.Request.reward), transform.position);
                 manager.FinishRequest();
             }
         }

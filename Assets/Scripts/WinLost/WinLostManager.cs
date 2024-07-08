@@ -1,15 +1,7 @@
 using TMPro;
 using UnityEngine;
 using Proyecto26;
-
-public class FirebaseData
-{
-    public int deliveredNum;
-    public int failedNum;
-    public int wrongItemNum;
-    public string date;
-    public int level;
-}
+using Newtonsoft.Json;
 
 
 public class WinLostManager : MonoBehaviour
@@ -31,6 +23,8 @@ public class WinLostManager : MonoBehaviour
     {
         SetText(PlayerPrefs.GetInt("MinKpi", 0), PlayerPrefs.GetInt("DeliveredNum", 0), PlayerPrefs.GetInt("DeliveredKPI", 0), PlayerPrefs.GetInt("FailedNum", 0), PlayerPrefs.GetInt("FailedKPI", 0));
         SendDataFirebase();
+        ResetFirebase();
+
     }
 
     private void SetText(int minKpi, int deliveredNum, int deliveredKPI, int failedNum, int failedKPI)
@@ -57,15 +51,23 @@ public class WinLostManager : MonoBehaviour
 
     private void SendDataFirebase()
     {
-        FirebaseData data = new()
-        {
-            deliveredNum = PlayerPrefs.GetInt("DeliveredNum", -1),
-            failedNum = PlayerPrefs.GetInt("FailedNum", -1),
-            wrongItemNum = PlayerPrefs.GetInt("WrongItemNum", -1),
-            date = PlayerPrefs.GetString("Date", "???"),
-            level = PlayerPrefs.GetInt("Level", -1),
-        };
-        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", data);
+
+        RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", DataManager.levelDataFirebase);
+    }
+
+    private void ResetFirebase()
+    {
+
+        DataManager.levelDataFirebase.deliveredNum = 0;
+        DataManager.levelDataFirebase.deliveredKpi = 0;
+
+        DataManager.levelDataFirebase.failedNum = 0;
+        DataManager.levelDataFirebase.failedKpi = 0;
+
+        DataManager.levelDataFirebase.schmoozeNum = 0;
+        DataManager.levelDataFirebase.schmoozeKpi = 0;
+
+        DataManager.levelDataFirebase.wrongItemNum = 0;
     }
 
 }
