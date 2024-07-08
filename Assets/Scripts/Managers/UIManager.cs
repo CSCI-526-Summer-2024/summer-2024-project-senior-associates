@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
-
-
 public class LevelData
 {
     public string date;
@@ -17,13 +14,11 @@ public class LevelData
     public int wrongItemNum = 0;
     public int schmoozeNum = 0;
     public int schmoozeKpi = 0;
-    public List<int> kpiTrend;
+    public List<int> kpiTrend = new();
+    public List<float> playerX = new();
+    public List<float> playerY = new();
 
-    public LevelData()
-    {
-        kpiTrend = new List<int>();
-    }
-
+    public int TotalKpi => deliveredKpi + failedKpi + schmoozeKpi;
 }
 
 public class UIManager : MonoBehaviour
@@ -37,23 +32,30 @@ public class UIManager : MonoBehaviour
     private readonly float LevelEndPauseDuration = 3f;
     private int levelNum;
     private float levelEndPauseCountdown = 0f;
+    private GameObject player;
 
     void Start()
     {
         levelNum = Util.GetCurrentLevelNum() - 1;
         playerData = PlayerData.LoadPlayerData();
         minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
+        player = GameObject.FindGameObjectWithTag("Player");
 
         InvokeRepeating(nameof(RecordKPI), 0f, 5f);
+        InvokeRepeating(nameof(RecordPlayerPosition), 0f, 5f);
     }
-
 
     private void RecordKPI()
     {
-        DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi);
-        //Debug.Log("kpiTrend : " + DataManager.levelDataFirebase.kpiTrend);
+        DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.TotalKpi);
     }
 
+    private void RecordPlayerPosition()
+    {
+        var pos = player.transform.position;
+        DataManager.levelDataFirebase.playerX.Add(pos.x);
+        DataManager.levelDataFirebase.playerY.Add(pos.y);
+    }
 
     void Update()
     {
@@ -68,7 +70,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void UpdateScore(Boolean isSchmooze, int score, Vector3 position)
+    public void UpdateScore(bool isSchmooze, int score, Vector3 position)
     {
         if (isSchmooze == true)
         {
