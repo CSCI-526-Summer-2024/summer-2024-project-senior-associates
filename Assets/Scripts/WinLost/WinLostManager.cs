@@ -23,6 +23,8 @@ public class WinLostManager : MonoBehaviour
     {
         SetText(PlayerPrefs.GetInt("MinKpi", 0), PlayerPrefs.GetInt("DeliveredNum", 0), PlayerPrefs.GetInt("DeliveredKPI", 0), PlayerPrefs.GetInt("FailedNum", 0), PlayerPrefs.GetInt("FailedKPI", 0));
         SendDataFirebase();
+        ResetFirebase();
+
     }
 
     private void SetText(int minKpi, int deliveredNum, int deliveredKPI, int failedNum, int failedKPI)
@@ -51,6 +53,21 @@ public class WinLostManager : MonoBehaviour
     {
 
         RestClient.Post("https://cs526-senior-associates-default-rtdb.firebaseio.com/data.json", DataManager.levelDataFirebase);
+    }
+
+    private void ResetFirebase()
+    {
+
+        DataManager.levelDataFirebase.deliveredNum = 0;
+        DataManager.levelDataFirebase.deliveredKpi = 0;
+
+        DataManager.levelDataFirebase.failedNum = 0;
+        DataManager.levelDataFirebase.failedKpi = 0;
+
+        DataManager.levelDataFirebase.schmoozeNum = 0;
+        DataManager.levelDataFirebase.schmoozeKpi = 0;
+
+        DataManager.levelDataFirebase.wrongItemNum = 0;
     }
 
 }

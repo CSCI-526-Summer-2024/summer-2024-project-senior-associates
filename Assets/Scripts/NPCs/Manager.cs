@@ -52,7 +52,7 @@ public class Manager : MonoBehaviour
             }
             if (request == null && nextRequestCountdown <= 0f)
             {
-                if (transform.position.x > 6f)
+                if (transform.position.x > 5f)
                 {
                     request = requestManager.GetRequest(RewardMultiplier, true);
                 }

@@ -130,7 +130,6 @@ public class RequestManager : MonoBehaviour
 
         if (flip)
         {
-            Debug.Log("try to flip");
             Vector3 flipOffset = scoreTextOffset;
             flipOffset.x *= -1f;
 
