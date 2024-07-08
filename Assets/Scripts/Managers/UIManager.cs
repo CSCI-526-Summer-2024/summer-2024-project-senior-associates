@@ -82,7 +82,6 @@ public class UIManager : MonoBehaviour
             {
                 DataManager.levelDataFirebase.deliveredNum++;
                 DataManager.levelDataFirebase.deliveredKpi += score;
-                Debug.Log("Submitted: " + DataManager.levelDataFirebase.deliveredNum);
             }
             else
             {

@@ -134,7 +134,6 @@ public class RequestManager : MonoBehaviour
             flipOffset.x *= -1f;
 
             score.transform.localPosition = flipOffset;
-            Debug.Log(score.transform.localPosition);
         }
 
         score.transform.localScale = new(1.5f, 1.5f, 1f);
