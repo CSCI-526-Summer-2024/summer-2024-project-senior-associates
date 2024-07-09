@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using System;
 using System.Collections.Generic;
 
@@ -51,7 +52,15 @@ public class Manager : MonoBehaviour
             }
             if (request == null && nextRequestCountdown <= 0f)
             {
-                request = requestManager.GetRequest(RewardMultiplier);
+                if (transform.position.x > 5f)
+                {
+                    request = requestManager.GetRequest(RewardMultiplier, true);
+                }
+                else
+                {
+                    request = requestManager.GetRequest(RewardMultiplier, false);
+                }
+
                 if (request != null)
                 {
                     PositionRequest();
@@ -66,6 +75,10 @@ public class Manager : MonoBehaviour
             {
                 HideSchmoozeText();
             }
+        }
+        if (request != null)
+        {
+            request.obj.GetComponentInChildren<TextMeshProUGUI>().text = "+ " + CalculateReward(request.reward, mood.Mood).ToString() + " KPI";
         }
     }
 

@@ -1,8 +1,10 @@
 using UnityEngine;
+using TMPro;
 
 public class RequestManager : MonoBehaviour
 {
     public GameObject requestBackgroundPrefab;
+    public GameObject scorePrefab;
     public IngredientData ingredientData;
     public RequestProbability[] probList;
     public Range ItemRewardBase;
@@ -13,8 +15,10 @@ public class RequestManager : MonoBehaviour
     public int DoubleSmoothieMaxTime;
     private int index = 0;
     private int numRequest = 0;
+    public Vector3 scoreTextOffset = new(1.42f, -0.56f, 0f);
+    private GameObject scoreText;
 
-    public Request GetRequest(float rewardMultiplier)
+    public Request GetRequest(float rewardMultiplier, bool flip)
     {
         if (numRequest >= probList[index].maxRequestNum)
         {
@@ -56,13 +60,12 @@ public class RequestManager : MonoBehaviour
             request.maxTime = DoubleSmoothieMaxTime;
             rewardBase = DoubleSmoothieRewardBase;
         }
-        request.obj = CreateRequestObj(request);
+        request.obj = CreateRequestObj(request, flip);
 
         var rewardRange = rewardBase * rewardMultiplier;
         request.reward = rewardRange.GetRandom();
         Debug.Log($"rewardBase: {rewardBase}, rewardMultiplier: {rewardMultiplier}, rewardRange: {rewardRange}, chosen: {request.reward}");
         numRequest++;
-
         return request;
     }
 
@@ -83,7 +86,7 @@ public class RequestManager : MonoBehaviour
             rewardRange = item.ingredients.Count == 2 ? SingleSmoothieRewardBase : DoubleSmoothieRewardBase;
         }
         request.reward = rewardRange.Min;
-        request.obj = CreateRequestObj(request);
+        request.obj = CreateRequestObj(request, false);
 
         return request;
     }
@@ -101,7 +104,7 @@ public class RequestManager : MonoBehaviour
         return requestProbability;
     }
 
-    public GameObject CreateRequestObj(Request request)
+    public GameObject CreateRequestObj(Request request, bool flip)
     {
         var obj = new GameObject("Request");
         obj.AddComponent<ShakeEffect>();
@@ -120,6 +123,20 @@ public class RequestManager : MonoBehaviour
         }
         item.transform.SetParent(obj.transform);
         SetItemPositionAndScale(request, item);
+
+        GameObject score = Instantiate(scorePrefab);
+        score.transform.SetParent(obj.transform);
+        score.transform.localPosition = scoreTextOffset;
+
+        if (flip)
+        {
+            Vector3 flipOffset = scoreTextOffset;
+            flipOffset.x *= -1f;
+
+            score.transform.localPosition = flipOffset;
+        }
+
+        score.transform.localScale = new(1.5f, 1.5f, 1f);
 
         return obj;
     }

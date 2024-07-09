@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
-
-
 public class LevelData
 {
     public string date;
@@ -17,13 +14,11 @@ public class LevelData
     public int wrongItemNum = 0;
     public int schmoozeNum = 0;
     public int schmoozeKpi = 0;
-    public List<int> kpiTrend;
+    public List<int> kpiTrend = new();
+    public List<float> playerX = new();
+    public List<float> playerY = new();
 
-    public LevelData()
-    {
-        kpiTrend = new List<int>();
-    }
-
+    public int TotalKpi => deliveredKpi + failedKpi + schmoozeKpi;
 }
 
 public class UIManager : MonoBehaviour
@@ -37,23 +32,30 @@ public class UIManager : MonoBehaviour
     private readonly float LevelEndPauseDuration = 3f;
     private int levelNum;
     private float levelEndPauseCountdown = 0f;
+    private GameObject player;
 
     void Start()
     {
         levelNum = Util.GetCurrentLevelNum() - 1;
         playerData = PlayerData.LoadPlayerData();
         minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
+        player = GameObject.FindGameObjectWithTag("Player");
 
         InvokeRepeating(nameof(RecordKPI), 0f, 5f);
+        InvokeRepeating(nameof(RecordPlayerPosition), 0f, 5f);
     }
-
 
     private void RecordKPI()
     {
-        DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi);
-        Debug.Log("kpiTrend : " + DataManager.levelDataFirebase.kpiTrend);
+        DataManager.levelDataFirebase.kpiTrend.Add(DataManager.levelDataFirebase.TotalKpi);
     }
 
+    private void RecordPlayerPosition()
+    {
+        var pos = player.transform.position;
+        DataManager.levelDataFirebase.playerX.Add(pos.x);
+        DataManager.levelDataFirebase.playerY.Add(pos.y);
+    }
 
     void Update()
     {
@@ -68,7 +70,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void UpdateScore(Boolean isSchmooze, int score, Vector3 position)
+    public void UpdateScore(bool isSchmooze, int score, Vector3 position)
     {
         if (isSchmooze == true)
         {
@@ -110,7 +112,8 @@ public class UIManager : MonoBehaviour
         }
         Instantiate(timeUpNoticePrefab);
 
-        var totalKpi = DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi;
+        var totalKpi = DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.failedKpi + DataManager.levelDataFirebase.schmoozeKpi;
+        Debug.Log("UI manager endlevel " + totalKpi);
         playerData.levelInfos[levelNum].UpdateBestKpi(totalKpi);
         if (levelNum + 1 < playerData.levelInfos.Count && totalKpi >= playerData.levelInfos[levelNum].minKpi)
         {
@@ -121,8 +124,14 @@ public class UIManager : MonoBehaviour
         DataManager.levelDataFirebase.date = Util.GetNowTime();
         DataManager.levelDataFirebase.level = Util.GetCurrentLevelNum();
 
-
-
+        PlayerPrefs.SetInt("MinKpi", playerData.levelInfos[levelNum].minKpi);
+        PlayerPrefs.SetInt("DeliveredNum", DataManager.levelDataFirebase.deliveredNum + DataManager.levelDataFirebase.schmoozeNum);
+        PlayerPrefs.SetInt("DeliveredKPI", DataManager.levelDataFirebase.deliveredKpi + DataManager.levelDataFirebase.schmoozeKpi);
+        PlayerPrefs.SetInt("FailedNum", DataManager.levelDataFirebase.failedNum);
+        PlayerPrefs.SetInt("FailedKPI", DataManager.levelDataFirebase.failedKpi);
+        PlayerPrefs.SetInt("WrongItemNum", DataManager.levelDataFirebase.wrongItemNum);
+        PlayerPrefs.SetString("Date", Util.GetNowTime());
+        PlayerPrefs.SetInt("Level", Util.GetCurrentLevelNum());
 
 
 
