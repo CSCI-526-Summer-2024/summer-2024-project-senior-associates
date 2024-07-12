@@ -83,6 +83,7 @@ public class PlayerInteract : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.C))
                 {
                     smoothieMachine.AddIngredient(GetActiveItem());
+                    Debug.Log("Active");
                     DiscardOneItem(rightActive);
                     hasAddedIngredient = true;
                     if (!smoothieMachine.TryAddIngredient(GetActiveItem()))
@@ -91,6 +92,22 @@ public class PlayerInteract : MonoBehaviour
                     }
                 }
             }
+            else if (smoothieMachine.TryAddIngredient(GetNonActiveItem()))
+            {
+                ShowCHint();
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    smoothieMachine.AddIngredient(GetNonActiveItem());
+                    Debug.Log("NonActive");
+                    DiscardOneItem(!rightActive);
+                    hasAddedIngredient = true;
+                    if (!smoothieMachine.TryAddIngredient(GetNonActiveItem()))
+                    {
+                        HideCHint();
+                    }
+                }
+            }
+
             if (!hasAddedIngredient && !InventoryIsFull() && smoothieMachine.HasProduct())
             {
                 ShowCHint();
@@ -146,6 +163,19 @@ public class PlayerInteract : MonoBehaviour
             return leftItem ?? rightItem;
         }
     }
+
+    public Item GetNonActiveItem()
+    {
+        if (rightActive)
+        {
+            return leftItem ?? rightItem;
+        }
+        else
+        {
+            return rightItem ?? leftItem;
+        }
+    }
+
 
     public List<Item> GetAllItems()
     {
