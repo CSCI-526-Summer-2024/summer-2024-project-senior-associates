@@ -7,7 +7,6 @@ public class PlayerInteract : MonoBehaviour
     public bool disableDiscard = false;
     public GameObject cPrefab;
     public GameObject activeItemBorderPrefab;
-    public GameObject clearText;
     private readonly Vector3 LeftItemOffsetWhenHoldingOne = new(0, 1.2f, 0);
     private readonly Vector3 LeftItemOffsetWhenHoldingTwo = new(-0.6f, 1.2f, 0);
     private readonly Vector3 RightItemOffset = new(0.6f, 1.2f, 0);
@@ -27,18 +26,17 @@ public class PlayerInteract : MonoBehaviour
     {
         playerEnergy = GetComponent<PlayerEnergy>();
         playerControl = GetComponent<PlayerControl>();
-        //if (Util.GetCurrentLevelNum() == 1)
-        //{
-        cKeyHint = CreateCKeyHint(gameObject, new(-1.45f, 1.8f, 0f));
-        HideCHint();
-        //}
+        if (Util.GetCurrentLevelNum() == 1)
+        {
+            cKeyHint = CreateCKeyHint(gameObject, new(-1.45f, 1.8f, 0f));
+            HideCHint();
+        }
         if (activeItemBorderPrefab != null)
         {
             activeItemBorder = Instantiate(activeItemBorderPrefab);
             activeItemBorder.transform.SetParent(transform);
             activeItemBorder.SetActive(false);
         }
-        clearText.SetActive(false);
     }
 
     void Update()
@@ -70,17 +68,6 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
-            clearText.SetActive(false);
-            if (smoothieMachine.HasItem() && leftItem == null)
-            {
-                clearText.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    clearText.SetActive(false);
-                    smoothieMachine.ClearSmoothie();
-                    Debug.Log("smoothie machine cleared");
-                }
-            }
             var hasAddedIngredient = false;
             if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
@@ -235,7 +222,6 @@ public class PlayerInteract : MonoBehaviour
         {
             smoothieMachine = null;
             HideCHint();
-            clearText.SetActive(false);
         }
         else if (collision.gameObject.CompareTag("Manager"))
         {
