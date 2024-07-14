@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerEnergy : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject cPrefab;
     public GameObject bedText;
     public GameObject player;
+    public TextMeshProUGUI clock;
     public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
@@ -22,6 +24,7 @@ public class PlayerEnergy : MonoBehaviour
     private GameObject indicator;
     private int levelNum;
     private bool createdIndicator = false;
+    private int schmoozeHour = 0;
 
     void Start()
     {
@@ -75,7 +78,7 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool CanSchmooze()
     {
-        return levelNum >= 3 && energy > MinEnergy;
+        return SchmoozeHourCheck() && levelNum >= 3 && energy > MinEnergy;
     }
 
     private void IndicateBed()
@@ -97,5 +100,38 @@ public class PlayerEnergy : MonoBehaviour
         var indicator = Instantiate(cPrefab);
         indicator.GetComponent<FloatingAnim>().Init(obj, offset);
         return indicator;
+    }
+
+    public bool SchmoozeHourCheck()
+    {
+
+        int time = GetHour();
+        return time != schmoozeHour;
+
+    }
+
+    private int GetHour()
+    {
+        int time = -1;
+        if (clock != null && clock.text != null)
+        {
+            if (clock.text.Substring(1, 1) == ":")
+            {
+                time = int.Parse(clock.text.Substring(0, 1));
+            }
+            else
+            {
+                time = int.Parse(clock.text.Substring(0, 2));
+            }
+        }
+        return time;
+
+    }
+    public void SchmoozeHourOverwrite()
+    {
+        if (SchmoozeHourCheck())
+        {
+            schmoozeHour = GetHour();
+        }
     }
 }

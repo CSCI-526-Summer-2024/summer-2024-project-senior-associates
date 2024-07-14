@@ -5701,6 +5701,7 @@ MonoBehaviour:
   cPrefab: {fileID: 2244461953645496080, guid: 5f04789368e54f9428ec86669051a8bb, type: 3}
   bedText: {fileID: 159268069}
   player: {fileID: 0}
+  clock: {fileID: 1032137186}
   enableEnergyDrop: 1
 --- !u!1 &1787212561
 GameObject:

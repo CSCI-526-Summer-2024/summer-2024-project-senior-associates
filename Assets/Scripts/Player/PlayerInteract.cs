@@ -130,6 +130,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (playerEnergy.CanSchmooze())
                 {
+                    playerEnergy.SchmoozeHourOverwrite();
                     manager.Schmooze();
                     playerEnergy.LoseEnergyFromSchmooze();
                 }
