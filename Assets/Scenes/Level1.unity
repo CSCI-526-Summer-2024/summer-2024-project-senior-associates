@@ -1119,6 +1119,7 @@ MonoBehaviour:
   ItemMaxTime: 30
   SingleSmoothieMaxTime: 60
   DoubleSmoothieMaxTime: 60
+  scoreTextOffset: {x: 1.42, y: -0.56, z: 0}
 --- !u!1 &715266763
 GameObject:
   m_ObjectHideFlags: 0

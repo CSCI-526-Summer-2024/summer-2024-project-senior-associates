@@ -28,7 +28,7 @@ public class PlayerInteract : MonoBehaviour
         playerControl = GetComponent<PlayerControl>();
         if (Util.GetCurrentLevelNum() == 1)
         {
-            cKeyHint = CreateCKeyHint(gameObject, new(1.45f, 1.8f, 0f));
+            cKeyHint = CreateCKeyHint(gameObject, new(-1.45f, 1.8f, 0f));
             HideCHint();
         }
         if (activeItemBorderPrefab != null)
@@ -68,14 +68,6 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
-            if (smoothieMachine.HasItem() && leftItem == null)
-            {
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    smoothieMachine.ClearSmoothie();
-                    Debug.Log("smoothie machine cleared");
-                }
-            }
             var hasAddedIngredient = false;
             if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
@@ -83,6 +75,7 @@ public class PlayerInteract : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.C))
                 {
                     smoothieMachine.AddIngredient(GetActiveItem());
+                    Debug.Log("Active");
                     DiscardOneItem(rightActive);
                     hasAddedIngredient = true;
                     if (!smoothieMachine.TryAddIngredient(GetActiveItem()))
@@ -91,6 +84,22 @@ public class PlayerInteract : MonoBehaviour
                     }
                 }
             }
+            else if (smoothieMachine.TryAddIngredient(GetNonActiveItem()))
+            {
+                ShowCHint();
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    smoothieMachine.AddIngredient(GetNonActiveItem());
+                    Debug.Log("NonActive");
+                    DiscardOneItem(!rightActive);
+                    hasAddedIngredient = true;
+                    if (!smoothieMachine.TryAddIngredient(GetNonActiveItem()))
+                    {
+                        HideCHint();
+                    }
+                }
+            }
+
             if (!hasAddedIngredient && !InventoryIsFull() && smoothieMachine.HasProduct())
             {
                 ShowCHint();
@@ -121,6 +130,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (playerEnergy.CanSchmooze())
                 {
+                    playerEnergy.SchmoozeHourOverwrite();
                     manager.Schmooze();
                     playerEnergy.LoseEnergyFromSchmooze();
                 }
@@ -146,6 +156,19 @@ public class PlayerInteract : MonoBehaviour
             return leftItem ?? rightItem;
         }
     }
+
+    public Item GetNonActiveItem()
+    {
+        if (rightActive)
+        {
+            return leftItem ?? rightItem;
+        }
+        else
+        {
+            return rightItem ?? leftItem;
+        }
+    }
+
 
     public List<Item> GetAllItems()
     {

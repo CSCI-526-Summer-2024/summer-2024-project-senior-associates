@@ -94,23 +94,6 @@ public class SmoothieMachine : MonoBehaviour
         }
     }
 
-    public bool HasItem()
-    {
-        return !disabled && (ingredients.Count > 0 || topItems.Count > 0) && productCountdown <= 0f;
-    }
-
-    public void ClearSmoothie()
-    {
-        foreach (var item in topItems)
-        {
-            Destroy(item);
-        }
-
-        ingredients.Clear();
-        topItems.Clear();
-
-    }
-
     public bool HasProduct()
     {
         return !disabled && topItems.Count == 1 && productCountdown <= 0f
