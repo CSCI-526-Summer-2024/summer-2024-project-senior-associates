@@ -18,7 +18,7 @@ with open("cs526-senior-associates-default-rtdb-export.json", encoding="utf-8") 
     for _, d in data.items():
         level = int(d["level"]) - 1
         trend = d["kpiTrend"]
-        trend = trend[find_last_index(trend, 0) :]
+        trend = trend[find_last_index(trend, 0):]
         if level == 0:
             while trend[0] < 6:
                 trend = trend[1:]
@@ -29,5 +29,5 @@ with open("cs526-senior-associates-default-rtdb-export.json", encoding="utf-8") 
         kpi_lengths[level].append(len(trend))
 
 
-for t in kpi_trends[0]:
+for t in kpi_trends[2]:
     print(", ".join(str(i) for i in t))
