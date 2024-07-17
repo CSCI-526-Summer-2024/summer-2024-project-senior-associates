@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CutsceneManager : MonoBehaviour
+public class Level2CutsceneManager : MonoBehaviour
 {
     public TutorialTextBox tutorialTextBox;
     public PlayerInteract playerInteract;
