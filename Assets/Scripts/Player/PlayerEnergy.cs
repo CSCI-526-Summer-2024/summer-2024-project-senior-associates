@@ -8,7 +8,6 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject bed;
     public GameObject cPrefab;
     public GameObject bedText;
-    public GameObject player;
     public TextMeshProUGUI clock;
     public bool enableEnergyDrop = true;
     private readonly float NormalEnergyChange = -0.02f;
@@ -43,19 +42,19 @@ public class PlayerEnergy : MonoBehaviour
         if (enableEnergyDrop)
         {
             energy += energyChange * Time.deltaTime;
-            energy = Mathf.Clamp(energy, MinEnergy, 1f);
-            energyBar.GetComponent<Image>().color = Color.Lerp(ZeroEnergyColor, FullEnergyColor, energy);
-            energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
+        }
+        energy = Mathf.Clamp(energy, MinEnergy, 1f);
+        energyBar.GetComponent<Image>().color = Color.Lerp(ZeroEnergyColor, FullEnergyColor, energy);
+        energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
 
-            if (isSleeping && energy >= 1f)
-            {
-                ToggleSleeping();
-            }
+        if (isSleeping && energy >= 1f)
+        {
+            ToggleSleeping();
+        }
 
-            if (Tired && !createdIndicator || !Tired && createdIndicator)
-            {
-                IndicateBed();
-            }
+        if (Tired && !createdIndicator || !Tired && createdIndicator)
+        {
+            IndicateBed();
         }
     }
 
@@ -104,10 +103,8 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool SchmoozeHourCheck()
     {
-
         int time = GetHour();
         return time != schmoozeHour;
-
     }
 
     private int GetHour()

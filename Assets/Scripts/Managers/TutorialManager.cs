@@ -3,7 +3,6 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public RequestManager requestManager;
-    public IngredientData ingredientData;
     public Manager manager1;
     public Manager manager2;
     public Chest milkChest;
@@ -19,6 +18,7 @@ public class TutorialManager : MonoBehaviour
     private int phase = 0;
     private GameObject indicator1;
     private GameObject indicator2;
+    private IngredientData IngredientData => requestManager.ingredientData;
 
     void Start()
     {
@@ -26,8 +26,8 @@ public class TutorialManager : MonoBehaviour
         playerData = PlayerData.LoadPlayerData();
         if (!playerData.levelInfos[0].played)
         {
-            manager1.TutorialManager = this;
-            manager2.TutorialManager = this;
+            manager1.tutorialManager = this;
+            manager2.tutorialManager = this;
             playerInteract.disableDiscard = true;
             milkChest.Disable();
             strawberryChest.Disable();
@@ -102,7 +102,7 @@ public class TutorialManager : MonoBehaviour
             var tutorialRequest = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Ingredient,
-                ingredients = new() { ingredientData.allIngredients[1] }
+                ingredients = new() { IngredientData.allIngredients[1] }
             });
             manager1.SetTutorialRequest(tutorialRequest);
             milkChest.Enable();
@@ -121,7 +121,7 @@ public class TutorialManager : MonoBehaviour
             var request = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Smoothie,
-                ingredients = new() { ingredientData.allIngredients[0], ingredientData.allIngredients[1] }
+                ingredients = new() { IngredientData.allIngredients[0], IngredientData.allIngredients[1] }
             });
             manager2.SetTutorialRequest(request);
             milkChest.Enable();
@@ -168,8 +168,8 @@ public class TutorialManager : MonoBehaviour
             manager1Mood.SetActive(false);
             milkChest.Enable();
             strawberryChest.Enable();
-            manager1.TutorialManager = null;
-            manager2.TutorialManager = null;
+            manager1.tutorialManager = null;
+            manager2.tutorialManager = null;
             clock.gameObject.SetActive(true);
             tutorialTextBox.Hide();
             gameObject.SetActive(false);

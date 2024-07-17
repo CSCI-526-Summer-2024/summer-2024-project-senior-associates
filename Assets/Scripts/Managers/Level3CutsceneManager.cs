@@ -3,29 +3,30 @@ using UnityEngine.SceneManagement;
 
 public class Level3CutsceneManager : MonoBehaviour
 {
+    public RequestManager requestManager;
+    public Manager manager;
     public TutorialTextBox tutorialTextBox;
     public PlayerInteract playerInteract;
-    public PlayerEnergy playerEnergy;
     public GameObject indicatorPrefab;
     public GameObject energyBar;
-    public GameObject bed;
     private PlayerData playerData;
     private int phase = 0;
     private GameObject indicator1;
+    private IngredientData IngredientData => requestManager.ingredientData;
 
     void Start()
     {
         playerData = PlayerData.LoadPlayerData();
-        if (!playerData.levelInfos[1].played)
+        if (!playerData.levelInfos[2].played)
         {
+            manager.level3CutsceneManager = this;
             tutorialTextBox.gameObject.SetActive(true);
-            playerEnergy.enableEnergyDrop = false;
             UpdatePhase();
         }
         else
         {
             tutorialTextBox.gameObject.SetActive(false);
-            SceneManager.LoadScene("Level2");
+            SceneManager.LoadScene("Level3");
         }
         tutorialTextBox.circularProgress.onCircularProgressDone = UpdatePhase;
     }
@@ -46,25 +47,30 @@ public class Level3CutsceneManager : MonoBehaviour
         if (phase == 1)
         {
             tutorialTextBox.SetContents("When you are near the manager, you could press T to schmooze them...", true);
-            indicator1 = CreateIndicator(energyBar, new(0.05f, -0.4f, 0f), true);
+            var tutorialRequest = requestManager.GetTutorialRequest(new()
+            {
+                type = Item.Type.Smoothie,
+                ingredients = new() { IngredientData.allIngredients[0], IngredientData.allIngredients[1], IngredientData.allIngredients[2] }
+            });
+            manager.SetTutorialRequest(tutorialRequest);
+            indicator1 = CreateIndicator(manager.gameObject, new(0f, 2.2f, 0f));
         }
         else if (phase == 2)
         {
-            tutorialTextBox.SetContents("Energy will drop as you move...", true);
-            playerEnergy.enableEnergyDrop = true;
+            Destroy(indicator1);
+            tutorialTextBox.SetContents("Nicely schmoozed! Now the manager has forgotten their request, and you earned a little KPI.", true);
         }
         else if (phase == 3)
         {
-            Destroy(indicator1);
-            tutorialTextBox.SetContents("Go to bed to restore energy before it depletes!", true);
-            indicator1 = CreateIndicator(bed, new(-1f, 0.5f, 0));
+            tutorialTextBox.SetContents("Be careful! Schmoozing costs a lot of energy...", true);
+            indicator1 = CreateIndicator(energyBar, new(0.05f, -0.4f, 0f), true);
         }
         else if (phase == 4)
         {
             Destroy(indicator1);
             playerData.SavePlayerData();
             DataManager.waitForSpaceKeyUpAtStart = true;
-            SceneManager.LoadScene($"Level2");
+            SceneManager.LoadScene("Level3");
         }
     }
 

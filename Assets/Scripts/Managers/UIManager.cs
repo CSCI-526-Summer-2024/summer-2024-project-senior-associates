@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
     {
         levelNum = Util.GetCurrentLevelNum() - 1;
         playerData = PlayerData.LoadPlayerData();
-        minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
+        if (minKpiText != null) minKpiText.text = $"Goal: {playerData.levelInfos[levelNum].minKpi}";
         player = GameObject.FindGameObjectWithTag("Player");
 
         InvokeRepeating(nameof(RecordKPI), 0f, 5f);

@@ -64,7 +64,7 @@ public class Level2CutsceneManager : MonoBehaviour
             Destroy(indicator1);
             playerData.SavePlayerData();
             DataManager.waitForSpaceKeyUpAtStart = true;
-            SceneManager.LoadScene($"Level2");
+            SceneManager.LoadScene("Level2");
         }
     }
 

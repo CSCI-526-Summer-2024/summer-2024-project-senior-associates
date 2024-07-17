@@ -28,7 +28,7 @@ public static class Util
         int randomIndex = UnityEngine.Random.Range(0, array.Length);
         return array[randomIndex];
     }
-    
+
     public static T ChooseRandom<T>(List<T> list)
     {
         if (list == null || list.Count == 0)
@@ -67,6 +67,7 @@ public static class Util
     public static int GetCurrentLevelNum()
     {
         var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "CutSceneLevel3") return 3;
         if (sceneName.StartsWith("Level") && sceneName.Length > 5)
         {
             return int.Parse(sceneName[5..]);
