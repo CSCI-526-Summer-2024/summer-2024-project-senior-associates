@@ -51,16 +51,13 @@ public static class Util
         {
             SceneManager.LoadScene($"ChooseLevel");
         }
+        else if (levelNum == 2 || levelNum == 3)
+        {
+            SceneManager.LoadScene($"CutSceneLevel{levelNum}");
+        }
         else
         {
-            if (levelNum == 2)
-            {
-                SceneManager.LoadScene($"CutSceneLevel2");
-            }
-            else
-            {
-                SceneManager.LoadScene($"Level{levelNum}");
-            }
+            SceneManager.LoadScene($"Level{levelNum}");
         }
     }
 
