@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour
     public TutorialTextBox tutorialTextBox;
     public PlayerInteract playerInteract;
     public GameObject indicatorPrefab;
+    public GameObject manager1Mood;
     private PlayerData playerData;
     private int phase = 0;
     private GameObject indicator1;
@@ -21,6 +22,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
+        manager1Mood.SetActive(false);
         playerData = PlayerData.LoadPlayerData();
         if (!playerData.levelInfos[0].played)
         {
@@ -106,18 +108,16 @@ public class TutorialManager : MonoBehaviour
             milkChest.Enable();
 
             indicator1 = CreateIndicator(milkChest.gameObject, new(0f, 1f, 0f));
-            indicator2 = CreateIndicator(manager1.gameObject, new(0f, 1.8f, 0f));
         }
         else if (phase == 2)
         {
             Destroy(indicator1);
             tutorialTextBox.SetContents(null);
-            // tutorialTextBox.SetContents("Press C to give it to the manager.");
+            indicator2 = CreateIndicator(manager1.gameObject, new(0f, 1.8f, 0f));
         }
         else if (phase == 3)
         {
             Destroy(indicator2);
-            // tutorialTextBox.SetContents("Nicely done! Now grab a milk and a strawberry.");
             var request = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Smoothie,
@@ -146,21 +146,26 @@ public class TutorialManager : MonoBehaviour
         else if (phase == 6)
         {
             Destroy(indicator1);
-            tutorialTextBox.SetContents("Well done! You may also press Q to throw away an item, or press R to switch between items.", true);
+            tutorialTextBox.SetContents("Well done! You can only hold up to 2 items (press Q to discard one item).", true);
             playerInteract.disableDiscard = false;
         }
         else if (phase == 7)
         {
-            tutorialTextBox.SetContents("Your goal is to earn enough KPI by 5PM. Now it's time to work!", true);
-
-            indicator1 = CreateIndicator(minKpiText, new(-0.175f, -0.8f, 0f), true);
+            tutorialTextBox.SetContents("Manager's mood drops as they wait, and you'd earn less KPI.", true);
+            manager1Mood.SetActive(true);
+            indicator1 = CreateIndicator(manager1.gameObject, new(0.49f, 1f, 0f));
         }
         else if (phase == 8)
         {
             Destroy(indicator1);
-
+            tutorialTextBox.SetContents("Your goal is to earn enough KPI by 5PM. Now it's time to work!", true);
+            indicator1 = CreateIndicator(minKpiText, new(-0.175f, -0.8f, 0f), true);
+        }
+        else if (phase == 9)
+        {
             playerData.SavePlayerData();
 
+            manager1Mood.SetActive(false);
             milkChest.Enable();
             strawberryChest.Enable();
             manager1.TutorialManager = null;
