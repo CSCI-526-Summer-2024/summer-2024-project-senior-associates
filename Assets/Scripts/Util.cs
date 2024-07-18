@@ -28,7 +28,7 @@ public static class Util
         int randomIndex = UnityEngine.Random.Range(0, array.Length);
         return array[randomIndex];
     }
-    
+
     public static T ChooseRandom<T>(List<T> list)
     {
         if (list == null || list.Count == 0)
@@ -51,22 +51,20 @@ public static class Util
         {
             SceneManager.LoadScene($"ChooseLevel");
         }
+        else if (levelNum == 2 || levelNum == 3)
+        {
+            SceneManager.LoadScene($"CutSceneLevel{levelNum}");
+        }
         else
         {
-            if (levelNum == 2)
-            {
-                SceneManager.LoadScene($"CutSceneLevel2");
-            }
-            else
-            {
-                SceneManager.LoadScene($"Level{levelNum}");
-            }
+            SceneManager.LoadScene($"Level{levelNum}");
         }
     }
 
     public static int GetCurrentLevelNum()
     {
         var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "CutSceneLevel3") return 3;
         if (sceneName.StartsWith("Level") && sceneName.Length > 5)
         {
             return int.Parse(sceneName[5..]);

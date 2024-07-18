@@ -22,7 +22,7 @@ public class ManagerMood : MonoBehaviour
     {
         if (manager.InTutorial || manager.Request == null)
         {
-            moodBar.SetActive(false);
+            if (moodBar != null) moodBar.SetActive(false);
         }
         else
         {

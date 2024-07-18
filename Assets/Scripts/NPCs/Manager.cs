@@ -18,7 +18,9 @@ public class Manager : MonoBehaviour
     public Range RequestCountdownStartingRange;
     public GameObject schmoozeTextPrefab;
     public Vector3 schmoozeTextOffset = new(1.5f, 0.5f, 0f);
-    private TutorialManager tutorialManager; public bool InTutorial => tutorialManager != null;
+    public TutorialManager tutorialManager;
+    public Level3CutsceneManager level3CutsceneManager;
+    public bool InTutorial => tutorialManager != null || level3CutsceneManager != null;
     private readonly float RewardMultiplier = 1f; // actual reward = rewardBase * rewardMultiplier (with fluctuations)
     private readonly Vector3 ManagerToRequestOffset = new(0f, 0.5f, 0.5f);
     private Request request = null; public Request Request => request;
@@ -31,7 +33,7 @@ public class Manager : MonoBehaviour
     void Awake()
     {
         mood = GetComponent<ManagerMood>();
-        mood.gameObject.SetActive(true);
+        if (mood != null) mood.gameObject.SetActive(true);
         playerEnergy = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEnergy>();
         if (schmoozeTextPrefab != null)
         {
@@ -78,7 +80,7 @@ public class Manager : MonoBehaviour
         }
         if (request != null)
         {
-            request.obj.GetComponentInChildren<TextMeshProUGUI>().text = "+ " + CalculateReward(request.reward, mood.Mood).ToString() + " KPI";
+            request.obj.GetComponentInChildren<TextMeshProUGUI>().text = "+ " + CalculateReward(request.reward, mood != null ? mood.Mood : 1).ToString() + " KPI";
         }
     }
 
@@ -114,7 +116,7 @@ public class Manager : MonoBehaviour
         }
         else if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
         {
-            uiManager.UpdateScore(false, CalculateReward(request.reward, mood.Mood), transform.position);
+            uiManager.UpdateScore(false, CalculateReward(request.reward, mood != null ? mood.Mood : 1), transform.position);
             FinishRequest();
         }
         return res;
@@ -122,19 +124,20 @@ public class Manager : MonoBehaviour
 
     public void Schmooze()
     {
-        uiManager.UpdateScore(true, CalculateReward(request.reward, mood.Mood) / 2, transform.position);
+        uiManager.UpdateScore(true, CalculateReward(request.reward, mood != null ? mood.Mood : 1) / 2, transform.position);
         FinishRequest();
     }
 
     public void FinishRequest()
     {
-        mood.Reset();
+        if (mood != null) mood.Reset();
         Destroy(request?.obj);
         request = null;
 
         if (InTutorial)
         {
-            tutorialManager.OnRequestSatisfied();
+            if (tutorialManager != null) tutorialManager.OnRequestSatisfied();
+            else if (level3CutsceneManager != null) level3CutsceneManager.OnRequestSatisfied();
         }
         else
         {
@@ -147,11 +150,6 @@ public class Manager : MonoBehaviour
     {
         disabled = true;
         FinishRequest();
-    }
-
-    public TutorialManager TutorialManager
-    {
-        set { tutorialManager = value; }
     }
 
     private int CalculateReward(int reward, float mood)
