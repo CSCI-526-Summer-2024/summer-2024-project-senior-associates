@@ -1166,6 +1166,7 @@ MonoBehaviour:
   playerInteract: {fileID: 1028829256}
   indicatorPrefab: {fileID: 8933791028433530461, guid: 8b21882f57f540f4eb4ac8fa6dec5ada, type: 3}
   energyBar: {fileID: 1789351083}
+  schmoozeIndicator: {fileID: 1432713176}
 --- !u!1 &780320226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,8 +1576,8 @@ MonoBehaviour:
   bedText: {fileID: 0}
   clock: {fileID: 0}
   enableEnergyDrop: 0
-  schmoozeCommand: {fileID: 0}
-  schmoozeIndicatorPrefab: {fileID: 0}
+  schmoozeCommand: {fileID: 265373374}
+  schmoozeIndicator: {fileID: 1432713176}
 --- !u!1 &1038983959
 GameObject:
   m_ObjectHideFlags: 0

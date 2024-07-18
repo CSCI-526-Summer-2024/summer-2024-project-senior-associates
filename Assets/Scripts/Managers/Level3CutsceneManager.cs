@@ -9,6 +9,7 @@ public class Level3CutsceneManager : MonoBehaviour
     public PlayerInteract playerInteract;
     public GameObject indicatorPrefab;
     public GameObject energyBar;
+    public GameObject schmoozeIndicator;
     private PlayerData playerData;
     private int phase = 0;
     private GameObject indicator1;
@@ -62,10 +63,16 @@ public class Level3CutsceneManager : MonoBehaviour
         }
         else if (phase == 3)
         {
+            indicator1 = CreateIndicator(schmoozeIndicator, new(1.6f, -0.6f, 0f), true);
+            tutorialTextBox.SetContents("You can Schmooze when this T is blue again or if this icon is fully loaded", true);
+        }
+        else if (phase == 4)
+        {
+            Destroy(indicator1);
             tutorialTextBox.SetContents("Be careful! Schmoozing costs a lot of energy...", true);
             indicator1 = CreateIndicator(energyBar, new(0.05f, -0.4f, 0f), true);
         }
-        else if (phase == 4)
+        else if (phase == 5)
         {
             Destroy(indicator1);
             playerData.SavePlayerData();
