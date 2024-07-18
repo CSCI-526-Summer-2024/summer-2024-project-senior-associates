@@ -11,7 +11,7 @@ public class PlayerEnergy : MonoBehaviour
     public TextMeshProUGUI clock;
     public bool enableEnergyDrop = true;
     public TextMeshProUGUI schmoozeCommand;
-    public GameObject schmoozeIndicatorPrefab;
+    public GameObject schmoozeIndicator;
     private readonly float NormalEnergyChange = -0.02f;
     private readonly float SleepEnergyChange = 0.15f;
     private readonly float SchmoozeEnergyDrop = 0.3f;
@@ -35,6 +35,10 @@ public class PlayerEnergy : MonoBehaviour
         energyChange = NormalEnergyChange;
         energyBarOriginalXScale = energyBar.transform.localScale.x;
         levelNum = Util.GetCurrentLevelNum();
+        if (levelNum == 3)
+        {
+            energyChange /= 2;
+        }
         if (bedText != null)
         {
             bedText.SetActive(false);
@@ -50,6 +54,8 @@ public class PlayerEnergy : MonoBehaviour
         energy = Mathf.Clamp(energy, MinEnergy, 1f);
         energyBar.GetComponent<Image>().color = Color.Lerp(ZeroEnergyColor, FullEnergyColor, energy);
         energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
+
+        gameObject.GetComponent<Renderer>().material.color = Color.Lerp(ZeroEnergyColor, SchmoozeColor, energy);
 
         if (isSleeping && energy >= 1f)
         {
@@ -160,7 +166,7 @@ public class PlayerEnergy : MonoBehaviour
                 else
                 {
                     float change = float.Parse(clock.text.Substring(2, 2)) / 60;
-                    schmoozeIndicatorPrefab.transform.localScale = Util.ChangeY(schmoozeIndicatorPrefab.transform.localScale, change);
+                    schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, change);
                 }
             }
         }
@@ -172,7 +178,7 @@ public class PlayerEnergy : MonoBehaviour
         if (levelNum >= 3)
         {
             schmoozeCommand.color = SchmoozeColor;
-            schmoozeIndicatorPrefab.transform.localScale = Util.ChangeY(schmoozeIndicatorPrefab.transform.localScale, 1);
+            schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, 1);
         }
     }
 }

@@ -5946,7 +5946,7 @@ MonoBehaviour:
   clock: {fileID: 1032137186}
   enableEnergyDrop: 1
   schmoozeCommand: {fileID: 66995839}
-  schmoozeIndicatorPrefab: {fileID: 568585661}
+  schmoozeIndicator: {fileID: 568585661}
 --- !u!1 &1787212561
 GameObject:
   m_ObjectHideFlags: 0
