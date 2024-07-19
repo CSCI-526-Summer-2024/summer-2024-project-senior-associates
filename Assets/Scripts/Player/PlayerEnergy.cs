@@ -12,7 +12,7 @@ public class PlayerEnergy : MonoBehaviour
     public bool enableEnergyDrop = true;
     public TextMeshProUGUI schmoozeCommand;
     public GameObject schmoozeIndicator;
-    private readonly float NormalEnergyChange = -0.02f;
+    private readonly float NormalEnergyChange = -0.013f;
     private readonly float SleepEnergyChange = 0.15f;
     private readonly float SchmoozeEnergyDrop = 0.3f;
     private readonly Color NoSchmoozeColor = Color.gray;
