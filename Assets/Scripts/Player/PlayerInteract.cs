@@ -60,7 +60,7 @@ public class PlayerInteract : MonoBehaviour
         if (chest != null && !chest.Disabled && !InventoryIsFull())
         {
             ShowCHint();
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 PickUp(chest.GetItem());
                 HideCHint();
@@ -72,7 +72,7 @@ public class PlayerInteract : MonoBehaviour
             if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
                 ShowCHint();
-                if (Input.GetKeyDown(KeyCode.C))
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     smoothieMachine.AddIngredient(GetActiveItem());
                     Debug.Log("Active");
@@ -87,7 +87,7 @@ public class PlayerInteract : MonoBehaviour
             else if (smoothieMachine.TryAddIngredient(GetNonActiveItem()))
             {
                 ShowCHint();
-                if (Input.GetKeyDown(KeyCode.C))
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     smoothieMachine.AddIngredient(GetNonActiveItem());
                     Debug.Log("NonActive");
@@ -103,7 +103,7 @@ public class PlayerInteract : MonoBehaviour
             if (!hasAddedIngredient && !InventoryIsFull() && smoothieMachine.HasProduct())
             {
                 ShowCHint();
-                if (Input.GetKeyDown(KeyCode.C))
+                if (Input.GetKeyDown(KeyCode.F))
                 {
                     PickUp(smoothieMachine.GetProduct());
                     HideCHint();
@@ -117,7 +117,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 ShowCHint();
             }
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 res = manager.Submit(GetAllItems());
                 if (res == SubmitResult.SubmittedLeft || res == SubmitResult.SubmittedRight)
@@ -138,7 +138,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (isNearBed)
         {
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 playerEnergy.ToggleSleeping();
             }
