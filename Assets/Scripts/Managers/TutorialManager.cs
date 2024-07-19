@@ -163,6 +163,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (phase == 9)
         {
+            Destroy(indicator1);
             playerData.SavePlayerData();
 
             manager1Mood.SetActive(false);
