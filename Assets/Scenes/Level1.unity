@@ -868,6 +868,8 @@ MonoBehaviour:
     Max: 6
   schmoozeTextPrefab: {fileID: 0}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
+  tutorialManager: {fileID: 0}
+  level3CutsceneManager: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1947,8 +1949,8 @@ Transform:
   m_GameObject: {fileID: 993350855}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.48, y: -2.6, z: 0}
-  m_LocalScale: {x: 0.36664706, y: 0.85505927, z: 0}
+  m_LocalPosition: {x: -6.318, y: -2.6, z: 0}
+  m_LocalScale: {x: 0.55, y: 0.85505927, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2554,7 +2556,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.413, y: -2.6, z: 0}
-  m_LocalScale: {x: 0.3666471, y: 0.8550593, z: 0}
+  m_LocalScale: {x: 0.55, y: 0.8550593, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2589,7 +2591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requestManager: {fileID: 685574115}
-  ingredientData: {fileID: 11400000, guid: 3168b66ef00ed2d41809eefa278162df, type: 2}
   manager1: {fileID: 1479966386}
   manager2: {fileID: 402199654}
   milkChest: {fileID: 2070000442}
@@ -2946,6 +2947,8 @@ MonoBehaviour:
     Max: 6
   schmoozeTextPrefab: {fileID: 0}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
+  tutorialManager: {fileID: 0}
+  level3CutsceneManager: {fileID: 0}
 --- !u!61 &1479966387
 BoxCollider2D:
   m_ObjectHideFlags: 0
