@@ -55,7 +55,7 @@ public class Clock : MonoBehaviour
     private const int StartHour = 9;
     private const int EndHour = 17;
     private const int TotalMinutes = (EndHour - StartHour) * 60;
-    private const int MinuteIncrement = 15;
+    private const int MinuteIncrement = 1;
     private float IncrementCountdownStart;
     private TMP_Text clockText;
     private ClockTime clockTime = new(StartHour);
