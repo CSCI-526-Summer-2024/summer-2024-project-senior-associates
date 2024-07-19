@@ -10,9 +10,13 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject bedText;
     public TextMeshProUGUI clock;
     public bool enableEnergyDrop = true;
-    private readonly float NormalEnergyChange = -0.02f;
+    public TextMeshProUGUI schmoozeCommand;
+    public GameObject schmoozeIndicator;
+    private readonly float NormalEnergyChange = -0.013f;
     private readonly float SleepEnergyChange = 0.15f;
     private readonly float SchmoozeEnergyDrop = 0.3f;
+    private readonly Color NoSchmoozeColor = Color.gray;
+    private readonly Color SchmoozeColor = Color.cyan;
     private readonly Color ZeroEnergyColor = Color.red;
     private readonly Color FullEnergyColor = Color.green;
     private readonly float MinEnergy = 0.1f;
@@ -31,6 +35,10 @@ public class PlayerEnergy : MonoBehaviour
         energyChange = NormalEnergyChange;
         energyBarOriginalXScale = energyBar.transform.localScale.x;
         levelNum = Util.GetCurrentLevelNum();
+        if (levelNum == 3)
+        {
+            energyChange /= 2;
+        }
         if (bedText != null)
         {
             bedText.SetActive(false);
@@ -47,6 +55,8 @@ public class PlayerEnergy : MonoBehaviour
         energyBar.GetComponent<Image>().color = Color.Lerp(ZeroEnergyColor, FullEnergyColor, energy);
         energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
 
+        gameObject.GetComponent<Renderer>().material.color = Color.Lerp(ZeroEnergyColor, SchmoozeColor, energy);
+
         if (isSleeping && energy >= 1f)
         {
             ToggleSleeping();
@@ -55,6 +65,15 @@ public class PlayerEnergy : MonoBehaviour
         if (Tired && !createdIndicator || !Tired && createdIndicator)
         {
             IndicateBed();
+        }
+
+        if (!CanSchmooze())
+        {
+            GrowSchmoozeIcons();
+        }
+        else
+        {
+            FullSchmoozeIcons();
         }
     }
 
@@ -129,6 +148,37 @@ public class PlayerEnergy : MonoBehaviour
         if (SchmoozeHourCheck())
         {
             schmoozeHour = GetHour();
+        }
+    }
+
+    private void GrowSchmoozeIcons()
+    {
+        if (levelNum >= 3)
+        {
+            schmoozeCommand.color = NoSchmoozeColor;
+            if (clock != null && clock.text != null)
+            {
+                Debug.Log(clock.text.Substring(2, 2));
+                if (clock.text.Substring(2, 2) == "00")
+                {
+                    FullSchmoozeIcons();
+                }
+                else
+                {
+                    float change = float.Parse(clock.text.Substring(2, 2)) / 60;
+                    schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, change);
+                }
+            }
+        }
+
+    }
+
+    private void FullSchmoozeIcons()
+    {
+        if (levelNum >= 3)
+        {
+            schmoozeCommand.color = SchmoozeColor;
+            schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, 1);
         }
     }
 }
