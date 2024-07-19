@@ -2819,7 +2819,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -7.197, y: -0.844}
-  m_SizeDelta: {x: 0.5, y: 0.025}
+  m_SizeDelta: {x: 0.5, y: 0.075}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1426978028
 MonoBehaviour:
@@ -3749,7 +3749,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 7.373, y: -0.853}
-  m_SizeDelta: {x: 0.5, y: 0.025}
+  m_SizeDelta: {x: 0.5, y: 0.075}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1702807709
 MonoBehaviour:
@@ -4142,6 +4142,8 @@ MonoBehaviour:
   bedText: {fileID: 1948147915}
   clock: {fileID: 0}
   enableEnergyDrop: 1
+  schmoozeCommand: {fileID: 0}
+  schmoozeIndicator: {fileID: 0}
 --- !u!1 &1789351083
 GameObject:
   m_ObjectHideFlags: 0
