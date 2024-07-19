@@ -8,7 +8,7 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject bed;
     public GameObject cPrefab;
     public GameObject bedText;
-    public TextMeshProUGUI clock;
+    public Clock clock;
     public bool enableEnergyDrop = true;
     public TextMeshProUGUI schmoozeCommand;
     public GameObject schmoozeIndicator;
@@ -17,8 +17,9 @@ public class PlayerEnergy : MonoBehaviour
     private readonly float SchmoozeEnergyDrop = 0.3f;
     private readonly Color NoSchmoozeColor = Color.gray;
     private readonly Color SchmoozeColor = Color.cyan;
-    private readonly Color ZeroEnergyColor = Color.red;
-    private readonly Color FullEnergyColor = Color.green;
+    private readonly Color ZeroEnergyColor = Color.gray;
+    private readonly Color FullEnergyColor = Color.cyan;
+    private readonly Color IndicatorGreyedColor = new Color(85f / 255f, 85f / 255f, 85f, 255f);
     private readonly float MinEnergy = 0.1f;
     private float energyChange;
     private float energy;
@@ -28,6 +29,7 @@ public class PlayerEnergy : MonoBehaviour
     private int levelNum;
     private bool createdIndicator = false;
     private int schmoozeHour = 0;
+    private bool shakeCheck = true;
 
     void Start()
     {
@@ -56,10 +58,21 @@ public class PlayerEnergy : MonoBehaviour
         energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
 
         gameObject.GetComponent<Renderer>().material.color = Color.Lerp(ZeroEnergyColor, SchmoozeColor, energy);
+        if (energy <= 0.5f && shakeCheck)
+        {
+            energyBar.gameObject.GetComponent<ShakeEffect>().Trigger(5f, 0.01f);
+            shakeCheck = !shakeCheck;
+            Debug.Log("will not shake again");
+        }
 
         if (isSleeping && energy >= 1f)
         {
             ToggleSleeping();
+        }
+        else if (isSleeping && energy > 0.5f && !shakeCheck)
+        {
+            shakeCheck = !shakeCheck;
+            Debug.Log("will shake again");
         }
 
         if (Tired && !createdIndicator || !Tired && createdIndicator)
@@ -122,32 +135,15 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool SchmoozeHourCheck()
     {
-        int time = GetHour();
+        int time = clock.clockTime.displayHour;
         return time != schmoozeHour;
     }
 
-    private int GetHour()
-    {
-        int time = -1;
-        if (clock != null && clock.text != null)
-        {
-            if (clock.text.Substring(1, 1) == ":")
-            {
-                time = int.Parse(clock.text.Substring(0, 1));
-            }
-            else
-            {
-                time = int.Parse(clock.text.Substring(0, 2));
-            }
-        }
-        return time;
-
-    }
     public void SchmoozeHourOverwrite()
     {
         if (SchmoozeHourCheck())
         {
-            schmoozeHour = GetHour();
+            schmoozeHour = clock.clockTime.displayHour;
         }
     }
 
@@ -156,18 +152,16 @@ public class PlayerEnergy : MonoBehaviour
         if (levelNum >= 3)
         {
             schmoozeCommand.color = NoSchmoozeColor;
-            if (clock != null && clock.text != null)
+            if (clock != null)
             {
-                Debug.Log(clock.text.Substring(2, 2));
-                if (clock.text.Substring(2, 2) == "00")
+                if (clock.clockTime.minute == 0)
                 {
                     FullSchmoozeIcons();
                 }
                 else
                 {
-                    float change = float.Parse(clock.text.Substring(2, 2)) / 60;
-                    //schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, change);
-                    schmoozeIndicator.GetComponentInChildren<Renderer>().material.color = Color.Lerp(Color.black, Color.white, energy);
+                    float change = (float)(clock.clockTime.minute) / 60;
+                    schmoozeIndicator.GetComponentInChildren<SpriteRenderer>().color = Color.Lerp(IndicatorGreyedColor, Color.white, energy);
                 }
             }
         }
@@ -179,8 +173,7 @@ public class PlayerEnergy : MonoBehaviour
         if (levelNum >= 3)
         {
             schmoozeCommand.color = SchmoozeColor;
-            //schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, 1);
-            schmoozeIndicator.GetComponentInChildren<Renderer>().material.color = Color.white;
+            schmoozeIndicator.GetComponentInChildren<SpriteRenderer>().color = Color.white;
         }
     }
 }
