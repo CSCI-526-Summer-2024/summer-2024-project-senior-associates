@@ -58,7 +58,7 @@ public class Clock : MonoBehaviour
     private const int MinuteIncrement = 1;
     private float IncrementCountdownStart;
     private TMP_Text clockText;
-    private ClockTime clockTime = new(StartHour);
+    public ClockTime clockTime = new(StartHour);
     private float incrementCountdown = 0f;
     private bool disabled = false;
 
