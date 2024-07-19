@@ -18,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     private bool isGrounded = true;
     private bool isTouchingCoffeeSpill = false;
     private bool isClimbing = false; public bool IsClimbing => isClimbing;
+    private bool hasClearedXVelocity = false;
     private float horizontalInput;
     private float verticalInput;
     private BoxCollider2D ladderCollider;
@@ -66,6 +67,10 @@ public class PlayerControl : MonoBehaviour
                 isClimbing = verticalInput != 0f;
             }
         }
+        else
+        {
+            isClimbing = false;
+        }
         if (!isClimbing && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isGrounded && !disableJump && !waitForSpaceKeyUp)
         {
             isTryingToJump = true;
@@ -84,6 +89,11 @@ public class PlayerControl : MonoBehaviour
             if (playerEnergy != null && playerEnergy.IsSleeping)
             {
                 horizontalVelocity = 0f;
+            }
+            else if (isClimbing && !hasClearedXVelocity && Math.Abs(gameObject.transform.position.x - ladderCollider.gameObject.transform.position.x) < 0.1f)
+            {
+                horizontalVelocity = 0f;
+                hasClearedXVelocity = true;
             }
 
             var verticalVelocity = rb.velocity.y;
@@ -133,6 +143,7 @@ public class PlayerControl : MonoBehaviour
         else if (other.CompareTag("Ladder"))
         {
             ladderCollider = other.GetComponent<BoxCollider2D>();
+            hasClearedXVelocity = false;
         }
     }
 
@@ -164,6 +175,7 @@ public class PlayerControl : MonoBehaviour
         {
             ladderCollider = null;
             isClimbing = false;
+            hasClearedXVelocity = false;
         }
     }
 
