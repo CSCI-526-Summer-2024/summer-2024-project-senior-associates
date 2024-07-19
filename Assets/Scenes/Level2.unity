@@ -1159,6 +1159,8 @@ MonoBehaviour:
     Max: 6
   schmoozeTextPrefab: {fileID: 0}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
+  tutorialManager: {fileID: 0}
+  level3CutsceneManager: {fileID: 0}
 --- !u!1 &410854338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,7 +1893,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.543, y: -2.6, z: 0}
-  m_LocalScale: {x: 0.36664706, y: 0.8592979, z: 0}
+  m_LocalScale: {x: 0.55, y: 0.8592979, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2505,7 +2507,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.817, y: -3.646, z: 0}
-  m_LocalScale: {x: 0.36664706, y: 0.42618117, z: 0}
+  m_LocalScale: {x: 0.55, y: 0.42618117, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3217,6 +3219,8 @@ MonoBehaviour:
     Max: 6
   schmoozeTextPrefab: {fileID: 0}
   schmoozeTextOffset: {x: 1.5, y: 0.5, z: 0}
+  tutorialManager: {fileID: 0}
+  level3CutsceneManager: {fileID: 0}
 --- !u!61 &1479966387
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3924,7 +3928,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.937, y: -2.6, z: 0}
-  m_LocalScale: {x: 0.36664706, y: 0.8592979, z: 0}
+  m_LocalScale: {x: 0.55, y: 0.8592979, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4136,7 +4140,7 @@ MonoBehaviour:
   bed: {fileID: 1802561331}
   cPrefab: {fileID: 2244461953645496080, guid: 5f04789368e54f9428ec86669051a8bb, type: 3}
   bedText: {fileID: 1948147915}
-  player: {fileID: 0}
+  clock: {fileID: 0}
   enableEnergyDrop: 1
 --- !u!1 &1789351083
 GameObject:
