@@ -166,7 +166,8 @@ public class PlayerEnergy : MonoBehaviour
                 else
                 {
                     float change = float.Parse(clock.text.Substring(2, 2)) / 60;
-                    schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, change);
+                    //schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, change);
+                    schmoozeIndicator.GetComponentInChildren<Renderer>().material.color = Color.Lerp(Color.black, Color.white, energy);
                 }
             }
         }
@@ -178,7 +179,8 @@ public class PlayerEnergy : MonoBehaviour
         if (levelNum >= 3)
         {
             schmoozeCommand.color = SchmoozeColor;
-            schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, 1);
+            //schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, 1);
+            schmoozeIndicator.GetComponentInChildren<Renderer>().material.color = Color.white;
         }
     }
 }
