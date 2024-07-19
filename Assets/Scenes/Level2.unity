@@ -1578,6 +1578,7 @@ MonoBehaviour:
   ItemMaxTime: 25
   SingleSmoothieMaxTime: 35
   DoubleSmoothieMaxTime: 35
+  scoreTextOffset: {x: 1.42, y: -0.56, z: 0}
 --- !u!1 &884943303
 GameObject:
   m_ObjectHideFlags: 0
@@ -4647,7 +4648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: C to leave
+  m_text: F to leave
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
