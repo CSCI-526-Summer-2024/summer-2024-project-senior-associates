@@ -28,7 +28,7 @@ public class PlayerInteract : MonoBehaviour
         playerControl = GetComponent<PlayerControl>();
         if (Util.GetCurrentLevelNum() == 1)
         {
-            cKeyHint = CreateCKeyHint(gameObject, new(1.45f, 1.8f, 0f));
+            cKeyHint = CreateCKeyHint(gameObject, new(-1.45f, 1.8f, 0f));
             HideCHint();
         }
         if (activeItemBorderPrefab != null)
@@ -68,14 +68,6 @@ public class PlayerInteract : MonoBehaviour
         }
         else if (smoothieMachine != null && !smoothieMachine.Disabled)
         {
-            if (smoothieMachine.HasItem() && leftItem == null)
-            {
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    smoothieMachine.ClearSmoothie();
-                    Debug.Log("smoothie machine cleared");
-                }
-            }
             var hasAddedIngredient = false;
             if (smoothieMachine.TryAddIngredient(GetActiveItem()))
             {
@@ -138,6 +130,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (playerEnergy.CanSchmooze())
                 {
+                    playerEnergy.SchmoozeHourOverwrite();
                     manager.Schmooze();
                     playerEnergy.LoseEnergyFromSchmooze();
                 }

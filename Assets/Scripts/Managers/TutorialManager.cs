@@ -3,7 +3,6 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public RequestManager requestManager;
-    public IngredientData ingredientData;
     public Manager manager1;
     public Manager manager2;
     public Chest milkChest;
@@ -14,18 +13,21 @@ public class TutorialManager : MonoBehaviour
     public TutorialTextBox tutorialTextBox;
     public PlayerInteract playerInteract;
     public GameObject indicatorPrefab;
+    public GameObject manager1Mood;
     private PlayerData playerData;
     private int phase = 0;
     private GameObject indicator1;
     private GameObject indicator2;
+    private IngredientData IngredientData => requestManager.ingredientData;
 
     void Start()
     {
+        manager1Mood.SetActive(false);
         playerData = PlayerData.LoadPlayerData();
         if (!playerData.levelInfos[0].played)
         {
-            manager1.TutorialManager = this;
-            manager2.TutorialManager = this;
+            manager1.tutorialManager = this;
+            manager2.tutorialManager = this;
             playerInteract.disableDiscard = true;
             milkChest.Disable();
             strawberryChest.Disable();
@@ -100,28 +102,26 @@ public class TutorialManager : MonoBehaviour
             var tutorialRequest = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Ingredient,
-                ingredients = new() { ingredientData.allIngredients[1] }
+                ingredients = new() { IngredientData.allIngredients[1] }
             });
             manager1.SetTutorialRequest(tutorialRequest);
             milkChest.Enable();
 
             indicator1 = CreateIndicator(milkChest.gameObject, new(0f, 1f, 0f));
-            indicator2 = CreateIndicator(manager1.gameObject, new(0f, 1.8f, 0f));
         }
         else if (phase == 2)
         {
             Destroy(indicator1);
             tutorialTextBox.SetContents(null);
-            // tutorialTextBox.SetContents("Press C to give it to the manager.");
+            indicator2 = CreateIndicator(manager1.gameObject, new(0f, 1.8f, 0f));
         }
         else if (phase == 3)
         {
             Destroy(indicator2);
-            // tutorialTextBox.SetContents("Nicely done! Now grab a milk and a strawberry.");
             var request = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Smoothie,
-                ingredients = new() { ingredientData.allIngredients[0], ingredientData.allIngredients[1] }
+                ingredients = new() { IngredientData.allIngredients[0], IngredientData.allIngredients[1] }
             });
             manager2.SetTutorialRequest(request);
             milkChest.Enable();
@@ -146,25 +146,31 @@ public class TutorialManager : MonoBehaviour
         else if (phase == 6)
         {
             Destroy(indicator1);
-            tutorialTextBox.SetContents("Well done! You may also press Q to throw away an item, or press R to switch between items.", true);
+            tutorialTextBox.SetContents("Well done! You can only hold up to 2 items (press Q to discard one item).", true);
             playerInteract.disableDiscard = false;
         }
         else if (phase == 7)
         {
-            tutorialTextBox.SetContents("Your goal is to earn enough KPI by 5PM. Now it's time to work!", true);
-
-            indicator1 = CreateIndicator(minKpiText, new(-0.175f, -0.8f, 0f), true);
+            tutorialTextBox.SetContents("Manager's mood drops as they wait, and you'd earn less KPI.", true);
+            manager1Mood.SetActive(true);
+            indicator1 = CreateIndicator(manager1.gameObject, new(0.49f, 1f, 0f));
         }
         else if (phase == 8)
         {
             Destroy(indicator1);
-
+            tutorialTextBox.SetContents("Your goal is to earn enough KPI by 5PM. Now it's time to work!", true);
+            indicator1 = CreateIndicator(minKpiText, new(-0.175f, -0.8f, 0f), true);
+        }
+        else if (phase == 9)
+        {
+            Destroy(indicator1);
             playerData.SavePlayerData();
 
+            manager1Mood.SetActive(false);
             milkChest.Enable();
             strawberryChest.Enable();
-            manager1.TutorialManager = null;
-            manager2.TutorialManager = null;
+            manager1.tutorialManager = null;
+            manager2.tutorialManager = null;
             clock.gameObject.SetActive(true);
             tutorialTextBox.Hide();
             gameObject.SetActive(false);
