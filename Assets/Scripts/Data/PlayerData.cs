@@ -55,7 +55,6 @@ public class PlayerData
         {
             data.SetMinKpis(minKpis);
         }
-        data.levelInfos[0].unlocked = true;
         data.SavePlayerData();
         return data;
     }

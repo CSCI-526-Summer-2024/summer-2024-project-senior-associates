@@ -66,7 +66,8 @@ public class Manager : MonoBehaviour
                 if (request != null)
                 {
                     PositionRequest();
-                    mood.SetRequestMaxTime(request.maxTime);
+                    if (mood != null)
+                        mood.SetRequestMaxTime(request.maxTime);
                 }
             }
             if (playerEnergy != null && playerEnergy.CanSchmooze() && request != null)
