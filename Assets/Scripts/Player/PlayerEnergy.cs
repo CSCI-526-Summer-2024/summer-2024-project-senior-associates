@@ -8,7 +8,7 @@ public class PlayerEnergy : MonoBehaviour
     public GameObject bed;
     public GameObject cPrefab;
     public GameObject bedText;
-    public TextMeshProUGUI clock;
+    public Clock clock;
     public bool enableEnergyDrop = true;
     public TextMeshProUGUI schmoozeCommand;
     public GameObject schmoozeIndicator;
@@ -17,9 +17,11 @@ public class PlayerEnergy : MonoBehaviour
     private readonly float SchmoozeEnergyDrop = 0.3f;
     private readonly Color NoSchmoozeColor = Color.gray;
     private readonly Color SchmoozeColor = Color.cyan;
-    private readonly Color ZeroEnergyColor = Color.red;
-    private readonly Color FullEnergyColor = Color.green;
+    private readonly Color ZeroEnergyColor = Color.gray;
+    private readonly Color FullEnergyColor = Color.cyan;
+    private readonly Color IndicatorGreyedColor = new Color(85f / 255f, 85f / 255f, 85f, 255f);
     private readonly float MinEnergy = 0.1f;
+    private readonly float shakeThreshold = 0.4f;
     private float energyChange;
     private float energy;
     private bool isSleeping = false; public bool IsSleeping => isSleeping;
@@ -27,7 +29,10 @@ public class PlayerEnergy : MonoBehaviour
     private GameObject indicator;
     private int levelNum;
     private bool createdIndicator = false;
-    private int schmoozeHour = 0;
+    private int nextSchmoozeHour = 0;
+    private int schmoozeCooldown = 30;
+    private int nextSchmoozeMinute = 0;
+    private bool shakeCheck = true;
 
     void Start()
     {
@@ -56,10 +61,19 @@ public class PlayerEnergy : MonoBehaviour
         energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
 
         gameObject.GetComponent<Renderer>().material.color = Color.Lerp(ZeroEnergyColor, SchmoozeColor, energy);
+        if (energy <= shakeThreshold && shakeCheck)
+        {
+            energyBar.gameObject.GetComponent<ShakeEffect>().Trigger(4f, 0.05f);
+            shakeCheck = !shakeCheck;
+        }
 
         if (isSleeping && energy >= 1f)
         {
             ToggleSleeping();
+        }
+        else if (isSleeping && energy > shakeThreshold && !shakeCheck)
+        {
+            shakeCheck = !shakeCheck;
         }
 
         if (Tired && !createdIndicator || !Tired && createdIndicator)
@@ -122,32 +136,33 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool SchmoozeHourCheck()
     {
-        int time = GetHour();
-        return time != schmoozeHour;
-    }
-
-    private int GetHour()
-    {
-        int time = -1;
-        if (clock != null && clock.text != null)
+        int currentHour = clock.clockTime.displayHour;
+        int currentMin = clock.clockTime.minute;
+        if (currentHour < 12 && (int)clock.clockTime.suffix == 1)
         {
-            if (clock.text.Substring(1, 1) == ":")
-            {
-                time = int.Parse(clock.text.Substring(0, 1));
-            }
-            else
-            {
-                time = int.Parse(clock.text.Substring(0, 2));
-            }
+            currentHour += 12;
         }
-        return time;
-
+        return currentHour > nextSchmoozeHour || currentHour == nextSchmoozeHour && currentMin >= nextSchmoozeMinute;
     }
+
     public void SchmoozeHourOverwrite()
     {
         if (SchmoozeHourCheck())
         {
-            schmoozeHour = GetHour();
+            if (clock.clockTime.minute > 30)
+            {
+                nextSchmoozeHour = clock.clockTime.displayHour + 1;
+                nextSchmoozeMinute = clock.clockTime.minute - schmoozeCooldown;
+            }
+            else
+            {
+                nextSchmoozeHour = clock.clockTime.displayHour;
+                nextSchmoozeMinute = clock.clockTime.minute + schmoozeCooldown;
+            }
+            if (clock.clockTime.displayHour < 12 && (int)clock.clockTime.suffix == 1)
+            {
+                nextSchmoozeHour += 12;
+            }
         }
     }
 
@@ -156,18 +171,11 @@ public class PlayerEnergy : MonoBehaviour
         if (levelNum >= 3)
         {
             schmoozeCommand.color = NoSchmoozeColor;
-            if (clock != null && clock.text != null)
+            if (clock != null)
             {
-                Debug.Log(clock.text.Substring(2, 2));
-                if (clock.text.Substring(2, 2) == "00")
-                {
-                    FullSchmoozeIcons();
-                }
-                else
-                {
-                    float change = float.Parse(clock.text.Substring(2, 2)) / 60;
-                    schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, change);
-                }
+                float change = schmoozeCooldown / 60f;
+                schmoozeIndicator.GetComponentInChildren<SpriteRenderer>().color = Color.Lerp(IndicatorGreyedColor, Color.white, energy);
+
             }
         }
 
@@ -178,7 +186,7 @@ public class PlayerEnergy : MonoBehaviour
         if (levelNum >= 3)
         {
             schmoozeCommand.color = SchmoozeColor;
-            schmoozeIndicator.transform.localScale = Util.ChangeY(schmoozeIndicator.transform.localScale, 1);
+            schmoozeIndicator.GetComponentInChildren<SpriteRenderer>().color = Color.white;
         }
     }
 }

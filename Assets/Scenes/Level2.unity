@@ -4140,7 +4140,7 @@ MonoBehaviour:
   bed: {fileID: 1802561331}
   cPrefab: {fileID: 2244461953645496080, guid: 5f04789368e54f9428ec86669051a8bb, type: 3}
   bedText: {fileID: 1948147915}
-  clock: {fileID: 0}
+  clock: {fileID: 1966574110}
   enableEnergyDrop: 1
   schmoozeCommand: {fileID: 0}
   schmoozeIndicator: {fileID: 0}
@@ -4155,6 +4155,7 @@ GameObject:
   - component: {fileID: 1789351084}
   - component: {fileID: 1789351086}
   - component: {fileID: 1789351085}
+  - component: {fileID: 1789351087}
   m_Layer: 5
   m_Name: EnergyBar
   m_TagString: Untagged
@@ -4219,6 +4220,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789351083}
   m_CullTransparentMesh: 1
+--- !u!114 &1789351087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789351083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8014804ec46ff40844f747d8b36087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1802561331
 GameObject:
   m_ObjectHideFlags: 0
