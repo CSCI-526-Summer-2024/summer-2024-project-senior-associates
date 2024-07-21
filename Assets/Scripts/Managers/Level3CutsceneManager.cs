@@ -47,7 +47,7 @@ public class Level3CutsceneManager : MonoBehaviour
         phase++;
         if (phase == 1)
         {
-            tutorialTextBox.SetContents("When you are near the manager, you could press T to schmooze them...", true);
+            tutorialTextBox.SetContents("When you are near the manager, you could press T to schmooze them...");
             var tutorialRequest = requestManager.GetTutorialRequest(new()
             {
                 type = Item.Type.Smoothie,
