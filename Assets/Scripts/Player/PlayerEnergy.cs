@@ -173,15 +173,9 @@ public class PlayerEnergy : MonoBehaviour
             schmoozeCommand.color = NoSchmoozeColor;
             if (clock != null)
             {
-                if (clock.clockTime.minute == 0)
-                {
-                    FullSchmoozeIcons();
-                }
-                else
-                {
-                    float change = (float)(clock.clockTime.minute) / 60;
-                    schmoozeIndicator.GetComponentInChildren<SpriteRenderer>().color = Color.Lerp(IndicatorGreyedColor, Color.white, energy);
-                }
+                float change = schmoozeCooldown / 60f;
+                schmoozeIndicator.GetComponentInChildren<SpriteRenderer>().color = Color.Lerp(IndicatorGreyedColor, Color.white, energy);
+
             }
         }
 
