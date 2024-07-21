@@ -21,6 +21,7 @@ public class PlayerEnergy : MonoBehaviour
     private readonly Color FullEnergyColor = Color.cyan;
     private readonly Color IndicatorGreyedColor = new Color(85f / 255f, 85f / 255f, 85f, 255f);
     private readonly float MinEnergy = 0.1f;
+    private readonly float shakeThreshold = 0.4f;
     private float energyChange;
     private float energy;
     private bool isSleeping = false; public bool IsSleeping => isSleeping;
@@ -28,7 +29,9 @@ public class PlayerEnergy : MonoBehaviour
     private GameObject indicator;
     private int levelNum;
     private bool createdIndicator = false;
-    private int schmoozeHour = 0;
+    private int nextSchmoozeHour = 0;
+    private int schmoozeCooldown = 30;
+    private int nextSchmoozeMinute = 0;
     private bool shakeCheck = true;
 
     void Start()
@@ -58,21 +61,19 @@ public class PlayerEnergy : MonoBehaviour
         energyBar.transform.localScale = Util.ChangeX(energyBar.transform.localScale, energy * energyBarOriginalXScale);
 
         gameObject.GetComponent<Renderer>().material.color = Color.Lerp(ZeroEnergyColor, SchmoozeColor, energy);
-        if (energy <= 0.5f && shakeCheck)
+        if (energy <= shakeThreshold && shakeCheck)
         {
-            energyBar.gameObject.GetComponent<ShakeEffect>().Trigger(5f, 0.01f);
+            energyBar.gameObject.GetComponent<ShakeEffect>().Trigger(4f, 0.05f);
             shakeCheck = !shakeCheck;
-            Debug.Log("will not shake again");
         }
 
         if (isSleeping && energy >= 1f)
         {
             ToggleSleeping();
         }
-        else if (isSleeping && energy > 0.5f && !shakeCheck)
+        else if (isSleeping && energy > shakeThreshold && !shakeCheck)
         {
             shakeCheck = !shakeCheck;
-            Debug.Log("will shake again");
         }
 
         if (Tired && !createdIndicator || !Tired && createdIndicator)
@@ -135,15 +136,33 @@ public class PlayerEnergy : MonoBehaviour
 
     public bool SchmoozeHourCheck()
     {
-        int time = clock.clockTime.displayHour;
-        return time != schmoozeHour;
+        int currentHour = clock.clockTime.displayHour;
+        int currentMin = clock.clockTime.minute;
+        if (currentHour < 12 && (int)clock.clockTime.suffix == 1)
+        {
+            currentHour += 12;
+        }
+        return currentHour > nextSchmoozeHour || currentHour == nextSchmoozeHour && currentMin >= nextSchmoozeMinute;
     }
 
     public void SchmoozeHourOverwrite()
     {
         if (SchmoozeHourCheck())
         {
-            schmoozeHour = clock.clockTime.displayHour;
+            if (clock.clockTime.minute > 30)
+            {
+                nextSchmoozeHour = clock.clockTime.displayHour + 1;
+                nextSchmoozeMinute = clock.clockTime.minute - schmoozeCooldown;
+            }
+            else
+            {
+                nextSchmoozeHour = clock.clockTime.displayHour;
+                nextSchmoozeMinute = clock.clockTime.minute + schmoozeCooldown;
+            }
+            if (clock.clockTime.displayHour < 12 && (int)clock.clockTime.suffix == 1)
+            {
+                nextSchmoozeHour += 12;
+            }
         }
     }
 
